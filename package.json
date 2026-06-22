@@ -3,10 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "site:dev": "npm --workspace apps/site run dev",
+    "site:build": "npm --workspace apps/site run build",
+    "site:preview": "npm --workspace apps/site run preview",
+    "api:dev": "npm --workspace apps/api run dev",
+    "api:build": "npm --workspace apps/api run build",
+    "shared:build": "npm --workspace packages/shared run build"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.14.0",
@@ -23,8 +33,12 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

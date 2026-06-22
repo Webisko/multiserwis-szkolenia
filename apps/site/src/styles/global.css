@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@300;400;500;700&display=swap");
+@import "tailwindcss";
+@config "../../../../tailwind.config.js";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Montserrat", sans-serif;
+}
+
+::selection {
+  background: #ff6600;
+  color: #ffffff;
+}

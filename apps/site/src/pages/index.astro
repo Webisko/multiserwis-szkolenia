@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CourseCard from "../components/CourseCard.astro";
+import { COURSES } from "@multiserwis/shared";
+import { slugify } from "../utils/slug";
+
+const featured = COURSES.filter((course) => course.isPopular).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="relative overflow-hidden bg-linear-to-br from-brand-primary via-brand-secondary to-slate-950 py-20 text-white">
+    <div class="absolute inset-0 opacity-30">
+      <div class="absolute -left-24 top-10 h-80 w-80 rounded-full bg-brand-accent blur-[120px]"></div>
+      <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-white/10 blur-[140px]"></div>
+    </div>
+    <div class="relative mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-[1.1fr_0.9fr]">
+      <div class="space-y-6">
+        <div class="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em]">
+          Nowe terminy 2026
+        </div>
+        <h1 class="text-4xl font-semibold leading-tight md:text-5xl">
+          Szkolenia operatorów UDT, które kończą się realnymi uprawnieniami
+        </h1>
+        <p class="text-lg text-white/80">
+          Teoria online, praktyka na nowoczesnym sprzęcie i egzamin państwowy. Zyskaj licencje, które liczą się na rynku.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/szkolenia"
+            class="rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:bg-brand-accentHover"
+          >
+            Przeglądaj szkolenia
+          </a>
+          <a
+            href="/kontakt"
+            class="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white hover:text-white"
+          >
+            Porozmawiaj z doradcą
+          </a>
+        </div>
+      </div>
+      <div class="grid gap-4 rounded-3xl bg-white/10 p-6 backdrop-blur">
+        <div class="rounded-2xl border border-white/20 p-4">
+          <div class="text-3xl font-semibold">98%</div>
+          <div class="text-sm text-white/70">Zdawalności na pierwszym podejściu</div>
+        </div>
+        <div class="rounded-2xl border border-white/20 p-4">
+          <div class="text-3xl font-semibold">4K</div>
+          <div class="text-sm text-white/70">Materiałów wideo w e-learningu</div>
+        </div>
+        <div class="rounded-2xl border border-white/20 p-4">
+          <div class="text-3xl font-semibold">24/7</div>
+          <div class="text-sm text-white/70">Dostęp do platformy kursanta</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl space-y-10 px-6 py-16">
+    <div class="flex items-end justify-between gap-6">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">Polecane</p>
+        <h2 class="text-3xl font-semibold">Najczęściej wybierane szkolenia</h2>
+      </div>
+      <a href="/szkolenia" class="text-sm font-semibold text-brand-primary hover:text-brand-secondary">
+        Zobacz wszystkie
+      </a>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {featured.map((course) => (
+        <CourseCard course={course} href={`/szkolenia/${slugify(course.title)}`} />
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-slate-900 py-16 text-white">
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-3">
+      <div class="space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent">Dlaczego my</div>
+        <h3 class="text-2xl font-semibold">Szybko przechodzisz od teorii do realnej pracy</h3>
+      </div>
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <h4 class="text-lg font-semibold">Hybrydowy model</h4>
+        <p class="mt-2 text-sm text-white/70">Teoria online i praktyka na placu. Bez zbędnych dojazdów.</p>
+      </div>
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <h4 class="text-lg font-semibold">Mentor prowadzący</h4>
+        <p class="mt-2 text-sm text-white/70">Jeden opiekun od zapisania do egzaminu państwowego.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  STUDENT
+  COMPANY_GUARDIAN
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+  FAILED
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+enum TicketCategory {
+  TECH
+  GENERAL
+  BILLING
+}
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         UserRole     @default(STUDENT)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  orders       Order[]
+  enrollments  Enrollment[]
+  lessonProgress LessonProgress[]
+  tickets     Ticket[]
+}
+
+model Course {
+  id           String       @id @default(uuid())
+  title        String
+  category     String
+  duration     String
+  price        String
+  promoPrice   String?
+  image        String
+  isPopular    Boolean      @default(false)
+  description  String?
+  status       String       @default("published")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  orders       Order[]
+  enrollments  Enrollment[]
+  questions    Question[]
+}
+
+model Order {
+  id         String       @id @default(uuid())
+  userId     String
+  courseId   String
+  amount     Int
+  currency   String       @default("PLN")
+  provider   String?
+  status     OrderStatus  @default(DRAFT)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  user       User         @relation(fields: [userId], references: [id])
+  course     Course       @relation(fields: [courseId], references: [id])
+}
+
+model Enrollment {
+  id         String           @id @default(uuid())
+  userId     String
+  courseId   String
+  status     EnrollmentStatus @default(ACTIVE)
+  progress   Int              @default(0)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  user       User             @relation(fields: [userId], references: [id])
+  course     Course           @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+}
+
+model Question {
+  id         String       @id @default(uuid())
+  courseId   String
+  moduleId   String?
+  content    String
+  type       QuestionType @default(SINGLE_CHOICE)
+  difficulty Difficulty   @default(MEDIUM)
+  createdAt  DateTime     @default(now())
+
+  course     Course       @relation(fields: [courseId], references: [id])
+  answers    Answer[]
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  questionId  String
+  content     String
+  isCorrect   Boolean  @default(false)
+  explanation String?
+
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model LessonProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  lessonId  String
+  completed Boolean  @default(false)
+  score     Int?
+  stoppedAt Int      @default(0)
+  watchTime Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+model Ticket {
+  id        String        @id @default(uuid())
+  userId    String
+  subject   String
+  category  TicketCategory
+  status    TicketStatus  @default(OPEN)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user      User          @relation(fields: [userId], references: [id])
+  messages  TicketMessage[]
+}
+
+model TicketMessage {
+  id         String   @id @default(uuid())
+  ticketId   String
+  senderId   String
+  content    String
+  isInternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}

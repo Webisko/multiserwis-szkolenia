@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   LayoutDashboard,
   GraduationCap,
@@ -11,31 +11,31 @@ import {
   LogOut,
   Search,
   Bell,
-  Menu
-} from 'lucide-react';
-import { BrandMark } from '../BrandMark';
-import { PanelFooter } from '../panel/PanelFooter';
-import { PanelBreadcrumbs } from '../panel/PanelBreadcrumbs';
+  Menu,
+} from "lucide-react";
+import { BrandMark } from "../BrandMark";
+import { PanelFooter } from "../panel/PanelFooter";
+import { PanelBreadcrumbs } from "../panel/PanelBreadcrumbs";
 
 export type AdminSectionId =
-  | 'dashboard'
-  | 'courses'
-  | 'course-preview'
-  | 'course-create'
-  | 'course-edit'
-  | 'users'
-  | 'user-view'
-  | 'user-edit'
-  | 'user-create'
-  | 'companies'
-  | 'company-view'
-  | 'company-create'
-  | 'company-edit'
-  | 'finance'
-  | 'reports'
-  | 'notifications'
-  | 'settings'
-  | 'permissions';
+  | "dashboard"
+  | "courses"
+  | "course-preview"
+  | "course-create"
+  | "course-edit"
+  | "users"
+  | "user-view"
+  | "user-edit"
+  | "user-create"
+  | "companies"
+  | "company-view"
+  | "company-create"
+  | "company-edit"
+  | "finance"
+  | "reports"
+  | "notifications"
+  | "settings"
+  | "permissions";
 
 interface AdminPanelLayoutProps {
   activeSection: AdminSectionId;
@@ -47,54 +47,94 @@ interface AdminPanelLayoutProps {
   onLogoClick?: () => void;
 }
 
-const sidebarItems: { id: AdminSectionId; label: string; icon: React.ReactNode }[] = [
-  { id: 'dashboard', label: 'Pulpit', icon: <LayoutDashboard size={18} /> },
-  { id: 'courses', label: 'Szkolenia', icon: <GraduationCap size={18} /> },
-  { id: 'users', label: 'Użytkownicy', icon: <Users size={18} /> },
-  { id: 'companies', label: 'Firmy', icon: <Building2 size={18} /> },
-  { id: 'finance', label: 'Finanse', icon: <CreditCard size={18} /> },
-  { id: 'reports', label: 'Raporty', icon: <BarChart3 size={18} /> },
-  { id: 'notifications', label: 'Powiadomienia', icon: <Bell size={18} /> },
-  { id: 'permissions', label: 'Uprawnienia', icon: <ShieldCheck size={18} /> },
-  { id: 'settings', label: 'Ustawienia', icon: <Settings size={18} /> }
+const sidebarItems: {
+  id: AdminSectionId;
+  label: string;
+  icon: React.ReactNode;
+}[] = [
+  { id: "dashboard", label: "Pulpit", icon: <LayoutDashboard size={18} /> },
+  { id: "courses", label: "Szkolenia", icon: <GraduationCap size={18} /> },
+  { id: "users", label: "Użytkownicy", icon: <Users size={18} /> },
+  { id: "companies", label: "Firmy", icon: <Building2 size={18} /> },
+  { id: "finance", label: "Finanse", icon: <CreditCard size={18} /> },
+  { id: "reports", label: "Raporty", icon: <BarChart3 size={18} /> },
+  { id: "notifications", label: "Powiadomienia", icon: <Bell size={18} /> },
+  { id: "permissions", label: "Uprawnienia", icon: <ShieldCheck size={18} /> },
+  { id: "settings", label: "Ustawienia", icon: <Settings size={18} /> },
 ];
 
 export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
   activeSection,
   onSectionChange,
   children,
-  userName = 'Administrator',
-  userRole = 'Superadministrator',
+  userName = "Administrator",
+  userRole = "Superadministrator",
   onLogout,
-  onLogoClick
+  onLogoClick,
 }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [showNotificationsMenu, setShowNotificationsMenu] = React.useState(false);
+  const [showNotificationsMenu, setShowNotificationsMenu] =
+    React.useState(false);
 
   const notifications = [
-    { id: 'n1', title: 'Nowy użytkownik zarejestrowany', time: '2 minuty temu', type: 'users' },
-    { id: 'n2', title: 'Zakup kursu: BHP Wstępne', time: '15 minut temu', type: 'sales' },
-    { id: 'n3', title: 'Alert systemowy: Backup', time: '1 godzina temu', type: 'system' },
-    { id: 'n4', title: 'Nowe zapytanie od firmy', time: '3 godziny temu', type: 'company' },
-    { id: 'n5', title: 'Aktualizacja zgłoszenia support', time: '5 godzin temu', type: 'support' }
+    {
+      id: "n1",
+      title: "Nowy użytkownik zarejestrowany",
+      time: "2 minuty temu",
+      type: "users",
+    },
+    {
+      id: "n2",
+      title: "Zakup kursu: BHP Wstępne",
+      time: "15 minut temu",
+      type: "sales",
+    },
+    {
+      id: "n3",
+      title: "Alert systemowy: Backup",
+      time: "1 godzina temu",
+      type: "system",
+    },
+    {
+      id: "n4",
+      title: "Nowe zapytanie od firmy",
+      time: "3 godziny temu",
+      type: "company",
+    },
+    {
+      id: "n5",
+      title: "Aktualizacja zgłoszenia support",
+      time: "5 godzin temu",
+      type: "support",
+    },
   ];
   const unreadCount = 3;
   const notificationIconStyles: Record<string, string> = {
-    users: 'bg-blue-100 text-blue-600',
-    sales: 'bg-green-100 text-green-600',
-    system: 'bg-red-100 text-red-600',
-    company: 'bg-teal-100 text-teal-600',
-    support: 'bg-orange-100 text-orange-600'
+    users: "bg-blue-100 text-blue-600",
+    sales: "bg-green-100 text-green-600",
+    system: "bg-red-100 text-red-600",
+    company: "bg-teal-100 text-teal-600",
+    support: "bg-orange-100 text-orange-600",
   };
 
-  const renderSidebarItem = (item: { id: AdminSectionId; label: string; icon: React.ReactNode }) => {
+  const renderSidebarItem = (item: {
+    id: AdminSectionId;
+    label: string;
+    icon: React.ReactNode;
+  }) => {
     const isActive =
       activeSection === item.id ||
-      (activeSection === 'course-edit' && item.id === 'courses') ||
-      (activeSection === 'course-create' && item.id === 'courses') ||
-      (activeSection === 'course-preview' && item.id === 'courses') ||
-      ((activeSection === 'user-view' || activeSection === 'user-edit' || activeSection === 'user-create') && item.id === 'users') ||
-      ((activeSection === 'company-view' || activeSection === 'company-edit' || activeSection === 'company-create') && item.id === 'companies');
+      (activeSection === "course-edit" && item.id === "courses") ||
+      (activeSection === "course-create" && item.id === "courses") ||
+      (activeSection === "course-preview" && item.id === "courses") ||
+      ((activeSection === "user-view" ||
+        activeSection === "user-edit" ||
+        activeSection === "user-create") &&
+        item.id === "users") ||
+      ((activeSection === "company-view" ||
+        activeSection === "company-edit" ||
+        activeSection === "company-create") &&
+        item.id === "companies");
 
     return (
       <button
@@ -105,11 +145,13 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
         }}
         className={`sidebar-link flex items-center px-6 py-3 gap-3 text-left border-l-4 transition-all w-full ${
           isActive
-            ? 'bg-white/10 border-brand-accent text-white font-semibold'
-            : 'border-transparent text-slate-300 hover:text-white hover:bg-white/10'
+            ? "bg-white/10 border-brand-accent text-white font-semibold"
+            : "border-transparent text-slate-300 hover:text-white hover:bg-white/10"
         }`}
       >
-        <span className={`${isActive ? 'text-brand-accent' : ''}`}>{item.icon}</span>
+        <span className={`${isActive ? "text-brand-accent" : ""}`}>
+          {item.icon}
+        </span>
         <span>{item.label}</span>
       </button>
     );
@@ -117,44 +159,44 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
 
   const getBreadcrumbs = (section: AdminSectionId): string[] => {
     switch (section) {
-      case 'dashboard':
-        return ['Pulpit'];
-      case 'courses':
-        return ['Pulpit', 'Szkolenia'];
-      case 'course-preview':
-        return ['Pulpit', 'Szkolenia', 'Podgląd'];
-      case 'course-create':
-        return ['Pulpit', 'Szkolenia', 'Dodawanie'];
-      case 'course-edit':
-        return ['Pulpit', 'Szkolenia', 'Edycja'];
-      case 'users':
-        return ['Pulpit', 'Użytkownicy'];
-      case 'user-view':
-        return ['Pulpit', 'Użytkownicy', 'Podgląd'];
-      case 'user-edit':
-        return ['Pulpit', 'Użytkownicy', 'Edycja'];
-      case 'user-create':
-        return ['Pulpit', 'Użytkownicy', 'Dodawanie'];
-      case 'companies':
-        return ['Pulpit', 'Firmy'];
-      case 'company-view':
-        return ['Pulpit', 'Firmy', 'Podgląd'];
-      case 'company-create':
-        return ['Pulpit', 'Firmy', 'Dodawanie'];
-      case 'company-edit':
-        return ['Pulpit', 'Firmy', 'Edycja'];
-      case 'finance':
-        return ['Pulpit', 'Finanse'];
-      case 'reports':
-        return ['Pulpit', 'Raporty'];
-      case 'notifications':
-        return ['Pulpit', 'Powiadomienia'];
-      case 'settings':
-        return ['Pulpit', 'Ustawienia'];
-      case 'permissions':
-        return ['Pulpit', 'Uprawnienia'];
+      case "dashboard":
+        return ["Pulpit"];
+      case "courses":
+        return ["Pulpit", "Szkolenia"];
+      case "course-preview":
+        return ["Pulpit", "Szkolenia", "Podgląd"];
+      case "course-create":
+        return ["Pulpit", "Szkolenia", "Dodawanie"];
+      case "course-edit":
+        return ["Pulpit", "Szkolenia", "Edycja"];
+      case "users":
+        return ["Pulpit", "Użytkownicy"];
+      case "user-view":
+        return ["Pulpit", "Użytkownicy", "Podgląd"];
+      case "user-edit":
+        return ["Pulpit", "Użytkownicy", "Edycja"];
+      case "user-create":
+        return ["Pulpit", "Użytkownicy", "Dodawanie"];
+      case "companies":
+        return ["Pulpit", "Firmy"];
+      case "company-view":
+        return ["Pulpit", "Firmy", "Podgląd"];
+      case "company-create":
+        return ["Pulpit", "Firmy", "Dodawanie"];
+      case "company-edit":
+        return ["Pulpit", "Firmy", "Edycja"];
+      case "finance":
+        return ["Pulpit", "Finanse"];
+      case "reports":
+        return ["Pulpit", "Raporty"];
+      case "notifications":
+        return ["Pulpit", "Powiadomienia"];
+      case "settings":
+        return ["Pulpit", "Ustawienia"];
+      case "permissions":
+        return ["Pulpit", "Uprawnienia"];
       default:
-        return ['Pulpit'];
+        return ["Pulpit"];
     }
   };
 
@@ -167,7 +209,9 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
         </div>
         <nav className="flex-1 overflow-y-auto py-6 space-y-1">
           {sidebarItems.slice(0, 6).map(renderSidebarItem)}
-          <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">System</div>
+          <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            System
+          </div>
           {sidebarItems.slice(6).map(renderSidebarItem)}
         </nav>
         <div className="p-4 bg-teal-900/30 border-t border-teal-800/50">
@@ -184,14 +228,19 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
       {/* Mobile Sidebar */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setMobileOpen(false)}
+          />
           <aside className="absolute left-0 top-0 h-full w-72 bg-brand-primary text-white flex flex-col shadow-xl">
             <div className="h-16 flex items-center px-6 border-b border-teal-800/50 bg-teal-900/20">
               <BrandMark onClick={onLogoClick} variant="sidebar" />
             </div>
             <nav className="flex-1 overflow-y-auto py-6 space-y-1">
               {sidebarItems.slice(0, 6).map(renderSidebarItem)}
-              <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">System</div>
+              <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                System
+              </div>
               {sidebarItems.slice(6).map(renderSidebarItem)}
             </nav>
             <div className="p-4 bg-teal-900/30 border-t border-teal-800/50">
@@ -248,26 +297,34 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
               {showNotificationsMenu && (
                 <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-slate-200 z-50 overflow-hidden">
                   <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
-                    <h3 className="text-sm font-bold text-slate-900">Powiadomienia</h3>
+                    <h3 className="text-sm font-bold text-slate-900">
+                      Powiadomienia
+                    </h3>
                   </div>
-                  <div className="max-h-[400px] overflow-y-auto">
+                  <div className="max-h-100 overflow-y-auto">
                     {notifications.map((item) => (
                       <div
                         key={item.id}
                         className="px-4 py-3 hover:bg-slate-50 transition-colors flex gap-3 border-b border-slate-100"
                       >
-                        <div className={`shrink-0 h-9 w-9 rounded-full flex items-center justify-center ${notificationIconStyles[item.type]}`}>
+                        <div
+                          className={`shrink-0 h-9 w-9 rounded-full flex items-center justify-center ${notificationIconStyles[item.type]}`}
+                        >
                           <Bell size={18} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-slate-900">{item.title}</span>
-                          <span className="text-xs text-slate-500 mt-0.5">{item.time}</span>
+                          <span className="text-sm font-medium text-slate-900">
+                            {item.title}
+                          </span>
+                          <span className="text-xs text-slate-500 mt-0.5">
+                            {item.time}
+                          </span>
                         </div>
                       </div>
                     ))}
                   </div>
                   <button
-                    onClick={() => onSectionChange('notifications')}
+                    onClick={() => onSectionChange("notifications")}
                     className="w-full py-3 bg-white border-t border-slate-100 text-center text-sm font-semibold text-brand-primary hover:bg-slate-50 transition-colors"
                   >
                     Zobacz wszystkie
@@ -277,7 +334,9 @@ export const AdminPanelLayout: React.FC<AdminPanelLayoutProps> = ({
             </div>
             <div className="flex items-center gap-3 border-l border-slate-200 pl-4">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold text-slate-800">{userName}</p>
+                <p className="text-sm font-semibold text-slate-800">
+                  {userName}
+                </p>
                 <p className="text-xs text-slate-500">{userRole}</p>
               </div>
               <div className="h-10 w-10 rounded-full border-2 border-slate-100 bg-slate-200 shadow-sm flex items-center justify-center font-bold text-slate-700">

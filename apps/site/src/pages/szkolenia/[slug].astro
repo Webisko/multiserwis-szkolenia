@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { COURSES } from "@multiserwis/shared";
+import { slugify } from "../../utils/slug";
+
+export async function getStaticPaths() {
+  return COURSES.map((course) => ({
+    params: { slug: slugify(course.title) },
+    props: { course }
+  }));
+}
+
+const { course } = Astro.props;
+---
+
+<BaseLayout title={`${course.title} | MultiSerwis Kutno`}>
+  <section class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="space-y-6">
+        <div class="inline-flex items-center gap-3 rounded-full bg-brand-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          {course.category}
+        </div>
+        <h1 class="text-3xl font-semibold md:text-4xl">{course.title}</h1>
+        <p class="text-base text-slate-600">{course.description}</p>
+        <div class="flex flex-wrap gap-4">
+          <div class="rounded-2xl border border-slate-200 px-4 py-3">
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Czas trwania</div>
+            <div class="text-lg font-semibold text-slate-900">{course.duration}</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 px-4 py-3">
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Cena</div>
+            <div class="text-lg font-semibold text-brand-primary">{course.price}</div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <img src={`/${course.image}`} alt={course.title} class="h-full w-full object-cover" />
+        </div>
+        <div class="rounded-3xl bg-slate-900 p-6 text-white">
+          <div class="text-sm text-white/70">Gotowy na zapis?</div>
+          <div class="mt-2 text-2xl font-semibold">{course.price}</div>
+          <a
+            href="/kontakt"
+            class="mt-4 inline-flex w-full items-center justify-center rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-accentHover"
+          >
+            Zapisz się na szkolenie
+          </a>
+          <p class="mt-3 text-xs text-white/60">Wymagane jest konto. Finalizacja następuje w platformie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

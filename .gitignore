@@ -10,6 +10,9 @@ lerna-debug.log*
 node_modules
 dist-ssr
 *.local
+**/.env
+apps/*/dist
+packages/*/dist
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +28,15 @@ dist-ssr
 # Local helper artifacts
 stitch_multiserwis/
 CHATGPT.MD
+
+# Archived/alternate backends (keep out of VCS)
+backend_legacy/
+server/
+
+# Local databases / scratch outputs
+server/prisma/*.db
+server/prisma/*.db-journal
+server/prisma/*.db-wal
+server/prisma/*.db-shm
+*.bak
+tsc_errors.txt

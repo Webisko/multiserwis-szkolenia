@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Course } from '../../types';
-import type { Student } from '../../types';
+import React from "react";
+import type { Course } from "../../types";
+import type { Student } from "../../types";
 
 type CreateUserPayload = {
   email: string;
@@ -18,7 +18,11 @@ type CreateUserPayload = {
 type CreateOneResult = { ok: true } | { ok: false; error: string };
 
 type CreateBulkResult =
-  | { ok: true; created: number; skipped: Array<{ row: number; email?: string; reason: string }> }
+  | {
+      ok: true;
+      created: number;
+      skipped: Array<{ row: number; email?: string; reason: string }>;
+    }
   | { ok: false; error: string };
 
 interface UserCreatePageProps {
@@ -28,31 +32,37 @@ interface UserCreatePageProps {
   students: Student[];
   forcedCompany?: string;
   onBack: () => void;
-  onCreateUser: (payload: CreateUserPayload) => CreateOneResult;
+  onCreateUser: (
+    payload: CreateUserPayload,
+  ) => CreateOneResult | Promise<CreateOneResult>;
   onCreateUsersBulk: (payloads: CreateUserPayload[]) => CreateBulkResult;
 }
 
 const selectClassName =
-  'w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary bg-white appearance-none pr-10 text-sm';
+  "w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary bg-white appearance-none pr-10 text-sm";
 
-const NEW_COMPANY_VALUE = '__new_company__';
+const NEW_COMPANY_VALUE = "__new_company__";
 
 const normalizeHeader = (h: string) => {
   return h
     .trim()
-    .replace(/\s+/g, '')
-    .replace(/[-_]/g, '')
-    .replace(/[ąćęłńóśżź]/g, (m) =>
-      ({
-        ą: 'a',
-        ć: 'c',
-        ę: 'e',
-        ł: 'l',
-        ó: 'o',
-        ś: 's',
-        ż: 'z',
-        ź: 'z'
-      } as Record<string, string>)[m] || m
+    .replace(/\s+/g, "")
+    .replace(/[-_]/g, "")
+    .replace(
+      /[ąćęłńóśżź]/g,
+      (m) =>
+        (
+          ({
+            ą: "a",
+            ć: "c",
+            ę: "e",
+            ł: "l",
+            ó: "o",
+            ś: "s",
+            ż: "z",
+            ź: "z",
+          }) as Record<string, string>
+        )[m] || m,
     );
 };
 
@@ -70,31 +80,31 @@ const detectDelimiter = (line: string) => {
       }
     }
     if (!inQuotes) {
-      if (ch === ',') commas++;
-      if (ch === ';') semis++;
+      if (ch === ",") commas++;
+      if (ch === ";") semis++;
     }
   }
-  return semis >= commas ? ';' : ',';
+  return semis >= commas ? ";" : ",";
 };
 
 const parseCsv = (text: string, delimiter: string): string[][] => {
   const rows: string[][] = [];
   let row: string[] = [];
-  let field = '';
+  let field = "";
   let inQuotes = false;
 
   const pushField = () => {
     row.push(field);
-    field = '';
+    field = "";
   };
   const pushRow = () => {
-    while (row.length && row[row.length - 1] === '') row.pop();
+    while (row.length && row[row.length - 1] === "") row.pop();
     const isEmpty = row.every((c) => !c.trim());
     if (!isEmpty) rows.push(row.map((c) => c.trim()));
     row = [];
   };
 
-  const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   for (let i = 0; i < normalized.length; i++) {
     const ch = normalized[i];
     if (ch === '"') {
@@ -110,7 +120,7 @@ const parseCsv = (text: string, delimiter: string): string[][] => {
       pushField();
       continue;
     }
-    if (!inQuotes && ch === '\n') {
+    if (!inQuotes && ch === "\n") {
       pushField();
       pushRow();
       continue;
@@ -123,11 +133,11 @@ const parseCsv = (text: string, delimiter: string): string[][] => {
 };
 
 const normalizePhone = (value: string) => {
-  const raw = (value || '').trim();
+  const raw = (value || "").trim();
   if (!raw) return undefined;
-  const compact = raw.replace(/\s+/g, '');
-  if (compact.startsWith('+48')) return compact.slice(3) || undefined;
-  if (compact.startsWith('0048')) return compact.slice(4) || undefined;
+  const compact = raw.replace(/\s+/g, "");
+  if (compact.startsWith("+48")) return compact.slice(3) || undefined;
+  if (compact.startsWith("0048")) return compact.slice(4) || undefined;
   if (/^48\d{9}$/.test(compact)) return compact.slice(2);
   return compact;
 };
@@ -140,34 +150,35 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
   forcedCompany,
   onBack,
   onCreateUser,
-  onCreateUsersBulk
+  onCreateUsersBulk,
 }) => {
-  const [mode, setMode] = React.useState<'single' | 'csv'>('single');
-  const [importSummary, setImportSummary] = React.useState<
-    | null
-    | {
-        created: number;
-        createdUsers: Array<{ name: string; email: string; courseTitle: string }>;
-        skipped: Array<{ row: number; email?: string; reason: string }>;
-      }
-  >(null);
+  const [mode, setMode] = React.useState<"single" | "csv">("single");
+  const [importSummary, setImportSummary] = React.useState<null | {
+    created: number;
+    createdUsers: Array<{ name: string; email: string; courseTitle: string }>;
+    skipped: Array<{ row: number; email?: string; reason: string }>;
+  }>(null);
 
   const [error, setError] = React.useState<string | null>(null);
 
-  const [email, setEmail] = React.useState('');
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [company, setCompany] = React.useState(forcedCompany || 'Indywidualny');
-  const [companyMode, setCompanyMode] = React.useState<'existing' | 'new'>('existing');
-  const [newCompanyName, setNewCompanyName] = React.useState('');
-  const [courseId, setCourseId] = React.useState(courses[0]?.id || 'c1');
-  const [phone, setPhone] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [idNumber, setIdNumber] = React.useState('');
-  const [pesel, setPesel] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [company, setCompany] = React.useState(forcedCompany || "Indywidualny");
+  const [companyMode, setCompanyMode] = React.useState<"existing" | "new">(
+    "existing",
+  );
+  const [newCompanyName, setNewCompanyName] = React.useState("");
+  const [courseId, setCourseId] = React.useState(courses[0]?.id || "c1");
+  const [phone, setPhone] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [idNumber, setIdNumber] = React.useState("");
+  const [pesel, setPesel] = React.useState("");
 
-  const [bulkText, setBulkText] = React.useState('');
-  const [bulkCourseId, setBulkCourseId] = React.useState(courses[0]?.id || 'c1');
+  const [bulkText, setBulkText] = React.useState("");
+  const [bulkCourseId, setBulkCourseId] = React.useState(
+    courses[0]?.id || "c1",
+  );
 
   const courseTitleById = React.useMemo(() => {
     const map = new Map<string, string>();
@@ -177,29 +188,38 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
   const createdLabel = React.useMemo(() => {
     const t = title.toLowerCase();
-    if (t.includes('pracownik')) return 'Dodani pracownicy';
-    return 'Dodane osoby';
+    if (t.includes("pracownik")) return "Dodani pracownicy";
+    return "Dodane osoby";
   }, [title]);
 
   React.useEffect(() => {
-    setCompany(forcedCompany || 'Indywidualny');
-    setCompanyMode('existing');
-    setNewCompanyName('');
+    setCompany(forcedCompany || "Indywidualny");
+    setCompanyMode("existing");
+    setNewCompanyName("");
   }, [forcedCompany]);
 
   const companyOptions = React.useMemo(() => {
-    const fromData = Array.from(new Set(students.map((s) => (s.company || 'Indywidualny').trim())));
-    const merged = ['Indywidualny', ...fromData.filter((c) => c && c !== 'Indywidualny')];
+    const fromData = Array.from(
+      new Set(students.map((s) => (s.company || "Indywidualny").trim())),
+    );
+    const merged = [
+      "Indywidualny",
+      ...fromData.filter((c) => c && c !== "Indywidualny"),
+    ];
     return Array.from(new Set(merged));
   }, [students]);
 
-  const effectiveCompany = (forcedCompany || (companyMode === 'new' ? newCompanyName : company)).trim();
+  const effectiveCompany = (
+    forcedCompany || (companyMode === "new" ? newCompanyName : company)
+  ).trim();
 
   const existingEmails = React.useMemo(() => {
-    return new Set(students.map((s) => (s.email || '').trim().toLowerCase()).filter(Boolean));
+    return new Set(
+      students.map((s) => (s.email || "").trim().toLowerCase()).filter(Boolean),
+    );
   }, [students]);
 
-  const fullName = `${firstName} ${lastName}`.trim().replace(/\s+/g, ' ');
+  const fullName = `${firstName} ${lastName}`.trim().replace(/\s+/g, " ");
 
   const canCreateOne = (() => {
     const normalizedEmail = email.trim().toLowerCase();
@@ -215,15 +235,15 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
   const downloadCsvTemplate = () => {
     const content =
-      'imie;nazwisko;email;nr tel;adres;nr dowodu osobistego;nr pesel\n' +
-      'Jan;Kowalski;jan.kowalski@firma.pl;600000000;ul. Przykladowa 1, 99-300 Kutno;ABC123456;90010112345\n' +
-      'Anna;Nowak;anna.nowak@firma.pl;;;;\n';
+      "imie;nazwisko;email;nr tel;adres;nr dowodu osobistego;nr pesel\n" +
+      "Jan;Kowalski;jan.kowalski@firma.pl;600000000;ul. Przykladowa 1, 99-300 Kutno;ABC123456;90010112345\n" +
+      "Anna;Nowak;anna.nowak@firma.pl;;;;\n";
 
-    const blob = new Blob([content], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob([content], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'import-pracownicy.csv';
+    a.download = "import-pracownicy.csv";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -232,14 +252,19 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
   const parseBulkPayloads = (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed) return { ok: false as const, error: 'Wklej lub wczytaj dane CSV.' };
+    if (!trimmed)
+      return { ok: false as const, error: "Wklej lub wczytaj dane CSV." };
 
     const firstLine = trimmed.split(/\r?\n/).find((l) => l.trim());
-    if (!firstLine) return { ok: false as const, error: 'Brak danych CSV.' };
+    if (!firstLine) return { ok: false as const, error: "Brak danych CSV." };
 
     const delimiter = detectDelimiter(firstLine);
     const rows = parseCsv(trimmed, delimiter);
-    if (rows.length < 2) return { ok: false as const, error: 'CSV musi zawierać nagłówek i co najmniej 1 wiersz danych.' };
+    if (rows.length < 2)
+      return {
+        ok: false as const,
+        error: "CSV musi zawierać nagłówek i co najmniej 1 wiersz danych.",
+      };
 
     const header = rows[0].map(normalizeHeader);
     const idx = (names: string[]) => {
@@ -250,46 +275,64 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
       return -1;
     };
 
-    const firstNameIdx = idx(['imie', 'firstname', 'first name']);
-    const lastNameIdx = idx(['nazwisko', 'lastname', 'last name']);
-    const emailIdx = idx(['email', 'e-mail', 'mail']);
-    const phoneIdx = idx(['nrtel', 'nr tel', 'nr_tel', 'telefon', 'phone']);
-    const addressIdx = idx(['adres', 'address']);
-    const idNumberIdx = idx(['nrdowoduosobistego', 'nr dowodu osobistego', 'nr_dowodu_osobistego', 'idnumber', 'dowod', 'nrdowodu']);
-    const peselIdx = idx(['nrpesel', 'nr pesel', 'nr_pesel', 'pesel']);
+    const firstNameIdx = idx(["imie", "firstname", "first name"]);
+    const lastNameIdx = idx(["nazwisko", "lastname", "last name"]);
+    const emailIdx = idx(["email", "e-mail", "mail"]);
+    const phoneIdx = idx(["nrtel", "nr tel", "nr_tel", "telefon", "phone"]);
+    const addressIdx = idx(["adres", "address"]);
+    const idNumberIdx = idx([
+      "nrdowoduosobistego",
+      "nr dowodu osobistego",
+      "nr_dowodu_osobistego",
+      "idnumber",
+      "dowod",
+      "nrdowodu",
+    ]);
+    const peselIdx = idx(["nrpesel", "nr pesel", "nr_pesel", "pesel"]);
 
     if (emailIdx < 0 || firstNameIdx < 0 || lastNameIdx < 0) {
-      return { ok: false as const, error: 'Brakuje wymaganych kolumn: imie, nazwisko oraz email.' };
+      return {
+        ok: false as const,
+        error: "Brakuje wymaganych kolumn: imie, nazwisko oraz email.",
+      };
     }
 
     if (!forcedCompany && !effectiveCompany) {
-      return { ok: false as const, error: 'Wybierz firmę dla importu (lub dodaj nową).' };
+      return {
+        ok: false as const,
+        error: "Wybierz firmę dla importu (lub dodaj nową).",
+      };
     }
 
     const payloads: CreateUserPayload[] = [];
-    const parseErrors: Array<{ row: number; email?: string; reason: string }> = [];
+    const parseErrors: Array<{ row: number; email?: string; reason: string }> =
+      [];
 
     rows.slice(1).forEach((r, i) => {
       const rowNumber = i + 2;
-      const rowEmail = (r[emailIdx] || '').trim();
-      const rowFirstName = (r[firstNameIdx] || '').trim();
-      const rowLastName = (r[lastNameIdx] || '').trim();
+      const rowEmail = (r[emailIdx] || "").trim();
+      const rowFirstName = (r[firstNameIdx] || "").trim();
+      const rowLastName = (r[lastNameIdx] || "").trim();
 
       const combinedName = `${rowFirstName} ${rowLastName}`.trim();
 
       if (!rowEmail) {
-        parseErrors.push({ row: rowNumber, reason: 'Brak emaila.' });
+        parseErrors.push({ row: rowNumber, reason: "Brak emaila." });
         return;
       }
       if (!/\S+@\S+\.\S+/.test(rowEmail)) {
-        parseErrors.push({ row: rowNumber, email: rowEmail, reason: 'Niepoprawny email.' });
+        parseErrors.push({
+          row: rowNumber,
+          email: rowEmail,
+          reason: "Niepoprawny email.",
+        });
         return;
       }
       if (!rowFirstName || !rowLastName) {
         parseErrors.push({
           row: rowNumber,
           email: rowEmail,
-          reason: 'Brak danych: imię lub nazwisko.'
+          reason: "Brak danych: imię lub nazwisko.",
         });
         return;
       }
@@ -297,20 +340,32 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
       payloads.push({
         email: rowEmail,
         name: combinedName,
-        company: effectiveCompany || 'Indywidualny',
+        company: effectiveCompany || "Indywidualny",
         courseId: bulkCourseId,
-        phone: phoneIdx >= 0 ? normalizePhone(r[phoneIdx] || '') : undefined,
-        address: addressIdx >= 0 ? (r[addressIdx] || '').trim() || undefined : undefined,
-        idNumber: idNumberIdx >= 0 ? (r[idNumberIdx] || '').trim() || undefined : undefined,
-        pesel: peselIdx >= 0 ? (r[peselIdx] || '').trim() || undefined : undefined,
+        phone: phoneIdx >= 0 ? normalizePhone(r[phoneIdx] || "") : undefined,
+        address:
+          addressIdx >= 0
+            ? (r[addressIdx] || "").trim() || undefined
+            : undefined,
+        idNumber:
+          idNumberIdx >= 0
+            ? (r[idNumberIdx] || "").trim() || undefined
+            : undefined,
+        pesel:
+          peselIdx >= 0 ? (r[peselIdx] || "").trim() || undefined : undefined,
         avatarUrl: undefined,
-        __rowNumber: rowNumber
+        __rowNumber: rowNumber,
       });
     });
 
     if (!payloads.length) {
-      const sample = parseErrors[0] ? `Przykład: wiersz ${parseErrors[0].row} – ${parseErrors[0].reason}` : '';
-      return { ok: false as const, error: `Nie znaleziono poprawnych rekordów. ${sample}`.trim() };
+      const sample = parseErrors[0]
+        ? `Przykład: wiersz ${parseErrors[0].row} – ${parseErrors[0].reason}`
+        : "";
+      return {
+        ok: false as const,
+        error: `Nie znaleziono poprawnych rekordów. ${sample}`.trim(),
+      };
     }
 
     return { ok: true as const, payloads, parseErrors };
@@ -333,55 +388,71 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
       <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
         {error && (
-          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
         )}
 
         <div className="flex flex-wrap gap-2">
           <button
             className={`px-3 py-2 rounded-lg text-sm font-semibold border transition ${
-              mode === 'single'
-                ? 'bg-slate-900 text-white border-slate-900'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              mode === "single"
+                ? "bg-slate-900 text-white border-slate-900"
+                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
             }`}
             onClick={() => {
               setError(null);
               setImportSummary(null);
-              setMode('single');
+              setMode("single");
             }}
           >
             Pojedynczo
           </button>
           <button
             className={`px-3 py-2 rounded-lg text-sm font-semibold border transition ${
-              mode === 'csv'
-                ? 'bg-slate-900 text-white border-slate-900'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              mode === "csv"
+                ? "bg-slate-900 text-white border-slate-900"
+                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
             }`}
             onClick={() => {
               setError(null);
               setImportSummary(null);
-              setMode('csv');
+              setMode("csv");
             }}
           >
             Import CSV (wiele osób)
           </button>
         </div>
 
-        {mode === 'csv' && importSummary && (
+        {mode === "csv" && importSummary && (
           <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">Podsumowanie importu</div>
+                <div className="text-sm font-semibold text-slate-900">
+                  Podsumowanie importu
+                </div>
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-green-800">Dodano</div>
-                    <div className="mt-1 text-2xl font-bold text-green-900 leading-none">{importSummary.created}</div>
-                    <div className="mt-1 text-xs text-green-800">Nowe rekordy w systemie</div>
+                    <div className="text-xs font-semibold uppercase tracking-wide text-green-800">
+                      Dodano
+                    </div>
+                    <div className="mt-1 text-2xl font-bold text-green-900 leading-none">
+                      {importSummary.created}
+                    </div>
+                    <div className="mt-1 text-xs text-green-800">
+                      Nowe rekordy w systemie
+                    </div>
                   </div>
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-amber-800">Pominięto</div>
-                    <div className="mt-1 text-2xl font-bold text-amber-900 leading-none">{importSummary.skipped.length}</div>
-                    <div className="mt-1 text-xs text-amber-800">Np. duplikaty lub błędy danych</div>
+                    <div className="text-xs font-semibold uppercase tracking-wide text-amber-800">
+                      Pominięto
+                    </div>
+                    <div className="mt-1 text-2xl font-bold text-amber-900 leading-none">
+                      {importSummary.skipped.length}
+                    </div>
+                    <div className="mt-1 text-xs text-amber-800">
+                      Np. duplikaty lub błędy danych
+                    </div>
                   </div>
                 </div>
               </div>
@@ -422,9 +493,16 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                         .slice()
                         .sort((a, b) => a.row - b.row)
                         .map((s, idx) => (
-                          <tr key={`${s.row}-${s.email || ''}-${idx}`} className="border-t border-slate-100">
-                            <td className="py-2 pr-3 font-semibold text-slate-700">{s.row}</td>
-                            <td className="py-2 pr-3 text-slate-700">{s.email || '—'}</td>
+                          <tr
+                            key={`${s.row}-${s.email || ""}-${idx}`}
+                            className="border-t border-slate-100"
+                          >
+                            <td className="py-2 pr-3 font-semibold text-slate-700">
+                              {s.row}
+                            </td>
+                            <td className="py-2 pr-3 text-slate-700">
+                              {s.email || "—"}
+                            </td>
                             <td className="py-2 text-slate-700">{s.reason}</td>
                           </tr>
                         ))}
@@ -437,7 +515,10 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
             {importSummary.createdUsers.length > 0 && (
               <div className="mt-4 rounded-lg border border-slate-200 bg-white px-4 py-3">
                 <div className="text-sm font-semibold text-slate-900">
-                  {createdLabel} <span className="text-slate-500 font-semibold">({importSummary.createdUsers.length})</span>
+                  {createdLabel}{" "}
+                  <span className="text-slate-500 font-semibold">
+                    ({importSummary.createdUsers.length})
+                  </span>
                 </div>
                 <div className="mt-3 overflow-x-auto">
                   <table className="w-full text-xs">
@@ -450,10 +531,19 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                     </thead>
                     <tbody>
                       {importSummary.createdUsers.map((u, idx) => (
-                        <tr key={`${u.email}-${idx}`} className="border-t border-slate-100">
-                          <td className="py-2 pr-3 font-semibold text-slate-800">{u.name}</td>
-                          <td className="py-2 pr-3 text-slate-700">{u.email}</td>
-                          <td className="py-2 text-slate-700">{u.courseTitle}</td>
+                        <tr
+                          key={`${u.email}-${idx}`}
+                          className="border-t border-slate-100"
+                        >
+                          <td className="py-2 pr-3 font-semibold text-slate-800">
+                            {u.name}
+                          </td>
+                          <td className="py-2 pr-3 text-slate-700">
+                            {u.email}
+                          </td>
+                          <td className="py-2 text-slate-700">
+                            {u.courseTitle}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -464,61 +554,85 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
           </div>
         )}
 
-        {mode === 'csv' ? (
+        {mode === "csv" ? (
           <div className="mt-6 space-y-4">
             <details className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-              <summary className="cursor-pointer font-semibold">Jak przygotować plik CSV?</summary>
+              <summary className="cursor-pointer font-semibold">
+                Jak przygotować plik CSV?
+              </summary>
               <div className="mt-3 space-y-2 leading-relaxed">
                 <div>
-                  Kolumny wymagane: <span className="font-semibold">imie</span>, <span className="font-semibold">nazwisko</span>, <span className="font-semibold">email</span>.
-                  Opcjonalnie: nr tel, adres, nr dowodu osobistego, nr pesel.
+                  Kolumny wymagane: <span className="font-semibold">imie</span>,{" "}
+                  <span className="font-semibold">nazwisko</span>,{" "}
+                  <span className="font-semibold">email</span>. Opcjonalnie: nr
+                  tel, adres, nr dowodu osobistego, nr pesel.
                 </div>
                 <div>
-                  Nagłówki mogą zawierać spacje lub podkreślenia (np. <span className="font-semibold">nr tel</span> albo <span className="font-semibold">nr_tel</span>).
+                  Nagłówki mogą zawierać spacje lub podkreślenia (np.{" "}
+                  <span className="font-semibold">nr tel</span> albo{" "}
+                  <span className="font-semibold">nr_tel</span>).
                 </div>
                 <div>
-                  Format adresu: <span className="font-semibold">ul. Przykładowa 1, 99-300 Kutno</span>. Telefon bez prefiksu <span className="font-semibold">+48</span>
+                  Format adresu:{" "}
+                  <span className="font-semibold">
+                    ul. Przykładowa 1, 99-300 Kutno
+                  </span>
+                  . Telefon bez prefiksu{" "}
+                  <span className="font-semibold">+48</span>
                   (jeśli wkleisz +48, importer go usunie).
                 </div>
                 <div>
-                  Jeśli Excel/LibreOffice pokazuje okno „Potwierdź format pliku” przy zapisie — to normalne.
-                  Wybierz zapis jako <span className="font-semibold">Tekst CSV</span>.
+                  Jeśli Excel/LibreOffice pokazuje okno „Potwierdź format pliku”
+                  przy zapisie — to normalne. Wybierz zapis jako{" "}
+                  <span className="font-semibold">Tekst CSV</span>.
                 </div>
               </div>
             </details>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Szkolenie (dla całej importowanej listy)</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Szkolenie (dla całej importowanej listy)
+                </label>
                 <div className="relative">
-                  <select className={selectClassName} value={bulkCourseId} onChange={(e) => setBulkCourseId(e.target.value)}>
+                  <select
+                    className={selectClassName}
+                    value={bulkCourseId}
+                    onChange={(e) => setBulkCourseId(e.target.value)}
+                  >
                     {courses.map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.title}
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">▾</div>
+                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                    ▾
+                  </div>
                 </div>
               </div>
 
               {!forcedCompany && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Firma (dla całej importowanej listy)</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Firma (dla całej importowanej listy)
+                  </label>
                   <div className="relative">
                     <select
                       className={selectClassName}
-                      value={companyMode === 'new' ? NEW_COMPANY_VALUE : company}
+                      value={
+                        companyMode === "new" ? NEW_COMPANY_VALUE : company
+                      }
                       onChange={(e) => {
                         const value = e.target.value;
                         if (value === NEW_COMPANY_VALUE) {
-                          setCompanyMode('new');
-                          setNewCompanyName('');
-                          setCompany('');
+                          setCompanyMode("new");
+                          setNewCompanyName("");
+                          setCompany("");
                           return;
                         }
-                        setCompanyMode('existing');
-                        setNewCompanyName('');
+                        setCompanyMode("existing");
+                        setNewCompanyName("");
                         setCompany(value);
                       }}
                     >
@@ -527,13 +641,19 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                           {option}
                         </option>
                       ))}
-                      <option value={NEW_COMPANY_VALUE}>+ Dodaj nową firmę…</option>
+                      <option value={NEW_COMPANY_VALUE}>
+                        + Dodaj nową firmę…
+                      </option>
                     </select>
-                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">▾</div>
+                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                      ▾
+                    </div>
                   </div>
-                  {companyMode === 'new' && (
+                  {companyMode === "new" && (
                     <div className="mt-3">
-                      <label className="block text-xs font-semibold text-slate-600 mb-2">Nazwa nowej firmy</label>
+                      <label className="block text-xs font-semibold text-slate-600 mb-2">
+                        Nazwa nowej firmy
+                      </label>
                       <input
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                         value={newCompanyName}
@@ -563,7 +683,7 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                       if (!file) return;
                       const reader = new FileReader();
                       reader.onload = () => {
-                        setBulkText(String(reader.result || ''));
+                        setBulkText(String(reader.result || ""));
                       };
                       reader.readAsText(file);
                     }}
@@ -573,7 +693,9 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Dane CSV</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Dane CSV
+              </label>
               <textarea
                 className="w-full h-56 px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary font-mono text-xs"
                 value={bulkText}
@@ -606,20 +728,30 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
                   const skippedEmails = new Set(
                     result.skipped
-                      .map((s) => (s.email || '').trim().toLowerCase())
-                      .filter(Boolean)
+                      .map((s) => (s.email || "").trim().toLowerCase())
+                      .filter(Boolean),
                   );
 
                   const createdUsers = parsed.payloads
-                    .filter((p) => !skippedEmails.has(p.email.trim().toLowerCase()))
+                    .filter(
+                      (p) => !skippedEmails.has(p.email.trim().toLowerCase()),
+                    )
                     .map((p) => ({
                       name: p.name,
                       email: p.email,
-                      courseTitle: courseTitleById.get(p.courseId) || p.courseId
+                      courseTitle:
+                        courseTitleById.get(p.courseId) || p.courseId,
                     }));
 
-                  const combinedSkipped = [...parsed.parseErrors, ...result.skipped];
-                  setImportSummary({ created: result.created, createdUsers, skipped: combinedSkipped });
+                  const combinedSkipped = [
+                    ...parsed.parseErrors,
+                    ...result.skipped,
+                  ];
+                  setImportSummary({
+                    created: result.created,
+                    createdUsers,
+                    skipped: combinedSkipped,
+                  });
                 }}
               >
                 Importuj
@@ -630,7 +762,9 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
           <div className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Imię</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Imię
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={firstName}
@@ -640,7 +774,9 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Nazwisko</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Nazwisko
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={lastName}
@@ -650,20 +786,27 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">E-mail</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  E-mail
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="jan@firma.pl"
                 />
-                {email.trim() && existingEmails.has(email.trim().toLowerCase()) && (
-                  <div className="text-xs text-red-600 mt-2">Użytkownik o takim emailu już istnieje.</div>
-                )}
+                {email.trim() &&
+                  existingEmails.has(email.trim().toLowerCase()) && (
+                    <div className="text-xs text-red-600 mt-2">
+                      Użytkownik o takim emailu już istnieje.
+                    </div>
+                  )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Telefon</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Telefon
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={phone}
@@ -674,21 +817,25 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
 
               {!forcedCompany && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Firma</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Firma
+                  </label>
                   <div className="relative">
                     <select
                       className={selectClassName}
-                      value={companyMode === 'new' ? NEW_COMPANY_VALUE : company}
+                      value={
+                        companyMode === "new" ? NEW_COMPANY_VALUE : company
+                      }
                       onChange={(e) => {
                         const value = e.target.value;
                         if (value === NEW_COMPANY_VALUE) {
-                          setCompanyMode('new');
-                          setNewCompanyName('');
-                          setCompany('');
+                          setCompanyMode("new");
+                          setNewCompanyName("");
+                          setCompany("");
                           return;
                         }
-                        setCompanyMode('existing');
-                        setNewCompanyName('');
+                        setCompanyMode("existing");
+                        setNewCompanyName("");
                         setCompany(value);
                       }}
                     >
@@ -697,13 +844,19 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                           {option}
                         </option>
                       ))}
-                      <option value={NEW_COMPANY_VALUE}>+ Dodaj nową firmę…</option>
+                      <option value={NEW_COMPANY_VALUE}>
+                        + Dodaj nową firmę…
+                      </option>
                     </select>
-                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">▾</div>
+                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                      ▾
+                    </div>
                   </div>
-                  {companyMode === 'new' && (
+                  {companyMode === "new" && (
                     <div className="mt-3">
-                      <label className="block text-xs font-semibold text-slate-600 mb-2">Nazwa nowej firmy</label>
+                      <label className="block text-xs font-semibold text-slate-600 mb-2">
+                        Nazwa nowej firmy
+                      </label>
                       <input
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                         value={newCompanyName}
@@ -716,21 +869,31 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Szkolenie</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Szkolenie
+                </label>
                 <div className="relative">
-                  <select className={selectClassName} value={courseId} onChange={(e) => setCourseId(e.target.value)}>
+                  <select
+                    className={selectClassName}
+                    value={courseId}
+                    onChange={(e) => setCourseId(e.target.value)}
+                  >
                     {courses.map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.title}
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">▾</div>
+                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                    ▾
+                  </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Adres</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Adres
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={address}
@@ -740,7 +903,9 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Dowód osobisty</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Dowód osobisty
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={idNumber}
@@ -750,7 +915,9 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">PESEL</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  PESEL
+                </label>
                 <input
                   className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
                   value={pesel}
@@ -763,32 +930,37 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
             <div className="mt-6 flex justify-end">
               <button
                 className={`px-4 py-2 rounded-lg font-semibold text-white shadow transition ${
-                  canCreateOne ? 'bg-brand-accent hover:bg-brand-accentHover' : 'bg-slate-300 cursor-not-allowed'
+                  canCreateOne
+                    ? "bg-brand-accent hover:bg-brand-accentHover"
+                    : "bg-slate-300 cursor-not-allowed"
                 }`}
                 disabled={!canCreateOne}
-                onClick={() => {
+                onClick={async () => {
                   if (!canCreateOne) return;
                   setError(null);
 
                   const payload: CreateUserPayload = {
                     email: email.trim(),
                     name: fullName,
-                    company: effectiveCompany || 'Indywidualny',
+                    company: effectiveCompany || "Indywidualny",
                     courseId,
                     phone: normalizePhone(phone) || undefined,
                     address: address.trim() || undefined,
                     idNumber: idNumber.trim() || undefined,
                     pesel: pesel.trim() || undefined,
-                    avatarUrl: undefined
+                    avatarUrl: undefined,
                   };
 
-                  const result = onCreateUser(payload);
-                  if (result.ok === false) {
-                    setError(result.error);
-                    return;
+                  try {
+                    const result = await onCreateUser(payload);
+                    if (result.ok === false) {
+                      setError(result.error);
+                      return;
+                    }
+                    onBack();
+                  } catch (e: any) {
+                    setError(e.message || "Wystąpił błąd");
                   }
-
-                  onBack();
                 }}
               >
                 Dodaj

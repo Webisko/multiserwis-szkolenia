@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   LayoutDashboard,
   GraduationCap,
@@ -10,22 +10,25 @@ import {
   LogOut,
   Search,
   Bell,
-  Menu
-} from 'lucide-react';
-import { BrandMark } from '../BrandMark';
-import { PanelFooter } from '../panel/PanelFooter';
-import { PanelBreadcrumbs } from '../panel/PanelBreadcrumbs';
+  Menu,
+  Target,
+} from "lucide-react";
+import { BrandMark } from "../BrandMark";
+import { PanelFooter } from "../panel/PanelFooter";
+import { PanelBreadcrumbs } from "../panel/PanelBreadcrumbs";
 
 export type StudentSectionId =
-  | 'dashboard'
-  | 'my-courses'
-  | 'certifications'
-  | 'exams'
-  | 'catalog'
-  | 'course-preview'
-  | 'profile-view'
-  | 'profile-edit'
-  | 'settings';
+  | "dashboard"
+  | "my-courses"
+  | "certifications"
+  | "exams"
+  | "catalog"
+  | "goals"
+  | "course-preview"
+  | "support"
+  | "profile-view"
+  | "profile-edit"
+  | "settings";
 
 interface StudentPanelLayoutProps {
   activeSection: StudentSectionId;
@@ -37,39 +40,55 @@ interface StudentPanelLayoutProps {
   onLogoClick?: () => void;
 }
 
-const sidebarItems: { id: StudentSectionId; label: string; icon: React.ReactNode }[] = [
-  { id: 'dashboard', label: 'Pulpit', icon: <LayoutDashboard size={18} /> },
-  { id: 'my-courses', label: 'Moje kursy', icon: <GraduationCap size={18} /> },
-  { id: 'certifications', label: 'Uprawnienia', icon: <BadgeCheck size={18} /> },
-  { id: 'exams', label: 'Egzaminy', icon: <ClipboardCheck size={18} /> },
-  { id: 'catalog', label: 'Katalog szkoleń', icon: <LibraryBig size={18} /> },
-  { id: 'profile-view', label: 'Profil', icon: <User size={18} /> },
-  { id: 'settings', label: 'Ustawienia', icon: <Settings size={18} /> }
+const sidebarItems: {
+  id: StudentSectionId;
+  label: string;
+  icon: React.ReactNode;
+}[] = [
+  { id: "dashboard", label: "Pulpit", icon: <LayoutDashboard size={18} /> },
+  { id: "my-courses", label: "Moje kursy", icon: <GraduationCap size={18} /> },
+  {
+    id: "certifications",
+    label: "Uprawnienia",
+    icon: <BadgeCheck size={18} />,
+  },
+  { id: "exams", label: "Egzaminy", icon: <ClipboardCheck size={18} /> },
+  { id: "goals", label: "Moje cele", icon: <Target size={18} /> },
+  { id: "catalog", label: "Katalog szkoleń", icon: <LibraryBig size={18} /> },
+  { id: "support", label: "Wsparcie", icon: <ClipboardCheck size={18} /> }, // Using ClipboardCheck as placeholder, check Lucide for better icon like MessageSquare or HelpCircle
+  { id: "profile-view", label: "Profil", icon: <User size={18} /> },
+  { id: "settings", label: "Ustawienia", icon: <Settings size={18} /> },
 ];
 
 export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
   activeSection,
   onSectionChange,
   children,
-  userName = 'Kursant',
-  userRole = 'Kursant',
+  userName = "Kursant",
+  userRole = "Kursant",
   onLogout,
-  onLogoClick
+  onLogoClick,
 }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [showNotificationsMenu, setShowNotificationsMenu] = React.useState(false);
+  const [showNotificationsMenu, setShowNotificationsMenu] =
+    React.useState(false);
 
   const notifications = [
-    { id: 'n1', title: 'Nowa lekcja dostępna', time: '10 minut temu' },
-    { id: 'n2', title: 'Zbliża się termin egzaminu', time: '1 godzina temu' }
+    { id: "n1", title: "Nowa lekcja dostępna", time: "10 minut temu" },
+    { id: "n2", title: "Zbliża się termin egzaminu", time: "1 godzina temu" },
   ];
   const unreadCount = 1;
 
-  const renderSidebarItem = (item: { id: StudentSectionId; label: string; icon: React.ReactNode }) => {
+  const renderSidebarItem = (item: {
+    id: StudentSectionId;
+    label: string;
+    icon: React.ReactNode;
+  }) => {
     const isActive =
       activeSection === item.id ||
-      (activeSection === 'course-preview' && item.id === 'catalog') ||
-      ((activeSection === 'profile-edit' || activeSection === 'profile-view') && item.id === 'profile-view');
+      (activeSection === "course-preview" && item.id === "catalog") ||
+      ((activeSection === "profile-edit" || activeSection === "profile-view") &&
+        item.id === "profile-view");
 
     return (
       <button
@@ -80,11 +99,13 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
         }}
         className={`sidebar-link flex items-center px-6 py-3 gap-3 text-left border-l-4 transition-all w-full ${
           isActive
-            ? 'bg-white/10 border-brand-accent text-white font-semibold'
-            : 'border-transparent text-slate-300 hover:text-white hover:bg-white/10'
+            ? "bg-white/10 border-brand-accent text-white font-semibold"
+            : "border-transparent text-slate-300 hover:text-white hover:bg-white/10"
         }`}
       >
-        <span className={`${isActive ? 'text-brand-accent' : ''}`}>{item.icon}</span>
+        <span className={`${isActive ? "text-brand-accent" : ""}`}>
+          {item.icon}
+        </span>
         <span>{item.label}</span>
       </button>
     );
@@ -92,26 +113,28 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
 
   const getBreadcrumbs = (section: StudentSectionId): string[] => {
     switch (section) {
-      case 'dashboard':
-        return ['Pulpit'];
-      case 'my-courses':
-        return ['Pulpit', 'Moje kursy'];
-      case 'certifications':
-        return ['Pulpit', 'Uprawnienia'];
-      case 'exams':
-        return ['Pulpit', 'Egzaminy'];
-      case 'catalog':
-        return ['Pulpit', 'Katalog szkoleń'];
-      case 'course-preview':
-        return ['Pulpit', 'Katalog szkoleń', 'Podgląd'];
-      case 'profile-view':
-        return ['Pulpit', 'Profil'];
-      case 'profile-edit':
-        return ['Pulpit', 'Profil', 'Edycja'];
-      case 'settings':
-        return ['Pulpit', 'Ustawienia'];
+      case "dashboard":
+        return ["Pulpit"];
+      case "my-courses":
+        return ["Pulpit", "Moje kursy"];
+      case "certifications":
+        return ["Pulpit", "Uprawnienia"];
+      case "exams":
+        return ["Pulpit", "Egzaminy"];
+      case "catalog":
+        return ["Pulpit", "Katalog szkoleń"];
+      case "course-preview":
+        return ["Pulpit", "Katalog szkoleń", "Podgląd"];
+      case "support":
+        return ["Pulpit", "Wsparcie"];
+      case "profile-view":
+        return ["Pulpit", "Profil"];
+      case "profile-edit":
+        return ["Pulpit", "Profil", "Edycja"];
+      case "settings":
+        return ["Pulpit", "Ustawienia"];
       default:
-        return ['Pulpit'];
+        return ["Pulpit"];
     }
   };
 
@@ -124,7 +147,9 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
         </div>
         <nav className="flex-1 overflow-y-auto py-6 space-y-1">
           {sidebarItems.slice(0, 5).map(renderSidebarItem)}
-          <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">Konto</div>
+          <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            Konto
+          </div>
           {sidebarItems.slice(5).map(renderSidebarItem)}
         </nav>
         <div className="p-4 bg-teal-900/30 border-t border-teal-800/50">
@@ -141,14 +166,19 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
       {/* Mobile Sidebar */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setMobileOpen(false)}
+          />
           <aside className="absolute left-0 top-0 h-full w-72 bg-brand-primary text-white flex flex-col shadow-xl">
             <div className="h-16 flex items-center px-6 border-b border-teal-800/50 bg-teal-900/20">
               <BrandMark onClick={onLogoClick} variant="sidebar" />
             </div>
             <nav className="flex-1 overflow-y-auto py-6 space-y-1">
               {sidebarItems.slice(0, 5).map(renderSidebarItem)}
-              <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">Konto</div>
+              <div className="pt-6 pb-2 px-6 text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                Konto
+              </div>
               {sidebarItems.slice(5).map(renderSidebarItem)}
             </nav>
             <div className="p-4 bg-teal-900/30 border-t border-teal-800/50">
@@ -206,9 +236,11 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
               {showNotificationsMenu && (
                 <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-slate-200 z-50 overflow-hidden">
                   <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
-                    <h3 className="text-sm font-bold text-slate-900">Powiadomienia</h3>
+                    <h3 className="text-sm font-bold text-slate-900">
+                      Powiadomienia
+                    </h3>
                   </div>
-                  <div className="max-h-[400px] overflow-y-auto">
+                  <div className="max-h-100 overflow-y-auto">
                     {notifications.map((item) => (
                       <div
                         key={item.id}
@@ -218,8 +250,12 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
                           <Bell size={18} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-slate-900">{item.title}</span>
-                          <span className="text-xs text-slate-500 mt-0.5">{item.time}</span>
+                          <span className="text-sm font-medium text-slate-900">
+                            {item.title}
+                          </span>
+                          <span className="text-xs text-slate-500 mt-0.5">
+                            {item.time}
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -230,11 +266,13 @@ export const StudentPanelLayout: React.FC<StudentPanelLayoutProps> = ({
 
             <div className="flex items-center gap-3 border-l border-slate-200 pl-4">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold text-slate-800">{userName}</p>
+                <p className="text-sm font-semibold text-slate-800">
+                  {userName}
+                </p>
                 <p className="text-xs text-slate-500">{userRole}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-slate-200 border border-slate-100 flex items-center justify-center font-bold text-slate-700">
-                {(userName || 'K')[0]?.toUpperCase()}
+                {(userName || "K")[0]?.toUpperCase()}
               </div>
             </div>
           </div>

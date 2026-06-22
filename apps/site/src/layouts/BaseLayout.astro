@@ -1,0 +1,31 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const {
+  title = "MultiSerwis Kutno",
+  description =
+    "Szkolenia UDT i SEP z e-learningiem oraz egzaminem państwowym. Szybka ścieżka do uprawnień operatora.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/logo.svg" />
+  </head>
+  <body>
+    <div class="min-h-screen bg-slate-50 text-slate-900">
+      <SiteHeader />
+      <main class="relative">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+  </body>
+</html>

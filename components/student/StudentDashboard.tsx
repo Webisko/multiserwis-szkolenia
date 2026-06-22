@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   PlayCircle,
   TrendingUp,
@@ -6,9 +6,9 @@ import {
   Clock,
   GraduationCap,
   ChevronRight,
-  AlertTriangle
-} from 'lucide-react';
-import type { Course, StudentUser, UserCourse } from '../../types';
+  AlertTriangle,
+} from "lucide-react";
+import type { Course, StudentUser, UserCourse } from "../../types";
 
 interface StudentDashboardProps {
   studentUser: StudentUser;
@@ -19,11 +19,12 @@ interface StudentDashboardProps {
   onGoToCertifications: () => void;
 }
 
-const percent = (value: number) => `${Math.max(0, Math.min(100, Math.round(value)))}%`;
+const percent = (value: number) =>
+  `${Math.max(0, Math.min(100, Math.round(value)))}%`;
 
 const firstNameFromFullName = (name: string) => {
-  const trimmed = (name || '').trim();
-  if (!trimmed) return 'Kursancie';
+  const trimmed = (name || "").trim();
+  if (!trimmed) return "Kursancie";
   return trimmed.split(/\s+/)[0] || trimmed;
 };
 
@@ -33,21 +34,27 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
   myCourses,
   onContinueLearning,
   onGoToCatalog,
-  onGoToCertifications
+  onGoToCertifications,
 }) => {
-  const activeCourses = myCourses.filter((c) => c.status === 'active');
-  const completedCourses = myCourses.filter((c) => c.status === 'completed');
+  const activeCourses = myCourses.filter((c) => c.status === "active");
+  const completedCourses = myCourses.filter((c) => c.status === "completed");
 
   const avgProgress = (() => {
     if (!myCourses.length) return 0;
-    return myCourses.reduce((sum, c) => sum + (c.progress || 0), 0) / myCourses.length;
+    return (
+      myCourses.reduce((sum, c) => sum + (c.progress || 0), 0) /
+      myCourses.length
+    );
   })();
 
   const avgExamScore = (() => {
     const history = studentUser.examHistory || [];
     if (!history.length) return null;
     const avg =
-      history.reduce((sum, h) => sum + (h.maxScore ? (h.score / h.maxScore) * 100 : 0), 0) / history.length;
+      history.reduce(
+        (sum, h) => sum + (h.maxScore ? (h.score / h.maxScore) * 100 : 0),
+        0,
+      ) / history.length;
     return avg;
   })();
 
@@ -56,13 +63,17 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
     const now = new Date();
     return certifications.filter((cert) => {
       const expirationDate = new Date(cert.expirationDate);
-      const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      const daysUntilExpiration = Math.ceil(
+        (expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+      );
       return daysUntilExpiration <= 180 && daysUntilExpiration > 0;
     });
   })();
 
   const primaryCourse = activeCourses[0] || myCourses[0] || null;
-  const primaryCourseDetails = primaryCourse ? courses.find((c) => c.id === primaryCourse.courseId) : null;
+  const primaryCourseDetails = primaryCourse
+    ? courses.find((c) => c.id === primaryCourse.courseId)
+    : null;
 
   const recommended = React.useMemo(() => {
     const myIds = new Set(myCourses.map((c) => c.courseId));
@@ -72,35 +83,43 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-brand-primary/5 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 h-full w-1/3 bg-linear-to-l from-brand-primary/5 to-transparent pointer-events-none" />
         <div className="z-10">
           <h1 className="text-2xl md:text-3xl font-bold text-brand-primary mb-2">
             Dzień dobry, {firstNameFromFullName(studentUser.name)}!
           </h1>
           <p className="text-slate-500 max-w-lg">
-            Masz {activeCourses.length} aktywne kursy i {expiringSoon.length} uprawnienia do sprawdzenia w najbliższych
-            miesiącach.
+            Masz {activeCourses.length} aktywne kursy i {expiringSoon.length}{" "}
+            uprawnienia do sprawdzenia w najbliższych miesiącach.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-4 z-10 w-full md:w-auto">
-          <div className="bg-sky-50 px-5 py-3 rounded-xl border border-sky-100 flex items-center gap-3 flex-1 md:flex-none min-w-[160px]">
+          <div className="bg-sky-50 px-5 py-3 rounded-xl border border-sky-100 flex items-center gap-3 flex-1 md:flex-none min-w-40">
             <div className="p-2 bg-sky-100 text-sky-700 rounded-lg">
               <TrendingUp size={20} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{percent(avgExamScore ?? avgProgress)}</p>
-              <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">Śr. wynik</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {percent(avgExamScore ?? avgProgress)}
+              </p>
+              <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">
+                Śr. wynik
+              </p>
             </div>
           </div>
 
-          <div className="bg-emerald-50 px-5 py-3 rounded-xl border border-emerald-100 flex items-center gap-3 flex-1 md:flex-none min-w-[160px]">
+          <div className="bg-emerald-50 px-5 py-3 rounded-xl border border-emerald-100 flex items-center gap-3 flex-1 md:flex-none min-w-40">
             <div className="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
               <Award size={20} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{certifications.length}</p>
-              <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">Certyfikatów</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {certifications.length}
+              </p>
+              <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">
+                Certyfikatów
+              </p>
             </div>
           </div>
         </div>
@@ -111,7 +130,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           <section>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <PlayCircle size={18} className="text-brand-primary" /> Moja nauka
+                <PlayCircle size={18} className="text-brand-primary" /> Moja
+                nauka
               </h2>
               <button
                 onClick={onContinueLearning}
@@ -125,11 +145,13 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               <div className="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col sm:flex-row border border-slate-200 group hover:shadow-md transition-all">
                 <div className="sm:w-2/5 h-40 sm:h-auto bg-slate-100 relative overflow-hidden">
                   <div className="absolute inset-0 bg-brand-primary/10 group-hover:bg-brand-primary/5 transition-colors" />
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 text-white">
+                  <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-slate-700 to-slate-900 text-white">
                     <GraduationCap size={56} className="opacity-50" />
                   </div>
                   <div className="absolute top-3 left-3 bg-brand-accent text-white text-xs font-bold px-2 py-1 rounded shadow-sm">
-                    {primaryCourse.status === 'completed' ? 'UKOŃCZONE' : 'W TOKU'}
+                    {primaryCourse.status === "completed"
+                      ? "UKOŃCZONE"
+                      : "W TOKU"}
                   </div>
                 </div>
 
@@ -140,22 +162,30 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                         {primaryCourseDetails.category}
                       </span>
                       <span className="w-1 h-1 rounded-full bg-slate-300" />
-                      <span className="text-xs text-slate-400">Ostatnia aktywność: Dzisiaj</span>
+                      <span className="text-xs text-slate-400">
+                        Ostatnia aktywność: Dzisiaj
+                      </span>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight group-hover:text-brand-primary transition-colors">
                       {primaryCourseDetails.title}
                     </h3>
-                    <p className="text-sm text-slate-500 line-clamp-2 mb-4">{primaryCourseDetails.description || ''}</p>
+                    <p className="text-sm text-slate-500 line-clamp-2 mb-4">
+                      {primaryCourseDetails.description || ""}
+                    </p>
 
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-medium text-slate-500">
                         <span>Postęp</span>
-                        <span className="text-brand-accent">{percent(primaryCourse.progress)}</span>
+                        <span className="text-brand-accent">
+                          {percent(primaryCourse.progress)}
+                        </span>
                       </div>
                       <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
                           className="bg-brand-accent h-2 rounded-full transition-all"
-                          style={{ width: `${Math.max(0, Math.min(100, primaryCourse.progress))}%` }}
+                          style={{
+                            width: `${Math.max(0, Math.min(100, primaryCourse.progress))}%`,
+                          }}
                         />
                       </div>
                     </div>
@@ -174,7 +204,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               </div>
             ) : (
               <div className="rounded-xl border border-slate-200 bg-white p-6 text-slate-600">
-                Brak aktywnych kursów. Przejdź do katalogu, aby wybrać szkolenie.
+                Brak aktywnych kursów. Przejdź do katalogu, aby wybrać
+                szkolenie.
                 <div className="mt-4">
                   <button
                     onClick={onGoToCatalog}
@@ -191,7 +222,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           <section>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <GraduationCap size={18} className="text-brand-primary" /> Polecane dla Ciebie
+                <GraduationCap size={18} className="text-brand-primary" />{" "}
+                Polecane dla Ciebie
               </h2>
             </div>
 
@@ -211,7 +243,9 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                       <span className="text-[10px] font-bold tracking-wider uppercase text-brand-primary bg-slate-100 px-2 py-1 rounded">
                         {course.category}
                       </span>
-                      <span className="text-sm font-bold text-slate-900">{course.promoPrice || course.price}</span>
+                      <span className="text-sm font-bold text-slate-900">
+                        {course.promoPrice || course.price}
+                      </span>
                     </div>
                     <h4 className="font-bold text-slate-800 mb-1 group-hover:text-brand-primary transition-colors">
                       {course.title}
@@ -240,7 +274,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               {expiringSoon.length > 0 ? (
                 <>
                   <p className="text-sm text-slate-800 font-medium mb-2">
-                    Masz {expiringSoon.length} uprawnienia wygasające w ciągu 6 miesięcy.
+                    Masz {expiringSoon.length} uprawnienia wygasające w ciągu 6
+                    miesięcy.
                   </p>
                   <button
                     onClick={onGoToCertifications}
@@ -250,7 +285,9 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                   </button>
                 </>
               ) : (
-                <p className="text-sm text-slate-700">Na ten moment nie masz pilnych przypomnień.</p>
+                <p className="text-sm text-slate-700">
+                  Na ten moment nie masz pilnych przypomnień.
+                </p>
               )}
             </div>
           </div>
@@ -258,14 +295,22 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Moje kursy</div>
-                <div className="mt-1 text-2xl font-bold text-slate-900">{myCourses.length}</div>
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Moje kursy
+                </div>
+                <div className="mt-1 text-2xl font-bold text-slate-900">
+                  {myCourses.length}
+                </div>
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-500">W toku</div>
-                <div className="font-bold text-slate-900">{activeCourses.length}</div>
+                <div className="font-bold text-slate-900">
+                  {activeCourses.length}
+                </div>
                 <div className="text-xs text-slate-500 mt-2">Ukończone</div>
-                <div className="font-bold text-slate-900">{completedCourses.length}</div>
+                <div className="font-bold text-slate-900">
+                  {completedCourses.length}
+                </div>
               </div>
             </div>
           </div>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CourseCard from "../../components/CourseCard.astro";
+import { COURSES } from "@multiserwis/shared";
+import { slugify } from "../../utils/slug";
+---
+
+<BaseLayout title="Szkolenia UDT i SEP | MultiSerwis Kutno">
+  <section class="mx-auto max-w-6xl space-y-8 px-6 py-14">
+    <div class="rounded-3xl bg-brand-primary px-6 py-10 text-white shadow-xl shadow-slate-200">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">Katalog</p>
+      <h1 class="mt-2 text-3xl font-semibold md:text-4xl">Szkolenia, które dają realne uprawnienia</h1>
+      <p class="mt-4 max-w-2xl text-base text-white/80">
+        Wybierz kurs, który najlepiej pasuje do Twoich potrzeb. Teoria online, praktyka i egzamin państwowy.
+      </p>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {COURSES.map((course) => (
+        <CourseCard course={course} href={`/szkolenia/${slugify(course.title)}`} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: multiserwis_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: multiserwis_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - multiserwis_postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: multiserwis_redis_dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - multiserwis_redis_data:/data
+
+volumes:
+  multiserwis_postgres_data:
+  multiserwis_redis_data:

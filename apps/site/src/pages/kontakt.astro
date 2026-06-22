@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Kontakt | MultiSerwis Kutno">
+  <section class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="space-y-6">
+        <h1 class="text-3xl font-semibold md:text-4xl">Porozmawiajmy o szkoleniu</h1>
+        <p class="text-base text-slate-600">
+          Napisz lub zadzwoń. Wspólnie dobierzemy kurs i zaproponujemy najbliższy termin.
+        </p>
+        <div class="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6">
+          <div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Telefon</div>
+            <div class="text-lg font-semibold text-slate-900">+48 600 123 456</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">E-mail</div>
+            <div class="text-lg font-semibold text-slate-900">biuro@multiserwis-kutno.pl</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Adres</div>
+            <div class="text-lg font-semibold text-slate-900">ul. Przykładowa 12, 99-300 Kutno</div>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-semibold">Wyślij zapytanie</h2>
+        <form class="mt-6 grid gap-4">
+          <label class="text-sm font-medium">
+            Imię i nazwisko
+            <input
+              type="text"
+              name="name"
+              class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              placeholder="Jan Kowalski"
+            />
+          </label>
+          <label class="text-sm font-medium">
+            E-mail
+            <input
+              type="email"
+              name="email"
+              class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              placeholder="jan@email.pl"
+            />
+          </label>
+          <label class="text-sm font-medium">
+            Wiadomość
+            <textarea
+              name="message"
+              rows="4"
+              class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              placeholder="Jakie szkolenie Cię interesuje?"
+            ></textarea>
+          </label>
+          <button
+            type="submit"
+            class="rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-accentHover"
+          >
+            Wyślij wiadomość
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
