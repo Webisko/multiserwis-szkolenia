@@ -16,7 +16,8 @@
     "site:preview": "npm --workspace apps/site run preview",
     "api:dev": "npm --workspace apps/api run dev",
     "api:build": "npm --workspace apps/api run build",
-    "shared:build": "npm --workspace packages/shared run build"
+    "shared:build": "npm --workspace packages/shared run build",
+    "test:e2e": "npx playwright test"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.14.0",
@@ -28,11 +29,24 @@
     "@tiptap/pm": "^3.14.0",
     "@tiptap/react": "^3.14.0",
     "@tiptap/starter-kit": "^3.14.0",
+    "@types/dompurify": "^3.0.5",
+    "dompurify": "^3.4.11",
+    "hls.js": "^1.6.16",
+    "i18next": "^26.3.4",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.0",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "react-hook-form": "^7.80.0",
+    "react-i18next": "^17.0.8",
+    "react-router-dom": "^7.18.1",
+    "sonner": "^2.0.7",
+    "zod": "^3.25.76",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",

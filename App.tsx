@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ViewState, Course, Machine, Language, SEOMetadata } from "./types";
 import { Layout } from "./components/Layout";
 import SectionHeader from "./components/SectionHeader";
 import ImagePicker from "./components/ImagePicker";
 import LessonTextEditor from "./components/LessonTextEditor";
 import { api } from "./services/api";
+import { useAuthStore } from "./services/authStore";
+import { useCartStore } from "./services/cartStore";
+import { CartView } from "./components/finance/CartView";
+import { Toaster, toast } from "sonner";
+import i18n from "./i18n";
 
 import {
   PanelHeader,
@@ -110,8 +116,86 @@ import { type CompanyOverrides } from "./components/panel/CompanyView";
 type NewPanelKey = "admin" | "manager" | "guardian" | "student";
 
 const App = () => {
-  const [currentView, setView] = useState<ViewState>("HOME");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentView = React.useMemo<ViewState>(() => {
+    const path = location.pathname;
+    if (path === "/" || path === "" || path === "/multiserwis-kutno/") return "HOME";
+    if (path === "/catalog") return "CATALOG";
+    if (path === "/courses/detail") return "COURSE_DETAIL";
+    if (path === "/rentals") return "RENTALS";
+    if (path === "/machines/detail") return "MACHINE_DETAIL";
+    if (path === "/services") return "SERVICES";
+    if (path === "/contact") return "CONTACT";
+    if (path === "/panel/admin") return "NEW_ADMIN_PANEL";
+    if (path === "/panel/manager") return "NEW_MANAGER_PANEL";
+    if (path === "/panel/guardian") return "NEW_GUARDIAN_PANEL";
+    if (path === "/panel/student") return "NEW_STUDENT_PANEL";
+    if (path === "/panel/analytics") return "NEW_ANALYTICS_PANEL";
+    if (path === "/panel/support") return "NEW_SUPPORT_PANEL";
+    if (path === "/schedule") return "SCHEDULE";
+    if (path === "/about") return "ABOUT";
+    if (path === "/signup") return "SIGNUP";
+    if (path === "/privacy") return "PRIVACY";
+    if (path === "/terms") return "TERMS";
+    if (path === "/landing/udt") return "LANDING_UDT";
+    if (path === "/landing/imbigs") return "LANDING_IMBIGS";
+    if (path === "/landing/sep") return "LANDING_SEP";
+    if (path === "/landing/welding") return "LANDING_WELDING";
+    if (path === "/landing/other") return "LANDING_OTHER";
+    if (path === "/student/detail") return "STUDENT_DETAIL";
+    if (path === "/courses/lessons") return "LESSON_PLAYER";
+    if (path === "/cart") return "CART";
+    return "HOME";
+  }, [location.pathname]);
+
+  const setView = (view: ViewState) => {
+    const viewPathMap: Record<ViewState, string> = {
+      HOME: "/",
+      CATALOG: "/catalog",
+      COURSE_DETAIL: "/courses/detail",
+      LMS: "/panel/student",
+      LESSON_PLAYER: "/courses/lessons",
+      RENTALS: "/rentals",
+      MACHINE_DETAIL: "/machines/detail",
+      SERVICES: "/services",
+      CONTACT: "/contact",
+      ADMIN: "/panel/admin",
+      STUDENT_DETAIL: "/student/detail",
+      STUDENTS_LIST: "/panel/admin",
+      ADMIN_PANEL: "/panel/admin",
+      COMPANY_GUARDIAN_PANEL: "/panel/guardian",
+      NEW_ADMIN_PANEL: "/panel/admin",
+      NEW_MANAGER_PANEL: "/panel/manager",
+      NEW_GUARDIAN_PANEL: "/panel/guardian",
+      NEW_STUDENT_PANEL: "/panel/student",
+      NEW_ANALYTICS_PANEL: "/panel/analytics",
+      NEW_SUPPORT_PANEL: "/panel/support",
+      SCHEDULE: "/schedule",
+      ABOUT: "/about",
+      SIGNUP: "/signup",
+      PRIVACY: "/privacy",
+      TERMS: "/terms",
+      LANDING_UDT: "/landing/udt",
+      LANDING_IMBIGS: "/landing/imbigs",
+      LANDING_SEP: "/landing/sep",
+      LANDING_WELDING: "/landing/welding",
+      LANDING_OTHER: "/landing/other",
+      CART: "/cart",
+    };
+    const path = viewPathMap[view];
+    if (path) {
+      navigate(path);
+    }
+  };
+
   const [language, setLanguage] = useState<Language>("PL");
+
+  // Sync state language with i18next
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [selectedMachineId, setSelectedMachineId] = useState<string | null>(
     null,
@@ -259,13 +343,13 @@ const App = () => {
   ) => {
     const course = panelCourses.find((c) => c.id === courseId);
     if (!course) {
-      alert("Nie znaleziono szkolenia.");
+      toast.error("Nie znaleziono szkolenia.");
       return;
     }
 
     const amount = resolveOrderAmount(course, variant);
     if (!amount) {
-      alert("Nie udalo sie wyliczyc kwoty zamowienia.");
+      toast.error("Nie udało się wyliczyć kwoty zamówienia.");
       return;
     }
 
@@ -277,34 +361,40 @@ const App = () => {
         provider: variant === "ONLINE" ? "online" : "stationary",
       });
       await loadPanelDataForUser(user);
-      alert(`Utworzono zamowienie ${order.id}. Status: ${order.status}.`);
+      toast.success(`Utworzono zamówienie ${order.id}. Status: ${order.status}.`);
       setView("NEW_STUDENT_PANEL");
     } catch (e) {
       console.error("Failed to create order", e);
-      alert("Nie udalo sie utworzyc zamowienia.");
+      toast.error("Nie udało się utworzyć zamówienia.");
     }
   };
+
+  const addItemToCart = useCartStore((state) => state.addItem);
 
   const handleBuyCourse = (
     courseId: string,
     variant: "ONLINE" | "STATIONARY",
   ) => {
-    if (!currentUser) {
-      setPendingOrder({ courseId, variant });
-      setShowLoginModal(true);
-      return;
+    const course = panelCourses.find((c) => c.id === courseId);
+    if (course) {
+      addItemToCart(course);
+      toast.success(`Dodano szkolenie "${course.title}" do koszyka.`, {
+        action: {
+          label: "Pokaż koszyk",
+          onClick: () => setView("CART"),
+        },
+      });
     }
-    createOrderForUser(currentUser, courseId, variant);
   };
+
+  const checkAuth = useAuthStore((state) => state.checkAuth);
 
   // Initial Data Fetch & Auth Check
   useEffect(() => {
     const init = async () => {
       // 1. Check Auth (Persistent Login)
-      const user = await api.auth.getMe();
+      const user = await checkAuth();
       if (user) {
-        setCurrentUser(user);
-        setIsLoggedIn(true);
         await loadPanelDataForUser(user);
       }
 
@@ -319,6 +409,31 @@ const App = () => {
       }
     };
     init();
+  }, []);
+
+  // Network Status Monitor
+  useEffect(() => {
+    const handleOnline = () => {
+      toast.success("Połączenie sieciowe zostało przywrócone.", {
+        id: "network-status",
+        duration: 4000,
+      });
+    };
+
+    const handleOffline = () => {
+      toast.error("Utracono połączenie z siecią. Pracujesz w trybie offline.", {
+        id: "network-status",
+        duration: Infinity,
+      });
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
   }, []);
 
   const handleDeleteUser = async (email: string) => {
@@ -589,8 +704,7 @@ const App = () => {
   };
 
   // --- SYSTEM ROL UŻYTKOWNIKÓW ---
-  const [currentUser, setCurrentUser] = useState<StudentUser | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { currentUser, isLoggedIn, setCurrentUser, logout: authStoreLogout } = useAuthStore();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -867,14 +981,13 @@ const App = () => {
         if (mock && mock.password === loginPassword) {
           userObj = mock.user;
         } else {
-          alert("Błędny email lub hasło");
+          toast.error("Błędny email lub hasło.");
           return;
         }
       }
 
       if (userObj) {
         setCurrentUser(userObj);
-        setIsLoggedIn(true);
         setShowLoginModal(false);
         setLoginEmail("");
         setLoginPassword("");
@@ -901,14 +1014,13 @@ const App = () => {
       }
     } catch (error) {
       console.error("Login error", error);
-      alert("Wystąpił błąd logowania");
+      toast.error("Wystąpił błąd logowania.");
     }
   };
 
   // Funkcja wylogowania
   const handleLogout = () => {
-    setCurrentUser(null);
-    setIsLoggedIn(false);
+    authStoreLogout();
     setPanelOrders([]);
     setPanelUsers([]);
     setPendingOrder(null);
@@ -1567,6 +1679,7 @@ const App = () => {
               <ServicesView setView={setView} importBaseUrl={importBaseUrl} />
             )}
             {currentView === "CONTACT" && <ContactView setView={setView} />}
+            {currentView === "CART" && <CartView setView={setView} />}
             {currentView === "STUDENT_DETAIL" && (
               <StudentDetailView
                 viewingStudentId={viewingStudentId}
@@ -1588,6 +1701,7 @@ const App = () => {
           </>
         </Layout>
       )}
+      <Toaster position="top-right" richColors />
     </>
   );
 };

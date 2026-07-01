@@ -3,6 +3,8 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { ADMIN_STUDENTS } from '../../constants';
 import type { Student } from '../../types';
 import type { UserOverrides } from './UserProfileView';
+import { userValidationSchema } from '../../lib/validation';
+import { toast } from 'sonner';
 
 interface UserEditProps {
   email: string;
@@ -197,6 +199,18 @@ export const UserEdit: React.FC<UserEditProps> = ({
         <div className="flex justify-end">
           <button
             onClick={() => {
+              const validationResult = userValidationSchema.safeParse({
+                name: fullName || emailValue,
+                email: emailValue.trim(),
+                phone: phone || "",
+                pesel: pesel.trim() || undefined,
+              });
+
+              if (!validationResult.success) {
+                toast.error(validationResult.error.errors[0].message);
+                return;
+              }
+
               onSaveOverrides(email, {
                 email: emailValue,
                 name: fullName || emailValue,

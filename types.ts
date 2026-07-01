@@ -28,7 +28,8 @@ export type ViewState =
   | "LANDING_IMBIGS"
   | "LANDING_SEP"
   | "LANDING_WELDING"
-  | "LANDING_OTHER";
+  | "LANDING_OTHER"
+  | "CART";
 export type Language = "PL" | "EN" | "UA";
 export type UserRole = "ADMIN" | "MANAGER" | "STUDENT" | "COMPANY_GUARDIAN";
 

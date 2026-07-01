@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Play, Pause, RefreshCw, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import Hls from "hls.js";
+import { useAuthStore } from "../../services/authStore";
 
 interface VideoPlayerProps {
   src: string;
@@ -15,18 +17,45 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   initialProgress = 0,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hlsRef = useRef<Hls | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
+  // Watermark State
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const email = currentUser?.email || "anonymous@multiserwis.pl";
+  const [watermarkPos, setWatermarkPos] = useState({ top: 10, left: 10 });
+
   // Sync interval ref
   const syncInterval = useRef<NodeJS.Timeout | null>(null);
+
+  // Watermark position randomized interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Random position: top between 10% and 80%, left between 10% and 70%
+      const top = Math.floor(Math.random() * 70) + 10;
+      const left = Math.floor(Math.random() * 60) + 10;
+      setWatermarkPos({ top, left });
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    setIsReady(false);
+    setIsPlaying(false);
+
+    // Cleanup previous HLS instance if exists
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
 
     const handleLoadedMetadata = () => {
       setDuration(video.duration);
@@ -51,10 +80,42 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("ended", handleEnded);
 
+    const isHls = src.includes(".m3u8");
+
+    if (isHls) {
+      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // Native HLS support (Safari)
+        video.src = src;
+      } else if (Hls.isSupported()) {
+        // Hls.js support
+        const hls = new Hls({
+          maxMaxBufferLength: 10,
+        });
+        hlsRef.current = hls;
+        hls.loadSource(src);
+        hls.attachMedia(video);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          setIsReady(true);
+        });
+      } else {
+        console.error("HLS streaming is not supported in this browser.");
+        video.src = src; // fallback
+      }
+    } else {
+      // Regular progressive video (MP4)
+      video.src = src;
+    }
+
     return () => {
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("ended", handleEnded);
+      
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
     };
   }, [src]);
 
@@ -104,14 +165,29 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   return (
-    <div className="relative group bg-black rounded-sm shadow-xl overflow-hidden aspect-video">
+    <div className="relative group bg-black rounded-sm shadow-xl overflow-hidden aspect-video select-none">
       <video
         ref={videoRef}
-        src={src}
         className="w-full h-full object-contain"
         poster={poster}
         onClick={togglePlay}
+        playsInline
+        controlsList="nodownload"
+        onContextMenu={(e) => e.preventDefault()}
       />
+
+      {/* Dynamic Watermark overlay */}
+      {isPlaying && (
+        <div
+          className="absolute text-white/20 text-xs sm:text-sm font-mono pointer-events-none transition-all duration-1000 select-none whitespace-nowrap bg-black/10 px-2 py-1 rounded backdrop-blur-[0.5px]"
+          style={{
+            top: `${watermarkPos.top}%`,
+            left: `${watermarkPos.left}%`,
+          }}
+        >
+          {email} | MultiSerwis LMS
+        </div>
+      )}
 
       {/* Overlay Controls */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -160,3 +236,4 @@ const formatTime = (seconds: number) => {
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
+export default VideoPlayer;

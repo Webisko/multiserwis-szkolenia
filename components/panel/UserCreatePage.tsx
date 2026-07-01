@@ -1,6 +1,8 @@
 import React from "react";
 import type { Course } from "../../types";
 import type { Student } from "../../types";
+import { userValidationSchema } from "../../lib/validation";
+import { toast } from "sonner";
 
 type CreateUserPayload = {
   email: string;
@@ -938,6 +940,20 @@ export const UserCreatePage: React.FC<UserCreatePageProps> = ({
                 onClick={async () => {
                   if (!canCreateOne) return;
                   setError(null);
+
+                  const validationResult = userValidationSchema.safeParse({
+                    name: fullName,
+                    email: email.trim(),
+                    phone: normalizePhone(phone) || "",
+                    pesel: pesel.trim() || undefined,
+                  });
+
+                  if (!validationResult.success) {
+                    const errMsg = validationResult.error.errors[0].message;
+                    setError(errMsg);
+                    toast.error(errMsg);
+                    return;
+                  }
 
                   const payload: CreateUserPayload = {
                     email: email.trim(),

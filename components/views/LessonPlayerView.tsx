@@ -17,6 +17,7 @@ import { api } from "../../services/api";
 import { Question } from "../../types";
 import LessonQuiz from "./LessonQuiz";
 import { VideoPlayer } from "../ui/VideoPlayer";
+import DOMPurify from "dompurify";
 
 interface Props {
   currentLessonId: string;
@@ -46,6 +47,17 @@ const LessonPlayerView: React.FC<Props> = ({
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
+  const [progressList, setProgressList] = useState<any[]>([]);
+
+  // Fetch Progress list
+  useEffect(() => {
+    if (isLoggedIn) {
+      api.progress
+        .list()
+        .then(setProgressList)
+        .catch((err) => console.error("Failed to fetch progress", err));
+    }
+  }, [isLoggedIn, currentLessonId]);
 
   // Fetch Questions
   useEffect(() => {
@@ -236,9 +248,9 @@ const LessonPlayerView: React.FC<Props> = ({
 
         {currentLesson?.type === "video" && (
           <VideoPlayer
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" // Placeholder for now
+            src={currentLesson?.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}
             poster="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1200&auto=format&fit=crop"
-            initialProgress={0} // TODO: Fetch from API
+            initialProgress={progressList.find(p => p.lessonId === currentLesson?.id)?.stoppedAt || 0}
             onProgressUpdate={(time, duration) => {
               // Update local/API progress
               if (currentLesson?.id) {
@@ -247,12 +259,10 @@ const LessonPlayerView: React.FC<Props> = ({
                 );
                 api.progress
                   .update({
-                    lessonId: currentLesson.id, // Ensure this maps to real UUID
-                    // If it's a temp ID like 'c1l2', backend might need mapping
-                    completed: time >= duration * 0.9, // 90% watched = completed
+                    lessonId: currentLesson.id,
+                    completed: time >= duration * 0.9,
                     stoppedAt: Math.floor(time),
-                    watchTime: 10, // Incremental logic is complex here, maybe just send snapshot?
-                    // Actually better to just send stoppedAt and let backend calc deltas if needed or send delta here.
+                    watchTime: 10,
                   })
                   .catch((e) => console.warn("Progress sync failed", e));
               }
@@ -311,7 +321,16 @@ const LessonPlayerView: React.FC<Props> = ({
                 </>
               )}
               {/* ... handling other specific lesson IDs similarly ... */}
-              {currentLesson.id !== "c1l6a" && <p>Treść lekcji tekstowej...</p>}
+              {currentLesson.id !== "c1l6a" && (
+                currentLesson.description ? (
+                  <div 
+                    className="rich-text-content"
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentLesson.description) }} 
+                  />
+                ) : (
+                  <p>Treść lekcji tekstowej...</p>
+                )
+              )}
             </div>
           </div>
         )}

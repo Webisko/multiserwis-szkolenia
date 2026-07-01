@@ -3,6 +3,8 @@ import { ArrowLeft, Save, Mail, Phone, User } from 'lucide-react';
 import { ADMIN_STUDENTS } from '../../constants';
 import type { CompanyOverrides } from './CompanyView';
 import type { UserOverrides } from './UserProfileView';
+import { companyValidationSchema } from '../../lib/validation';
+import { toast } from 'sonner';
 
 interface CompanyEditProps {
   companyName: string;
@@ -195,6 +197,16 @@ export const CompanyEdit: React.FC<CompanyEditProps> = ({
         <div className="flex justify-end">
           <button
             onClick={() => {
+              const validationResult = companyValidationSchema.safeParse({
+                name: companyDisplayName.trim(),
+                nip: nip || "",
+              });
+
+              if (!validationResult.success) {
+                toast.error(validationResult.error.errors[0].message);
+                return;
+              }
+
               onSaveOverrides(companyName, { name: companyDisplayName, contactUserEmail, nip, logoUrl });
               if (onSaveUserOverrides && contactUserEmail) {
                 const previous = userOverrides?.[contactUserEmail] || {};

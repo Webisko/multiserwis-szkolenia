@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Home",
+    "catalog": "Training",
+    "rentals": "Machine Rental",
+    "services": "Services",
+    "contact": "Contact",
+    "login": "Login",
+    "logout": "Logout",
+    "about": "About Us",
+    "schedule": "Schedule"
+  },
+  "catalog": {
+    "title": "Vocational Training Catalog",
+    "subtitle": "Get certified UDT, IMBiGS and SEP qualifications",
+    "searchPlaceholder": "Search training...",
+    "all": "All",
+    "buy": "Buy course",
+    "details": "Details"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "checkout": "Proceed to Checkout",
+    "total": "Total to pay",
+    "billing": "Billing details"
+  }
+}

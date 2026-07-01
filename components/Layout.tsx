@@ -14,9 +14,12 @@ import {
   Globe,
   Shield,
   Building2,
+  ShoppingBag,
 } from "lucide-react";
 import { TRANSLATIONS } from "../constants";
 import { BrandMark } from "./BrandMark";
+import { useCartStore } from "../services/cartStore";
+import { useTranslation } from "react-i18next";
 
 // Helper function for image paths (kept simple to avoid env typing issues)
 const getImagePath = (filename: string) => filename;
@@ -57,7 +60,23 @@ export const Layout: React.FC<LayoutProps> = ({
   const [trainingMenuOpen, setTrainingMenuOpen] = useState(false);
   const [newPanelsMenuOpen, setNewPanelsMenuOpen] = useState(false);
 
-  const t = TRANSLATIONS[language].nav;
+  const { t: translate } = useTranslation();
+
+  const cartItemCount = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
+
+  const t = {
+    catalog: translate("nav.catalog"),
+    contact: translate("nav.contact"),
+    home: translate("nav.home"),
+    rentals: translate("nav.rentals"),
+    services: translate("nav.services"),
+    login: translate("nav.login"),
+    logout: translate("nav.logout"),
+    about: translate("nav.about"),
+    schedule: translate("nav.schedule")
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -263,6 +282,20 @@ export const Layout: React.FC<LayoutProps> = ({
               {t.contact}
             </span>
 
+            {/* Koszyk */}
+            <button
+              onClick={() => setView("CART")}
+              className="relative p-2 text-white hover:text-brand-accent transition-colors flex items-center mr-2 cursor-pointer"
+              title="Koszyk zakupowy"
+            >
+              <ShoppingBag size={20} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center border border-brand-primary">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+
             {!isLoggedIn ? (
               <button
                 onClick={onShowLoginModal}
@@ -353,12 +386,25 @@ export const Layout: React.FC<LayoutProps> = ({
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div
-            className="md:hidden text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {/* Mobile Cart and Menu Toggle */}
+          <div className="flex items-center gap-4 md:hidden">
+            <button
+              onClick={() => setView("CART")}
+              className="relative p-2 text-white hover:text-brand-accent transition-colors flex items-center cursor-pointer"
+            >
+              <ShoppingBag size={22} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] font-black rounded-full h-4.5 w-4.5 flex items-center justify-center border border-brand-primary">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+            <div
+              className="text-white cursor-pointer"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </div>
           </div>
         </div>
 

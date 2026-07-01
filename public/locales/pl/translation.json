@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Główna",
+    "catalog": "Szkolenia",
+    "rentals": "Wynajem maszyn",
+    "services": "Usługi",
+    "contact": "Kontakt",
+    "login": "Zaloguj",
+    "logout": "Wyloguj",
+    "about": "O Firmie",
+    "schedule": "Harmonogram"
+  },
+  "catalog": {
+    "title": "Katalog Szkoleń Zawodowych",
+    "subtitle": "Zdobądź certyfikowane uprawnienia UDT, IMBiGS oraz SEP",
+    "searchPlaceholder": "Wyszukaj szkolenie...",
+    "all": "Wszystkie",
+    "buy": "Kup szkolenie",
+    "details": "Szczegóły"
+  },
+  "cart": {
+    "title": "Twój Koszyk",
+    "empty": "Twój koszyk jest pusty",
+    "checkout": "Przejdź do płatności",
+    "total": "Do zapłaty",
+    "billing": "Dane do płatności"
+  }
+}

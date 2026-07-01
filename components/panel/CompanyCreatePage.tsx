@@ -3,6 +3,8 @@ import { ArrowLeft, Save, Mail, Phone, User } from 'lucide-react';
 import { ADMIN_STUDENTS } from '../../constants';
 import type { CompanyOverrides } from './CompanyView';
 import type { UserOverrides } from './UserProfileView';
+import { companyValidationSchema } from '../../lib/validation';
+import { toast } from 'sonner';
 
 interface CompanyCreatePageProps {
   overrides?: Record<string, CompanyOverrides>;
@@ -201,11 +203,21 @@ export const CompanyCreatePage: React.FC<CompanyCreatePageProps> = ({
             onClick={() => {
               const key = companyKey.trim();
               if (!key) {
-                alert('Podaj nazwę firmy.');
+                toast.error('Podaj nazwę firmy.');
                 return;
               }
               if (overrides?.[key]) {
-                alert('Taka firma już istnieje (w nadpisaniach).');
+                toast.error('Taka firma już istnieje.');
+                return;
+              }
+
+              const validationResult = companyValidationSchema.safeParse({
+                name: (companyDisplayName || key).trim(),
+                nip: nip || "",
+              });
+
+              if (!validationResult.success) {
+                toast.error(validationResult.error.errors[0].message);
                 return;
               }
 
