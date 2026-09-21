@@ -3,9 +3,9 @@
 This repository is a **Vite + React + TypeScript** web app.
 - Build tool: `vite`
 - Scripts: `npm run dev | build | preview`
-- Deployment target for GitHub Pages: **`docs/`** (Vite `build.outDir = 'docs'`)
-- GitHub Pages base path in production: **`/multiserwis-kutno/`** (Vite `base` set accordingly)
-- Environment variable used in build: `GEMINI_API_KEY` (see README and `vite.config.ts`)
+- Deployment target: **`dist/`** (Vite `build.outDir = 'dist'`)
+- Production base path: **`/`**
+- Hosting target: SeoHost / VPS (`public_html` via `deploy-staging-seohost.ps1`)
 
 ---
 
@@ -44,10 +44,9 @@ This repository is a **Vite + React + TypeScript** web app.
    - Prefer small commits and changes that can be reverted easily.
    - Avoid “big bang” refactors.
 
-3. **Protect GitHub Pages deployment**
-   - Do not change `vite.config.ts` values `base` or `build.outDir` lightly.
-   - Assume production is served under `/multiserwis-kutno/` on GitHub Pages.
-   - Ensure asset paths and routing keep working under that base path.
+3. **Protect Production deployment**
+   - Ensure build output remains `dist/` with `base: '/'`.
+   - Ensure routing (.htaccess fallback) keeps working for Apache/Nginx.
 
 4. **Never commit secrets**
    - Do not commit `.env`, `.env.local`, API keys, tokens, credentials.
@@ -101,11 +100,10 @@ If retries consume paid tokens/credits or incur external costs, ask before retry
 
 ## Repo-Specific Guardrails (Webisko/multiserwis-kutno)
 
-### GitHub Pages constraints
-- Production base path is `/multiserwis-kutno/`.
-- Build output is `docs/`.
-- Avoid hardcoded absolute URLs like `/assets/...` unless base-aware.
-- If adding client-side routing, confirm the desired approach for GitHub Pages (fallback/404 handling) before implementing.
+### Production Hosting constraints
+- Production base path is `/`.
+- Build output is `dist/`.
+- Routing fallback is handled via `public/.htaccess`.
 
 ### Environment variables
 - `GEMINI_API_KEY` is injected in `vite.config.ts`.

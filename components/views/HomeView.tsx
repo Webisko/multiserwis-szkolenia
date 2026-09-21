@@ -15,6 +15,7 @@ import {
   MapPin,
   Calendar,
   CheckCircle,
+  ShieldCheck,
 } from "lucide-react";
 
 import { Language, ViewState } from "../../types";
@@ -38,14 +39,14 @@ const HomeView: React.FC<Props> = ({
     <div className="animate-fade-in font-body">
       {/* 1. HERO SECTION */}
       <div className="relative h-[85vh] min-h-[600px] flex items-center bg-brand-dark overflow-hidden">
-        {/* Background Image with Overlay */}
+        {/* Background Image with Uniform Teal Tint */}
         <div className="absolute inset-0 z-0">
           <img
             src={`${importBaseUrl}hero.webp`}
             alt="Workers with UDT Equipment"
-            className="w-full h-full object-cover opacity-50"
+            className="w-full h-full object-cover opacity-60"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent"></div>
+          <div className="absolute inset-0 bg-brand-dark/70"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">
@@ -69,15 +70,15 @@ const HomeView: React.FC<Props> = ({
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => setView("CATALOG")}
-                className="px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold uppercase tracking-wider rounded-sm shadow-lg shadow-brand-accent/20 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold uppercase tracking-wider rounded-sm shadow-xl shadow-brand-accent/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
               >
-                {t.hero.cta1} <ArrowRight size={20} />
+                {t.hero.cta1} <ArrowRight size={18} />
               </button>
               <button
                 onClick={() => setView("SERVICES")}
-                className="px-8 py-4 border-2 border-slate-300 text-white hover:bg-white hover:text-brand-dark font-bold uppercase tracking-wider rounded-sm transition-all flex items-center justify-center gap-2"
+                className="px-8 py-4 border-2 border-white/40 text-white hover:bg-white/10 hover:border-white font-bold uppercase tracking-wider rounded-sm transition-all flex items-center justify-center gap-2 text-sm"
               >
-                <Wrench size={20} /> {t.hero.cta2}
+                <Wrench size={18} /> {t.hero.cta2}
               </button>
             </div>
           </div>
@@ -135,27 +136,61 @@ const HomeView: React.FC<Props> = ({
         </div>
       </div>
 
+      {/* 2.5 TRUST & ACCREDITATIONS BAR */}
+      <div className="bg-slate-900 border-b border-slate-800 py-5">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div>
+              <div className="text-white font-heading font-bold text-sm uppercase tracking-wider">
+                Oficjalne Certyfikaty i Uprawnienia Państwowe
+              </div>
+              <div className="text-slate-400 text-xs">
+                Własny poligon manewrowy w Kutnie • Egzaminy państwowe na naszym sprzęcie
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+                UDT
+              </div>
+              <div className="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+                IMBiGS
+              </div>
+              <div className="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+                SEP (G1, G2, G3)
+              </div>
+              <div className="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+                TÜV Rheinland
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 3. SEKCJA SZKOLEŃ (GRID) */}
       <div className="py-24 bg-brand-surface">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <SectionHeader
             title="Najpopularniejsze Szkolenia"
-            subtitle="Rozwiń swoją karierę"
+            subtitle="Zdobądź kwalifikacje operatora poszukiwane na rynku pracy"
             centered
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Card 1: Wózki Widłowe (Updated Copy) */}
+            {/* Card 1: Wózki Widłowe */}
             <div
               onClick={() => {
                 setSelectedCourseId("c1");
                 setView("COURSE_DETAIL");
               }}
-              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col"
+              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
             >
               <div className="relative h-64 overflow-hidden">
-                <div className="absolute top-4 right-4 z-20 bg-green-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                  <MonitorPlay size={12} /> Dostępna Teoria Online
+                <div className="absolute top-4 right-4 z-20 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
+                  <MonitorPlay size={12} /> Teoria Online 24/7
+                </div>
+                <div className="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+                  UDT
                 </div>
                 <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
                 <img
@@ -169,16 +204,19 @@ const HomeView: React.FC<Props> = ({
                   Wózki Widłowe (I WJO)
                 </h3>
                 <p className="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
-                  {/* Specific Sales Copy Highlight */}
                   <span className="font-bold text-brand-primary block mb-2">
-                    Ucz się teorii w domu, przyjedź tylko na egzamin praktyczny!
+                    Ucz się teorii w domu, przyjedź tylko na jazdy i egzamin!
                   </span>
-                  Oszczędź czas i pieniądze. Dzięki platformie e-learningowej
-                  przyswoisz wiedzę w domowym zaciszu. 100% wsparcia
-                  instruktora.
+                  Oszczędź czas. Dzięki platformie e-learningowej przyswoisz wiedzę w domowym zaciszu ze 100% wsparciem instruktora.
                 </p>
-                <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-2 transition-transform">
-                  Zobacz szczegóły <ChevronRight size={16} className="ml-1" />
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                  <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                    Szczegóły <ChevronRight size={16} className="ml-1" />
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
+                    <span className="font-heading font-black text-brand-primary text-lg">750 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -189,11 +227,14 @@ const HomeView: React.FC<Props> = ({
                 setSelectedCourseId("c2");
                 setView("COURSE_DETAIL");
               }}
-              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col"
+              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
             >
               <div className="relative h-64 overflow-hidden">
-                <div className="absolute top-4 right-4 z-20 bg-green-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                  <MonitorPlay size={12} /> Dostępna Teoria Online
+                <div className="absolute top-4 right-4 z-20 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
+                  <MonitorPlay size={12} /> Teoria Online 24/7
+                </div>
+                <div className="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+                  UDT
                 </div>
                 <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
                 <img
@@ -207,11 +248,19 @@ const HomeView: React.FC<Props> = ({
                   Ładowarki Teleskopowe
                 </h3>
                 <p className="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
-                  Szkolenie na wielozadaniowe nośniki osprzętu. Najbardziej
-                  poszukiwane uprawnienia w budownictwie.
+                  <span className="font-bold text-brand-primary block mb-2">
+                    Wielozadaniowe nośniki osprzętu
+                  </span>
+                  Najbardziej poszukiwane i najlepiej opłacane uprawnienia w budownictwie oraz magazynach wysokiego składowania.
                 </p>
-                <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-2 transition-transform">
-                  Zobacz szczegóły <ChevronRight size={16} className="ml-1" />
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                  <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                    Szczegóły <ChevronRight size={16} className="ml-1" />
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
+                    <span className="font-heading font-black text-brand-primary text-lg">850 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -222,11 +271,14 @@ const HomeView: React.FC<Props> = ({
                 setSelectedCourseId("c3");
                 setView("COURSE_DETAIL");
               }}
-              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col"
+              className="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
             >
               <div className="relative h-64 overflow-hidden">
                 <div className="absolute top-4 right-4 z-20 bg-brand-accent text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                  Stacjonarnie
+                  Praktyka Kutno
+                </div>
+                <div className="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+                  IMBiGS
                 </div>
                 <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
                 <img
@@ -240,11 +292,19 @@ const HomeView: React.FC<Props> = ({
                   Koparko-Ładowarki
                 </h3>
                 <p className="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
-                  Obsługa maszyn do robót ziemnych kl. III. Praktyka na placu
-                  manewrowym w Kutnie.
+                  <span className="font-bold text-brand-primary block mb-2">
+                    Maszyny robót ziemnych kl. III
+                  </span>
+                  Praktyka na profesjonalnym placu manewrowym w Kutnie. Przygotowanie do egzaminu państwowego IMBiGS.
                 </p>
-                <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-2 transition-transform">
-                  Zobacz szczegóły <ChevronRight size={16} className="ml-1" />
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                  <div className="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                    Szczegóły <ChevronRight size={16} className="ml-1" />
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
+                    <span className="font-heading font-black text-brand-primary text-lg">1 200 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                  </div>
                 </div>
               </div>
             </div>

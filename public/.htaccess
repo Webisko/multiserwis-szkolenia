@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Direct access to existing physical files and directories
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 2. Panel & Kursant LMS routes -> route to React SPA at /panel/index.html
+  RewriteCond %{REQUEST_URI} ^/panel [OR]
+  RewriteCond %{REQUEST_URI} ^/kursant
+  RewriteRule ^.*$ /panel/index.html [L]
+
+  # 3. Clean URLs for Astro static pages (e.g. /kontakt -> /kontakt/index.html)
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.*)/?$ /$1/index.html [L]
+
+  # 4. Fallback
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

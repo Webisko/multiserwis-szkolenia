@@ -1,0 +1,180 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const milestones = [
+  {
+    year: "2010",
+    title: "Powstanie Ośrodka Szkoleniowego",
+    desc: "Rozpoczęcie działalności szkoleniowej w Kutnie, skupionej początkowo na wózkach widłowych i uprawnieniach spawalniczych.",
+  },
+  {
+    year: "2015",
+    title: "Rozbudowa Bazy Manewrowej",
+    desc: "Uruchomienie certyfikowanego poligonu do robót ziemnych IMBiGS oraz zakup nowoczesnej floty ładowarek teleskopowych Manitou.",
+  },
+  {
+    year: "2020",
+    title: "Autorska Platforma E-learningowa",
+    desc: "Wprowadzenie hybrydowego modelu nauczania z dostępem 24/7 do bazy pytań egzaminacyjnych UDT i wykładów wideo.",
+  },
+  {
+    year: "2026",
+    title: "Lider Regionu Kutnowskiego",
+    desc: "Ponad 5000 wyszkolonych operatorów, stała współpraca z czołowymi zakładami przemysłowymi Łódzkiej Specjalnej Strefy Ekonomicznej.",
+  },
+];
+---
+
+<BaseLayout
+  title="O Nas - MultiSerwis Kutno | Ośrodek Szkolenia Zawodowego i Wynajem"
+  description="Poznaj MultiSerwis w Kutnie. Akredytowany ośrodek szkoleń UDT, IMBiGS, SEP z własnym poligonem manewrowym i halą szkoleniową. Ponad 15 lat doświadczenia."
+>
+  <!-- Hero Section -->
+  <section class="relative bg-brand-dark text-white py-16 md:py-24 border-b border-slate-800 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/hero.webp"
+        alt="Baza szkoleniowa MultiSerwis Kutno"
+        class="w-full h-full object-cover opacity-20 filter brightness-75 scale-105"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-primary/80"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
+      <div class="max-w-3xl space-y-4">
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
+          Poznaj MultiSerwis
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight">
+          Lider Certyfikowanych Szkoleń Zawodowych w Kutnie
+        </h1>
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+          Łączymy nowoczesne technologie edukacyjne (platforma LMS online 24/7) z rzetelną, intensywną praktyką na certyfikowanym sprzęcie budowlanym i magazynowym.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Stats -->
+  <section class="py-12 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="p-4">
+          <span class="text-3xl sm:text-4xl font-heading font-black text-brand-primary block">15+</span>
+          <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-1 block">lat na rynku</span>
+        </div>
+        <div class="p-4">
+          <span class="text-3xl sm:text-4xl font-heading font-black text-brand-accent block">5000+</span>
+          <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-1 block">wydanych uprawnień</span>
+        </div>
+        <div class="p-4">
+          <span class="text-3xl sm:text-4xl font-heading font-black text-brand-primary block">98.4%</span>
+          <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-1 block">zdawalności egzaminów</span>
+        </div>
+        <div class="p-4">
+          <span class="text-3xl sm:text-4xl font-heading font-black text-emerald-600 block">100%</span>
+          <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-1 block">legalne certyfikaty UDT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Story -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Kim jesteśmy</span>
+          <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1">
+            Praktyczna wiedza, która przekłada się na bezpieczną pracę i lepsze zarobki
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Ośrodek MultiSerwis powstał z pasji do maszyn ciężkich oraz potrzeby profesjonalnego kształcenia kadr technicznych w sercu Polski – w Kutnie, w pobliżu węzła autostrad A1 i A2.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Współpracujemy z największymi zakładami produkcyjnymi, centrami logistycznymi oraz firmami budowlanymi w regionie łódzkim i mazowieckim. Prowadzimy szkolenia zarówno dla klientów indywidualnych szukających nowej ścieżki zawodowej, jak i kompleksowe audyty oraz kursy zamknięte dla setek pracowników jednej firmy.
+        </p>
+
+        <div class="pt-2 space-y-3">
+          <div class="flex items-start gap-3 text-xs text-slate-700">
+            <span class="text-green-600 font-bold text-base">✓</span>
+            <div><strong>Własny plac manewrowy:</strong> Posiadamy rampy załadunkowe, regały wysokiego składowania oraz poligon do prac ziemnych przy ul. Przemysłowej 2 w Kutnie (z bezpłatnym parkingiem dla kursantów). Siedziba i biuro ośrodka mieszczą się przy ul. Siemieradzkiego 18.</div>
+          </div>
+          <div class="flex items-start gap-3 text-xs text-slate-700">
+            <span class="text-green-600 font-bold text-base">✓</span>
+            <div><strong>Instruktorzy-praktycy:</strong> Nasi wykładowcy to inżynierowie z wieloletnim doświadczeniem w przemyśle i uprawnieniami egzaminacyjnymi.</div>
+          </div>
+          <div class="flex items-start gap-3 text-xs text-slate-700">
+            <span class="text-green-600 font-bold text-base">✓</span>
+            <div><strong>Dofinansowania KFS i BUR:</strong> Pomagamy pracodawcom w pozyskaniu do 100% dofinansowania z Krajowego Funduszu Szkoleniowego.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
+          <img
+            src="/operator-wozki-widlowe.webp"
+            alt="Instruktor MultiSerwis Kutno"
+            class="w-full h-80 object-cover"
+          />
+          <div class="p-6 bg-white">
+            <h3 class="font-heading font-bold text-lg text-slate-900">Baza Szkoleniowa w Kutnie</h3>
+            <p class="text-xs text-slate-500 mt-1">
+              Kompleksowo wyposażone sale multimedialne, stanowiska spawalnicze oraz hala manewrowa dostępne 7 dni w tygodniu.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="mb-12 text-center max-w-xl mx-auto">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Rozwój i doświadczenie</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1">
+          Historia MultiSerwis
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {milestones.map((item) => (
+          <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 relative space-y-2">
+            <span class="text-2xl font-heading font-black text-brand-accent">{item.year}</span>
+            <h3 class="font-heading font-bold text-slate-900 text-base">{item.title}</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Box -->
+  <section class="py-16 bg-gradient-to-r from-brand-dark to-brand-primary text-white">
+    <div class="max-w-4xl mx-auto px-4 md:px-8 text-center space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-heading font-black">
+        Dołącz do grona zadowolonych kursantów i zdobądź uprawnienia
+      </h2>
+      <p class="text-slate-300 text-sm max-w-xl mx-auto">
+        Zadzwoń do naszego biura w Kutnie lub wybierz interesujące Cię szkolenie z katalogu online.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 pt-2">
+        <a
+          href="/szkolenia"
+          class="px-8 py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-lg"
+        >
+          Przeglądaj szkolenia →
+        </a>
+        <a
+          href="/kontakt"
+          class="px-8 py-3.5 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-100 transition-colors"
+        >
+          Skontaktuj się z nami
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

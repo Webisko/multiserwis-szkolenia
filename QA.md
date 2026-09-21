@@ -1,12 +1,9 @@
-# QA Checklist (GitHub Pages) — Webisko/multiserwis-kutno
+# QA Checklist — MultiSerwis Szkolenia
 
-This repo is deployed to GitHub Pages under a base path:
-
-- `/multiserwis-kutno/`
-
-Vite is configured with:
-- `base: '/multiserwis-kutno/'` in production
-- `build.outDir = 'docs'`
+Strona produkcyjna/stagingowa wdrażana jest na serwer SeoHost z bazą:
+- Base path: `/`
+- Output katalog: `dist/`
+- Routing: Apache `.htaccess` fallback
 
 Use this checklist after any change that could affect UI, assets, routing, or deployment.
 
@@ -26,9 +23,9 @@ Use this checklist after any change that could affect UI, assets, routing, or de
 
 ---
 
-## B. GitHub Pages checks (after deploy)
+## B. Staging / Production checks (after deploy)
 
-Open the deployed site (GitHub Pages URL) and verify:
+Open the deployed site (`https://multiserwis-szkolenia.webisko.pl`) and verify:
 
 1. **Home page loads**
    - No blank page.
@@ -40,7 +37,7 @@ Open the deployed site (GitHub Pages URL) and verify:
 
 3. **Styles and icons render**
    - Layout looks correct (CSS loaded).
-   - Icons/images appear.
+   - Icons/images appear (especially logo in panels).
 
 4. **Console is clean**
    - DevTools → Console
@@ -50,20 +47,19 @@ Open the deployed site (GitHub Pages URL) and verify:
    - Click a few key navigation paths and buttons.
    - Verify expected content appears and links do not break.
 
-6. **Refresh behavior (only if you use client-side routing)**
-   - Navigate to a non-home route
+6. **Refresh behavior (Direct link / F5)**
+   - Navigate to a non-home route (e.g. `/szkolenia/udt` or `/panel/kursant`)
    - Press F5 / reload
-   - Confirm it still loads (GitHub Pages often needs special handling for SPA routing).
+   - Confirm Apache `.htaccess` cleanly serves the route without 404.
 
 7. **Responsiveness**
-   - DevTools device toolbar: test a narrow width (mobile).
+   - DevTools device toolbar: test mobile / tablet widths.
    - Ensure no obvious layout break.
 
 ---
 
-## C. “Most common GitHub Pages breakages” (what this catches)
+## C. Common breakages to catch
 
-- Wrong base path (assets requested from `/assets/...` instead of `/multiserwis-kutno/assets/...`)
-- Build output not in `docs/`
-- Broken relative links
-- SPA refresh 404s
+- Broken relative links / images
+- Missing `.htaccess` fallback for direct routes
+- Console errors or broken imports in lazy chunks

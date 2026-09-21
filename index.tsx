@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary";
 import "./index.css";
 import "./i18n";
@@ -15,9 +15,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <HashRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <App />
-      </HashRouter>
+      </BrowserRouter>
     </ErrorBoundary>
   </React.StrictMode>,
 );

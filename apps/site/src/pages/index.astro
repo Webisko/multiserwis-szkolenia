@@ -1,91 +1,542 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CourseCard from "../components/CourseCard.astro";
-import { COURSES } from "@multiserwis/shared";
-import { slugify } from "../utils/slug";
 
-const featured = COURSES.filter((course) => course.isPopular).slice(0, 3);
+const categories = [
+  {
+    title: "Uprawnienia UDT",
+    icon: "🚜",
+    desc: "Wózki widłowe, ładowarki teleskopowe, podesty, suwnice, żurawie HDS.",
+    href: "/szkolenia/udt",
+  },
+  {
+    title: "Maszyny IMBiGS",
+    icon: "🏗️",
+    desc: "Koparko-ładowarki, koparki jednonaczyniowe, walce drogowe, spycharki.",
+    href: "/szkolenia/imbigs",
+  },
+  {
+    title: "Uprawnienia SEP",
+    icon: "⚡",
+    desc: "Grupy G1 (elektryczne), G2 (cieplne), G3 (gazowe) – Eksploatacja i Dozór.",
+    href: "/szkolenia/sep",
+  },
+  {
+    title: "Spawalnictwo",
+    icon: "🔥",
+    desc: "Metody MIG/MAG, TIG, MMA. Międzynarodowa Książeczka Spawacza.",
+    href: "/szkolenia/spawalnictwo",
+  },
+  {
+    title: "BHP i Inne",
+    icon: "🦺",
+    desc: "Piły mechaniczne, hakowy-sygnalista, windy, kierowanie ruchem.",
+    href: "/szkolenia/pozostale",
+  },
+];
 ---
 
-<BaseLayout>
-  <section class="relative overflow-hidden bg-linear-to-br from-brand-primary via-brand-secondary to-slate-950 py-20 text-white">
-    <div class="absolute inset-0 opacity-30">
-      <div class="absolute -left-24 top-10 h-80 w-80 rounded-full bg-brand-accent blur-[120px]"></div>
-      <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-white/10 blur-[140px]"></div>
+<BaseLayout
+  title="MultiSerwis Kutno - Certyfikowane Szkolenia UDT, IMBiGS, SEP i Wynajem Maszyn"
+  description="Lider szkoleń zawodowych w Kutnie. Zdobywaj uprawnienia UDT, IMBiGS i SEP: wózki widłowe, podesty, koparki, uprawnienia elektryczne. Teoria online 24/7 i praktyka na placu."
+>
+  <!-- 1. HERO SECTION (Oryginalny design z HomeView) -->
+  <div class="relative h-[85vh] min-h-[600px] flex items-center bg-brand-dark overflow-hidden">
+    <!-- Tło ze zdjęciem hero i przyciemnieniem teal/dark -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/hero.webp"
+        alt="Pracownicy ze sprzętem UDT - MultiSerwis Kutno"
+        class="w-full h-full object-cover opacity-60"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-brand-dark/70"></div>
     </div>
-    <div class="relative mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-[1.1fr_0.9fr]">
-      <div class="space-y-6">
-        <div class="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em]">
-          Nowe terminy 2026
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+          <span class="text-white text-xs font-bold uppercase tracking-wider">
+            Nowe terminy szkoleń 2026
+          </span>
         </div>
-        <h1 class="text-4xl font-semibold leading-tight md:text-5xl">
-          Szkolenia operatorów UDT, które kończą się realnymi uprawnieniami
+
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white leading-[1.1] mb-6">
+          Zdobądź uprawnienia operatora <br />
+          <span class="text-brand-accent">online i stacjonarnie</span>
         </h1>
-        <p class="text-lg text-white/80">
-          Teoria online, praktyka na nowoczesnym sprzęcie i egzamin państwowy. Zyskaj licencje, które liczą się na rynku.
+
+        <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+          Kompleksowe kursy UDT z dostępem do teorii w e-learningu. Praktyka na nowoczesnym sprzęcie i własnym placu manewrowym w Kutnie.
         </p>
-        <div class="flex flex-wrap gap-4">
+
+        <div class="flex flex-col sm:flex-row gap-4">
           <a
             href="/szkolenia"
-            class="rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:bg-brand-accentHover"
+            class="px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold uppercase tracking-wider rounded-sm shadow-xl shadow-brand-accent/25 transition-all transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 text-sm cursor-pointer"
           >
-            Przeglądaj szkolenia
+            Przeglądaj szkolenia →
           </a>
           <a
-            href="/kontakt"
-            class="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white hover:text-white"
+            href="/uslugi"
+            class="px-8 py-4 border-2 border-white/40 text-white hover:bg-white/10 hover:border-white font-bold uppercase tracking-wider rounded-sm transition-all inline-flex items-center justify-center gap-2 text-sm cursor-pointer"
           >
-            Porozmawiaj z doradcą
+            <svg class="w-5 h-5 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+            </svg>
+            Usługi i Konserwacja
           </a>
         </div>
       </div>
-      <div class="grid gap-4 rounded-3xl bg-white/10 p-6 backdrop-blur">
-        <div class="rounded-2xl border border-white/20 p-4">
-          <div class="text-3xl font-semibold">98%</div>
-          <div class="text-sm text-white/70">Zdawalności na pierwszym podejściu</div>
+    </div>
+  </div>
+
+  <!-- 2. SOCIAL PROOF (4 KAFLE LICZNIKÓW Z HOMEVIEW) -->
+  <div class="bg-brand-primary border-y border-brand-secondary">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <!-- Item 1 -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left md:border-r border-brand-secondary/50 last:border-0 md:pr-8">
+          <div class="text-brand-accent mb-4">
+            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <div class="text-3xl md:text-4xl font-heading font-black text-white mb-1">
+            5000+
+          </div>
+          <div class="text-sm uppercase tracking-widest text-slate-300 font-semibold">
+            Przeszkolonych Osób
+          </div>
         </div>
-        <div class="rounded-2xl border border-white/20 p-4">
-          <div class="text-3xl font-semibold">4K</div>
-          <div class="text-sm text-white/70">Materiałów wideo w e-learningu</div>
+
+        <!-- Item 2 -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left md:border-r border-brand-secondary/50 last:border-0 md:pr-8">
+          <div class="text-brand-accent mb-4">
+            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div class="text-3xl md:text-4xl font-heading font-black text-white mb-1">
+            40+
+          </div>
+          <div class="text-sm uppercase tracking-widest text-slate-300 font-semibold">
+            Dostępnych Szkoleń
+          </div>
         </div>
-        <div class="rounded-2xl border border-white/20 p-4">
-          <div class="text-3xl font-semibold">24/7</div>
-          <div class="text-sm text-white/70">Dostęp do platformy kursanta</div>
+
+        <!-- Item 3 -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left md:border-r border-brand-secondary/50 last:border-0 md:pr-8">
+          <div class="text-brand-accent mb-4">
+            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-3xl md:text-4xl font-heading font-black text-white mb-1">
+            15 Lat
+          </div>
+          <div class="text-sm uppercase tracking-widest text-slate-300 font-semibold">
+            Doświadczenia
+          </div>
         </div>
+
+        <!-- Item 4 -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="text-brand-accent mb-4">
+            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
+          <div class="text-3xl md:text-4xl font-heading font-black text-white mb-1">
+            98%
+          </div>
+          <div class="text-sm uppercase tracking-widest text-slate-300 font-semibold">
+            Zdawalność Egzaminów
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.5. TRUST & ACCREDITATIONS BAR (Z HOMEVIEW) -->
+  <div class="bg-slate-900 border-b border-slate-800 py-5">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div>
+          <div class="text-white font-heading font-bold text-sm uppercase tracking-wider">
+            Oficjalne Certyfikaty i Uprawnienia Państwowe
+          </div>
+          <div class="text-slate-400 text-xs">
+            Własny poligon manewrowy w Kutnie • Egzaminy państwowe na naszym sprzęcie
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <div class="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+            UDT
+          </div>
+          <div class="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+            IMBiGS
+          </div>
+          <div class="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+            SEP (G1, G2, G3)
+          </div>
+          <div class="px-4 py-2 rounded-sm bg-white/5 border border-white/10 text-white font-heading font-bold text-xs tracking-wider">
+            TÜV Rheinland
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. WYBIERZ KATEGORIĘ SWOICH UPRAWNIEŃ (Element, który się spodobał) -->
+  <section class="py-14 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-brand-accent">Certyfikacja Państwowa</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-2">
+          Wybierz Kategorię Swoich Uprawnień
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {categories.map((cat) => (
+          <a
+            href={cat.href}
+            class="p-6 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all group shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div class="text-3xl mb-3">{cat.icon}</div>
+              <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-white">{cat.title}</h3>
+              <p class="text-xs text-slate-500 group-hover:text-slate-300 mt-1">{cat.desc}</p>
+            </div>
+            <span class="mt-4 text-xs font-bold text-brand-accent group-hover:text-white flex items-center gap-1">
+              Sprawdź ofertę →
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl space-y-10 px-6 py-16">
-    <div class="flex items-end justify-between gap-6">
+  <!-- 4. NAJPOPULARNIEJSZE SZKOLENIA (3 ORYGINALNE KARTY Z HOMEVIEW) -->
+  <div class="py-24 bg-brand-surface border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-heading font-black text-brand-dark mb-4">
+          Najpopularniejsze Szkolenia
+        </h2>
+        <p class="text-slate-600 text-lg">
+          Zdobądź kwalifikacje operatora poszukiwane na rynku pracy
+        </p>
+        <div class="w-16 h-1 bg-brand-accent mx-auto mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1: Wózki Widłowe -->
+        <a
+          href="/szkolenia/wozki-widlowe"
+          class="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
+        >
+          <div class="relative h-64 overflow-hidden">
+            <div class="absolute top-4 right-4 z-20 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Teoria Online 24/7
+            </div>
+            <div class="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+              UDT
+            </div>
+            <div class="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
+            <img
+              src="/operator-wozki-widlowe.webp"
+              alt="Wózki Widłowe"
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
+          </div>
+          <div class="p-8 flex flex-col flex-grow">
+            <h3 class="text-2xl font-heading font-bold text-brand-dark mb-3 group-hover:text-brand-accent transition-colors">
+              Wózki Widłowe (UDT)
+            </h3>
+            <p class="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
+              <span class="font-bold text-brand-primary block mb-2">
+                Ucz się teorii w domu, przyjedź tylko na jazdy i egzamin!
+              </span>
+              Oszczędź czas. Dzięki platformie e-learningowej przyswoisz wiedzę w domowym zaciszu. Uprawnienia UDT ważne 10 lat.
+            </p>
+            <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+              <div class="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                Szczegóły →
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-slate-400 block font-normal leading-none mb-1">cena</span>
+                <span class="font-heading font-black text-brand-primary text-lg">1 000 zł <span class="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Ładowarki Teleskopowe -->
+        <a
+          href="/szkolenia/ladowarki-teleskopowe"
+          class="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
+        >
+          <div class="relative h-64 overflow-hidden">
+            <div class="absolute top-4 right-4 z-20 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Teoria Online 24/7
+            </div>
+            <div class="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+              UDT
+            </div>
+            <div class="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
+            <img
+              src="/ladowarki-teleskopowe.webp"
+              alt="Ładowarki Teleskopowe"
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
+          </div>
+          <div class="p-8 flex flex-col flex-grow">
+            <h3 class="text-2xl font-heading font-bold text-brand-dark mb-3 group-hover:text-brand-accent transition-colors">
+              Ładowarki Teleskopowe i Podnoszone
+            </h3>
+            <p class="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
+              <span class="font-bold text-brand-primary block mb-2">
+                Wózki ze zmiennym wysięgiem i koszem
+              </span>
+              Najbardziej poszukiwane uprawnienia UDT w budownictwie i przemyśle. Połączona kategoria UDT. Ważność: 5 lat.
+            </p>
+            <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+              <div class="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                Szczegóły →
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-slate-400 block font-normal leading-none mb-1">cena</span>
+                <span class="font-heading font-black text-brand-primary text-lg">1 500 zł <span class="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3: Koparki -->
+        <a
+          href="/szkolenia/koparko-ladowarki"
+          class="group bg-white rounded-sm shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col border border-slate-100"
+        >
+          <div class="relative h-64 overflow-hidden">
+            <div class="absolute top-4 right-4 z-20 bg-brand-accent text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide flex items-center gap-1 shadow-lg">
+              Praktyka Kutno
+            </div>
+            <div class="absolute top-4 left-4 z-20 bg-brand-primary/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
+              ŚBŁ-WIT
+            </div>
+            <div class="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/0 transition-colors z-10"></div>
+            <img
+              src="/koparki.webp"
+              alt="Koparki"
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
+          </div>
+          <div class="p-8 flex flex-col flex-grow">
+            <h3 class="text-2xl font-heading font-bold text-brand-dark mb-3 group-hover:text-brand-accent transition-colors">
+              Koparko-Ładowarki (Kl. III)
+            </h3>
+            <p class="text-slate-600 text-base mb-6 leading-relaxed flex-grow">
+              <span class="font-bold text-brand-primary block mb-2">
+                Maszyny robót ziemnych wszystkich typów
+              </span>
+              Praktyka na placu manewrowym w Kutnie. Egzamin państwowy ŚBŁ-WIT (dawniej IMBiGS) i wydanie książki operatora.
+            </p>
+            <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+              <div class="flex items-center text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                Szczegóły →
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-slate-400 block font-normal leading-none mb-1">cena</span>
+                <span class="font-heading font-black text-brand-primary text-lg">2 350 zł <span class="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SEKCJA USŁUG (USŁUGI DLA PRZEMYSŁU Z HOMEVIEW - PRZYWRÓCONA) -->
+  <div class="py-24 bg-white relative overflow-hidden border-b border-slate-200">
+    <!-- Ozdobne tła geometryczne -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-bl-full -z-0"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-brand-accent/5 rounded-tr-full -z-0"></div>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-heading font-black text-brand-dark mb-4">
+          Usługi dla Przemysłu
+        </h2>
+        <p class="text-slate-600 text-lg">
+          Kompleksowe wsparcie sprzętowe i techniczne
+        </p>
+        <div class="w-16 h-1 bg-brand-accent mx-auto mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Karta Wynajem -->
+        <a
+          href="/wynajem"
+          class="flex flex-col md:flex-row bg-slate-50 rounded-sm overflow-hidden border border-slate-100 group cursor-pointer hover:shadow-xl transition-all"
+        >
+          <div class="md:w-2/5 relative min-h-[220px]">
+            <img
+              src="/wynajem-maszyn.webp"
+              alt="Wynajem maszyn i podnośników"
+              class="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <div class="p-8 md:w-3/5 flex flex-col justify-center">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-brand-accent">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-heading font-bold text-brand-dark mb-2">
+              Wynajem Maszyn
+            </h3>
+            <p class="text-slate-600 mb-6 text-base leading-relaxed">
+              Flota ładowarek teleskopowych i podnośników koszowych dostępna od ręki. Krótki i długi termin.
+            </p>
+            <span class="text-brand-dark font-bold text-sm uppercase underline decoration-brand-accent decoration-2 underline-offset-4 group-hover:text-brand-accent transition-colors">
+              Zobacz dostępny sprzęt →
+            </span>
+          </div>
+        </a>
+
+        <!-- Karta Konserwacja / Serwis -->
+        <a
+          href="/uslugi"
+          class="flex flex-col md:flex-row bg-slate-50 rounded-sm overflow-hidden border border-slate-100 group cursor-pointer hover:shadow-xl transition-all"
+        >
+          <div class="md:w-2/5 relative min-h-[220px]">
+            <img
+              src="/serwis-i-koserwacja.webp"
+              alt="Serwis i konserwacja UDT"
+              class="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <div class="p-8 md:w-3/5 flex flex-col justify-center">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-brand-secondary">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-heading font-bold text-brand-dark mb-2">
+              Serwis i Konserwacja
+            </h3>
+            <p class="text-slate-600 mb-6 text-base leading-relaxed">
+              Przeglądy okresowe UDT, resursy, naprawy bieżące. Mobilny serwis z dojazdem do klienta.
+            </p>
+            <span class="text-brand-dark font-bold text-sm uppercase underline decoration-brand-secondary decoration-2 underline-offset-4 group-hover:text-brand-secondary transition-colors">
+              Umów serwis →
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. O NAS & DLACZEGO WARTO WYBRAĆ MULTISERWIS (PRZYWRÓCONE Z HOMEVIEW) -->
+  <div class="bg-slate-100 border-t border-slate-200 py-16">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-heading font-bold text-brand-primary mb-6">
+            Profesjonalne Centrum Szkoleniowe MultiSerwis
+          </h2>
+          <div class="space-y-4 text-slate-600 text-base leading-relaxed">
+            <p>
+              Jesteśmy liderem w branży szkoleniowej w regionie centralnej Polski. Oferujemy certyfikowane
+              <strong class="text-slate-800"> Szkolenia UDT w Kutnie</strong> oraz okolicach. Naszą misją jest dostarczanie najwyższej jakości edukacji zawodowej, łączącej teorię z praktyką.
+            </p>
+            <p>
+              Szukasz szkolenia na maszyny budowlane? Nasze <strong class="text-slate-800">szkolenie operatora koparki</strong> oraz ładowarki teleskopowej przygotuje Cię do egzaminu państwowego z najwyższą skutecznością. Posiadamy własny plac manewrowy oraz nowoczesne sale wykładowe.
+            </p>
+            <p>
+              Dla wygody naszych klientów wprowadziliśmy również szkolenia hybrydowe. Teoria odbywa się online, a zajęcia praktyczne realizujemy na naszym sprzęcie. Sprawdź również naszą ofertę wynajmu podnośników.
+            </p>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-6">
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase">
+              <svg class="w-4 h-4 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Kutno i okolice
+            </div>
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase">
+              <svg class="w-4 h-4 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Terminy co tydzień
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -inset-4 bg-brand-accent/10 rounded-full blur-xl"></div>
+          <div class="relative bg-white p-8 rounded-sm shadow-lg border-l-4 border-brand-accent">
+            <h3 class="font-heading font-bold text-lg mb-4 text-brand-dark">
+              Dlaczego warto wybrać MultiSerwis?
+            </h3>
+            <ul class="space-y-3">
+              {[
+                "Własny park maszynowy i hala szkoleniowa",
+                "Załatwiamy wszelkie formalności z UDT",
+                "Materiały dydaktyczne w cenie kursu",
+                "Elastyczne godziny zajęć praktycznych",
+                "Certyfikat w języku angielskim (opcja)",
+              ].map((item) => (
+                <li class="flex items-center gap-3 text-base text-slate-700">
+                  <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. POMARAŃCZOWE BANNER CTA (OSTATNIA SEKCJA NAD STOPKĄ) -->
+  <section class="py-16 bg-brand-accent text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">Polecane</p>
-        <h2 class="text-3xl font-semibold">Najczęściej wybierane szkolenia</h2>
+        <h2 class="text-3xl sm:text-4xl font-heading font-black">Gotowy na zdobycie nowych uprawnień?</h2>
+        <p class="text-white/90 text-sm sm:text-base mt-2 max-w-xl">
+          Skontaktuj się z naszym doradcą. Dobierzemy termin szkolenia, zorganizujemy jazdy próbne i formalności z Urzędem Dozoru Technicznego.
+        </p>
       </div>
-      <a href="/szkolenia" class="text-sm font-semibold text-brand-primary hover:text-brand-secondary">
-        Zobacz wszystkie
-      </a>
-    </div>
-    <div class="grid gap-6 md:grid-cols-3">
-      {featured.map((course) => (
-        <CourseCard course={course} href={`/szkolenia/${slugify(course.title)}`} />
-      ))}
-    </div>
-  </section>
-
-  <section class="bg-slate-900 py-16 text-white">
-    <div class="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-3">
-      <div class="space-y-3">
-        <div class="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent">Dlaczego my</div>
-        <h3 class="text-2xl font-semibold">Szybko przechodzisz od teorii do realnej pracy</h3>
-      </div>
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <h4 class="text-lg font-semibold">Hybrydowy model</h4>
-        <p class="mt-2 text-sm text-white/70">Teoria online i praktyka na placu. Bez zbędnych dojazdów.</p>
-      </div>
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <h4 class="text-lg font-semibold">Mentor prowadzący</h4>
-        <p class="mt-2 text-sm text-white/70">Jeden opiekun od zapisania do egzaminu państwowego.</p>
+      <div class="flex flex-wrap gap-4 shrink-0">
+        <a
+          href="tel:+48730101000"
+          class="rounded-sm bg-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-brand-dark shadow-xl hover:bg-slate-100 transition-all cursor-pointer"
+        >
+          Zadzwoń: +48 730 101 000
+        </a>
+        <a
+          href="/kontakt"
+          class="rounded-sm border-2 border-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-white/10 transition-all cursor-pointer"
+        >
+          Napisz do Nas
+        </a>
       </div>
     </div>
   </section>

@@ -19,8 +19,9 @@ const PrivacyView: React.FC = () => {
                 1. Administrator danych
               </h2>
               <p className="text-slate-600 leading-relaxed">
-                Administratorem danych osobowych jest Multiserwis Kutno z
-                siedzibą w Kutnie, ul. Siemieradzkiego 18, 99-300 Kutno.
+                Administratorem danych osobowych jest MULTI-SERWIS Kamil Kapruziak
+                (MultiSerwis Kutno) z siedzibą w Kutnie, ul. Henryka Siemiradzkiego 18,
+                99-300 Kutno, NIP: 7752404382, REGON: 100587019.
               </p>
             </section>
 

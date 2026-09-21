@@ -4,36 +4,52 @@ import { TrainingCategoryPage, TrainingItem } from "./TrainingCategoryPage";
 const sepTrainings: TrainingItem[] = [
   {
     id: "sep-g1",
-    title: "SEP G1 – Elektryczne",
-    price: "Zapytaj o cenę",
+    title: "SEP G1 – Elektryczne (E + D)",
+    price: "860 zł / upr.",
     description:
-      "Uprawnienia dla elektryków. Obsługa, konserwacja, remonty i montaż urządzeń, instalacji i sieci elektroenergetycznych.",
+      "Uprawnienia dla elektryków i monterów. Eksploatacja (E) i Dozór (D) urządzeń, instalacji i sieci elektroenergetycznych.",
     features: [
-      "Do 1 kV (nn)",
-      "Powyżej 1 kV (SN, WN)",
-      "Pomiary elektryczne",
-      "Egzamin SEP",
+      "Cena: 860 zł Eksploatacja / 860 zł Dozór",
+      "Do 1 kV (nn) oraz powyżej 1 kV (SN, WN)",
+      "Czas trwania: 1 dzień (termin telefonicznie)",
+      "Ważność uprawnień: 5 lat (zwolnione z VAT)",
     ],
   },
   {
     id: "sep-g2",
-    title: "SEP G2 – Energetyczne",
-    price: "Zapytaj o cenę",
+    title: "SEP G2 – Cieplne i Energetyczne (E + D)",
+    price: "860 zł / upr.",
     description:
-      "Uprawnienia dla energetyków. Eksploatacja urządzeń, instalacji i sieci cieplnych oraz energetycznych.",
-    features: ["Kotły, turbiny, sieci", "Dozór i eksploatacja", "Egzamin SEP"],
+      "Uprawnienia energetyczne. Eksploatacja (E) i Dozór (D) urządzeń wytwarzających, przetwarzających i zużywających ciepło.",
+    features: [
+      "Cena: 860 zł Eksploatacja / 860 zł Dozór",
+      "Kotły, piece, turbiny, sieci ciepłownicze",
+      "Czas trwania: 1 dzień (termin telefonicznie)",
+      "Ważność uprawnień: 5 lat (zwolnione z VAT)",
+    ],
   },
   {
     id: "sep-g3",
-    title: "SEP G3 – Gazowe",
-    price: "Zapytaj o cenę",
+    title: "SEP G3 – Gazowe (E + D)",
+    price: "860 zł / upr.",
     description:
-      "Uprawnienia gazowe. Obsługa, konserwacja, remonty i montaż urządzeń i instalacji gazowych.",
-    features: ["Sieci gazowe", "Urządzenia i instalacje", "Egzamin SEP"],
+      "Uprawnienia gazowe. Eksploatacja (E) i Dozór (D) urządzeń, instalacji i sieci gazowych paliw gazowych.",
+    features: [
+      "Cena: 860 zł Eksploatacja / 860 zł Dozór",
+      "Sieci, instalacje i odbiorniki gazowe",
+      "Czas trwania: 1 dzień (termin telefonicznie)",
+      "Ważność uprawnień: 5 lat (zwolnione z VAT)",
+    ],
   },
 ];
 
-export const SEPSection = ({ setView }: { setView?: (view: any) => void }) => {
+export const SEPSection = ({
+  setView,
+  setSelectedCourseId,
+}: {
+  setView?: (view: any) => void;
+  setSelectedCourseId?: (id: string | null) => void;
+}) => {
   return (
     <TrainingCategoryPage
       title="Szkolenia SEP (G1, G2, G3)"
@@ -41,6 +57,7 @@ export const SEPSection = ({ setView }: { setView?: (view: any) => void }) => {
       trainings={sepTrainings}
       heroImage="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e" // Electrical cabling / work
       setView={setView}
+      setSelectedCourseId={setSelectedCourseId}
       servicePromo={{
         title: "Usługi elektryczne i energetyczne",
         description:

@@ -12,53 +12,63 @@ interface ScheduleProps {
 const MOCK_SESSIONS = [
   {
     id: "s1",
-    courseName: "Wózki Jezdniowe II WJO",
-    date: "2025-06-15",
+    courseName: "Wózki Jezdniowe Podnośnikowe (UDT)",
+    date: "2026-10-05",
     time: "09:00",
-    location: "Kutno, ul. Siemieradzkiego 18",
-    spots: 5,
-    price: "699 zł",
+    location: "Kutno, ul. Przemysłowa 2 (plac manewrowy)",
+    spots: 6,
+    price: "1000 zł",
     category: "UDT",
   },
   {
     id: "s2",
-    courseName: "Uprawnienia SEP G1",
-    date: "2025-06-16",
-    time: "16:00",
-    location: "Kutno, ul. Siemieradzkiego 18",
-    spots: 12,
-    price: "350 zł",
+    courseName: "Uprawnienia SEP G1 (Elektryczne E+D)",
+    date: "2026-10-08",
+    time: "10:00",
+    location: "Kutno, ul. Siemieradzkiego 18 / Online",
+    spots: 10,
+    price: "860 zł",
     category: "SEP",
   },
   {
     id: "s3",
-    courseName: "Suwnice IIS",
-    date: "2025-06-18",
-    time: "08:00",
-    location: "Kutno, ul. Siemieradzkiego 18",
-    spots: 3,
-    price: "899 zł",
+    courseName: "Suwnice, Wciągniki i Wciągarki",
+    date: "2026-10-12",
+    time: "08:30",
+    location: "Kutno, ul. Przemysłowa 2",
+    spots: 4,
+    price: "1130 zł",
     category: "UDT",
   },
   {
     id: "s4",
-    courseName: "Podesty Ruchome IP",
-    date: "2025-06-20",
+    courseName: "Podesty Ruchome Przejezdne (Zwyżki)",
+    date: "2026-10-15",
     time: "09:00",
-    location: "Kutno, ul. Siemieradzkiego 18",
-    spots: 8,
-    price: "799 zł",
+    location: "Kutno, ul. Przemysłowa 2 (plac manewrowy)",
+    spots: 5,
+    price: "1130 zł",
     category: "UDT",
   },
   {
     id: "s5",
-    courseName: "BHP Wstępne",
-    date: "2025-06-22",
-    time: "10:00",
-    location: "Online / Kutno",
-    spots: 20,
-    price: "150 zł",
-    category: "BHP",
+    courseName: "Koparkoładowarki (Kl. III ŚBŁ-WIT)",
+    date: "2026-10-19",
+    time: "08:00",
+    location: "Kutno, ul. Przemysłowa 2 (poligon)",
+    spots: 6,
+    price: "2350 zł",
+    category: "IMBiGS",
+  },
+  {
+    id: "s6",
+    courseName: "Spawanie MIG/MAG / TIG (PN-EN ISO 9606-1)",
+    date: "2026-10-22",
+    time: "15:00",
+    location: "Kutno, ul. Przemysłowa 2 (warsztat spawalniczy)",
+    spots: 4,
+    price: "2400 zł",
+    category: "Spawalnictwo",
   },
 ];
 
@@ -72,13 +82,22 @@ export const Schedule: React.FC<ScheduleProps> = ({ setView }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+      {/* Alert informacyjny o harmonogramie ustalany na bieżąco */}
+      <div className="bg-brand-primary/5 border-b border-brand-primary/15 p-4 sm:p-5 flex items-start gap-3 text-sm text-slate-700">
+        <Clock className="text-brand-accent shrink-0 mt-0.5" size={18} />
+        <div>
+          <span className="font-bold text-slate-900">Zasady planowania zjazdów: </span>
+          Harmonogram zajęć praktycznych i jazd ustalamy na bieżąco <strong>w każdy piątek na nadchodzący tydzień</strong>, dopasowując godziny do dyspozycyjności kursantów. Teorię online w e-learningu możesz rozpocząć od zaraz po rejestracji. Czas oczekiwania na egzamin państwowy UDT wynosi <strong>maksymalnie do 30 dni roboczych</strong>.
+        </div>
+      </div>
+
       <div className="p-6 border-b border-slate-100 bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold font-heading text-slate-800 flex items-center gap-2">
             <Calendar className="text-brand-accent" /> Harmonogram Szkoleń
           </h2>
           <p className="text-slate-500 text-sm mt-1">
-            Najbliższe terminy kursów w Kutnie i online
+            Najbliższe planowane zjazdy praktyczne i egzaminy
           </p>
         </div>
 
@@ -91,8 +110,9 @@ export const Schedule: React.FC<ScheduleProps> = ({ setView }) => {
           >
             <option value="ALL">Wszystkie kategorie</option>
             <option value="UDT">Urządzenia UDT</option>
+            <option value="IMBiGS">Maszyny ŚBŁ-WIT</option>
             <option value="SEP">Elektryczne SEP</option>
-            <option value="BHP">BHP</option>
+            <option value="Spawalnictwo">Spawalnictwo</option>
           </select>
         </div>
       </div>

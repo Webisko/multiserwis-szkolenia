@@ -21,8 +21,9 @@ const TermsView: React.FC = () => {
               <ol className="list-decimal pl-6 text-slate-600 space-y-3">
                 <li>
                   Niniejszy Regulamin określa zasady świadczenia usług
-                  szkoleniowych przez Multiserwis Kutno z siedzibą w Kutnie, ul.
-                  Siemieradzkiego 18, 99-300 Kutno.
+                  szkoleniowych przez MULTI-SERWIS Kamil Kapruziak (MultiSerwis Kutno)
+                  z siedzibą w Kutnie, ul. Henryka Siemiradzkiego 18, 99-300 Kutno,
+                  NIP: 7752404382, REGON: 100587019.
                 </li>
                 <li>
                   Regulamin jest dostępny na stronie internetowej oraz w

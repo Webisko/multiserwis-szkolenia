@@ -7,59 +7,63 @@ const otherTrainings: TrainingItem[] = [
     title: "Specjalista ds. kontroli zawiesi",
     price: "600 zł",
     description:
-      "Uprawnienia do kontroli stanu technicznego zawiesi i osprzętu dźwigowego.",
-    features: ["Kryteria brakowania", "Dokumentacja kontroli", "Zaświadczenie"],
+      "Uprawnienia do kontroli stanu technicznego zawiesi linowych, łańcuchowych i pasowych oraz osprzętu dźwigowego.",
+    features: ["Kryteria zużycia i brakowania", "Dokumentacja i rejestr kontroli", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
   },
   {
     id: "pilarki",
     title: "Operator pilarek mechanicznych",
-    price: "500 zł",
+    price: "550 zł",
     description:
-      "Obsługa pilarek spalinowych i elektrycznych do ścinki i pielęgnacji drzew.",
+      "Obsługa pilarek łańcuchowych spalinowych i elektrycznych przy pracach leśnych, ogrodniczych i budowlanych.",
     features: [
-      "BHP przy pracy pilarką",
-      "Konserwacja układu tnącego",
-      "Zaświadczenie",
+      "BHP i techniki bezpiecznej ścinki",
+      "Konserwacja i ostrzenie układu tnącego",
+      "Czas trwania: 1 dzień",
+      "Cena zwolniona z VAT",
     ],
   },
   {
     id: "kosy",
-    title: "Operator kos spalinowych",
-    price: "450 zł",
-    description: "Obsługa wykaszarek i kos spalinowych.",
-    features: ["Bezpieczeństwo pracy", "Eksploatacja", "Zaświadczenie"],
+    title: "Operator kos spalinowych i wykaszarek",
+    price: "600 zł",
+    description: "Obsługa, konserwacja i bezpieczna praca wykaszarkami oraz kosami spalinowymi.",
+    features: ["BHP przy pracach komunalnych", "Wymiana elementów tnących", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
   },
   {
     id: "podesty-zaladowcze",
-    title: "Podesty załadowcze (windy)",
-    price: "450 zł",
-    description: "Obsługa burt samowyładowczych montowanych na pojazdach.",
+    title: "Podesty załadowcze (windy samochodowe)",
+    price: "500 zł",
+    description: "Obsługa burt samowyładowczych i wind montowanych na samochodach ciężarowych i dostawczych.",
     features: [
-      "Dla kierowców i dostawców",
-      "Bezpieczna obsługa",
-      "Zaświadczenie",
+      "Niezbędne dla kierowców i kurierów",
+      "Obsługa sterownic i awaryjne opuszczanie",
+      "Czas trwania: 1 dzień",
+      "Cena zwolniona z VAT",
     ],
   },
   {
     id: "urzadzenia-hakowe",
     title: "Urządzenia hakowe i bramowe",
-    price: "500 zł",
-    description: "Obsługa hakowców i bramowców (systemy wymienne nadwozi).",
-    features: ["Transport kontenerów", "Egzamin UDT/TDT", "Zaświadczenie"],
+    price: "550 zł",
+    description: "Obsługa pojazdów z systemami załadunku hakowego i bramowego (przewóz kontenerów i odpadów).",
+    features: ["Techniki załadunku i zabezpieczenia", "Eksploatacja hydrauliki", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
   },
   {
     id: "hakowy",
     title: "Hakowy – Sygnalista",
-    price: "400 zł",
-    description: "Szkolenie dla osób współpracujących z operatorem dźwigu.",
-    features: ["Mocowanie ładunków", "Sygnały dźwigowe", "Bezpieczeństwo"],
+    price: "kontakt tel.",
+    description: "Szkolenie dla pracowników współpracujących z operatorami dźwigów, żurawi i suwnic.",
+    features: ["Mocowanie i stabilizacja ładunków", "Sygnalizacja ręczna i radiowa", "Czas trwania: 1 dzień", "Zajęcia praktyczne"],
   },
 ];
 
 export const OtherSection = ({
   setView,
+  setSelectedCourseId,
 }: {
   setView?: (view: any) => void;
+  setSelectedCourseId?: (id: string | null) => void;
 }) => {
   return (
     <TrainingCategoryPage
@@ -68,6 +72,7 @@ export const OtherSection = ({
       trainings={otherTrainings}
       heroImage="https://images.unsplash.com/photo-1542838132-92c53300491e" // General industry / construction
       setView={setView}
+      setSelectedCourseId={setSelectedCourseId}
       servicePromo={{
         title: "Kompleksowa obsługa techniczna",
         description:

@@ -93,7 +93,9 @@ export const AdminView: React.FC<AdminPanelProps> = ({
     <AdminPanelLayout
       activeSection={activeSection}
       onSectionChange={setActiveSection}
-      onLogoClick={() => setView("HOME")}
+      onLogoClick={() => {
+        window.location.href = "/";
+      }}
       userName={currentUser?.name || "Administrator"}
       userRole="Superadministrator"
       onLogout={handleLogout}

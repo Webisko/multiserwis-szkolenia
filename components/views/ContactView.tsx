@@ -21,34 +21,63 @@ const ContactView: React.FC<Props> = ({ setView }) => {
               <h3 className="text-xl font-heading font-bold mb-6">
                 Dane kontaktowe
               </h3>
-              <div className="space-y-6 text-base">
+              <div className="space-y-5 text-base">
                 <div>
                   <span className="text-brand-accent block text-xs uppercase font-bold mb-1">
-                    Infolinia
+                    Szkolenia UDT / IMBiGS / SEP
                   </span>
-                  <span className="text-lg">+48 730 101 000</span>
+                  <div className="text-lg font-bold text-white">+48 730 101 000</div>
+                  <div className="text-sm text-slate-300">+48 570 403 806</div>
+                </div>
+                <div>
+                  <span className="text-brand-accent block text-xs uppercase font-bold mb-1">
+                    Usługi Dźwigowe i Wynajem
+                  </span>
+                  <div className="text-base font-semibold text-white">+48 730 202 000</div>
+                  <div className="text-sm text-slate-300">+48 733 929 100</div>
                 </div>
                 <div>
                   <span className="text-brand-accent block text-xs uppercase font-bold mb-1">
                     Email
                   </span>
-                  <span>biuro@multiserwis.pl</span>
+                  <a href="mailto:multiserwis.kutno@gmail.com" className="hover:text-brand-accent transition-colors">
+                    multiserwis.kutno@gmail.com
+                  </a>
                 </div>
                 <div>
                   <span className="text-brand-accent block text-xs uppercase font-bold mb-1">
-                    Adres
+                    Biuro Obsługi Klienta
                   </span>
                   <span>
-                    ul. Siemieradzkiego 18
-                    <br />
-                    99-300 Kutno
+                    ul. Siemieradzkiego 18<br />
+                    99-300 Kutno<br />
+                    <span className="text-xs text-slate-400">Pn–Pt: 8:00 – 16:00</span>
+                  </span>
+                </div>
+                <div>
+                  <span className="text-brand-accent block text-xs uppercase font-bold mb-1">
+                    Baza Szkoleniowa i Plac Manewrowy
+                  </span>
+                  <span>
+                    ul. Przemysłowa 2<br />
+                    99-300 Kutno<br />
+                    <span className="text-xs text-emerald-400">✓ Bezpłatny parking dla kursantów</span>
                   </span>
                 </div>
               </div>
             </div>
             <div className="mt-8">
-              <div className="w-full h-32 bg-slate-700 rounded opacity-50 flex items-center justify-center text-xs">
-                [Mapa Google]
+              <div className="w-full h-56 rounded-lg overflow-hidden border border-slate-700/60 shadow-inner">
+                <iframe
+                  title="Multiserwis Kutno - Lokalizacja Ośrodka Szkoleniowego"
+                  src="https://maps.google.com/maps?q=ul.+Siemieradzkiego+18,+99-300+Kutno&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                />
               </div>
             </div>
           </div>

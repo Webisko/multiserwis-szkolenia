@@ -1,7 +1,8 @@
-export type CourseCategory = "UDT" | "SEP" | "BHP" | "Inne";
+export type CourseCategory = "UDT" | "IMBiGS" | "SEP" | "Spawalnictwo" | "BHP" | "Inne";
 
 export interface Course {
   id: string;
+  slug?: string;
   title: string;
   category: CourseCategory;
   duration: string;
@@ -21,4 +22,17 @@ export interface Course {
   priceStationary?: string;
   location?: string;
   nextSession?: string;
+}
+
+export interface Machine {
+  id: string;
+  name: string;
+  type: string;
+  specs: {
+    height?: string;
+    capacity?: string;
+    weight?: string;
+    power?: string;
+  };
+  image: string;
 }

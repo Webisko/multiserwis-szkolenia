@@ -101,7 +101,9 @@ export const ManagerPanel: React.FC<ManagerPanelProps> = ({
     <ManagerPanelLayout
       activeSection={activeSection}
       onSectionChange={setActiveSection}
-      onLogoClick={() => setView("HOME")}
+      onLogoClick={() => {
+        window.location.href = "/";
+      }}
       userName={currentUser?.name || "Menedżer"}
       userRole="Menedżer platformy"
       onLogout={handleLogout}

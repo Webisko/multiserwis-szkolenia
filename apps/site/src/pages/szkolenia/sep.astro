@@ -1,0 +1,44 @@
+---
+import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.astro";
+
+const sepTrainings: TrainingItem[] = [
+  {
+    id: "sep-g1",
+    courseSlug: "sep-g1",
+    title: "SEP G1 – Elektryczne (Eksploatacja 'E' + Dozór 'D')",
+    price: "860 zł / upr.",
+    description: "Uprawnienia dla elektryków i monterów. Urządzenia, instalacje i sieci elektroenergetyczne do 1 kV oraz powyżej 1 kV.",
+    features: ["Cena: 860 zł Eksploatacja / 860 zł Dozór", "Aparatura i pomiary ochronne", "Czas trwania: 1 dzień (termin telefonicznie)", "Ważność uprawnień: 5 lat (zwolnione z VAT)"],
+  },
+  {
+    id: "sep-g2",
+    courseSlug: "sep-g2",
+    title: "SEP G2 – Cieplne i Energetyczne (E + D)",
+    price: "860 zł / upr.",
+    description: "Urządzenia wytwarzające, przetwarzające, przesyłające i zużywające ciepło: kotły, turbiny, piece, sieci cieplne, instalacje przemysłowe.",
+    features: ["Cena: 860 zł Eksploatacja / 860 zł Dozór", "Kotły parowe i wodne, sieci cieplne", "Czas trwania: 1 dzień (termin telefonicznie)", "Ważność uprawnień: 5 lat (zwolnione z VAT)"],
+  },
+  {
+    id: "sep-g3",
+    courseSlug: "sep-g3",
+    title: "SEP G3 – Gazowe (E + D)",
+    price: "860 zł / upr.",
+    description: "Urządzenia, instalacje i sieci gazowe wytwarzające, przetwarzające, przesyłające, magazynujące i zużywające paliwa gazowe.",
+    features: ["Cena: 860 zł Eksploatacja / 860 zł Dozór", "Sieci gazowe i kotłownie przemysłowe", "Czas trwania: 1 dzień (termin telefonicznie)", "Ważność uprawnień: 5 lat (zwolnione z VAT)"],
+  },
+];
+---
+
+<CategoryLayout
+  title="Uprawnienia Energetyczne SEP (G1, G2, G3) Kutno"
+  badge="Stowarzyszenie Elektryków Polskich"
+  description="Zdobądź państwowe świadectwa kwalifikacyjne uprawniające do zajmowania się eksploatacją (E) oraz dozorem (D) urządzeń, instalacji i sieci elektroenergetycznych, cieplnych oraz gazowych. Kursy w Kutnie i e-learning."
+  trainings={sepTrainings}
+  heroImage="/uprawnienia-energetyczne-g1.webp"
+  servicePromo={{
+    title: "Pomiary instalacji elektrycznych i odbiory UDT",
+    description: "Świadczymy usługi okresowych pomiarów instalacji elektrycznych hal, obiektów magazynowych oraz maszyn przemysłowych.",
+    linkText: "Sprawdź usługi serwisowe i pomiarowe",
+    linkUrl: "/uslugi",
+  }}
+/>

@@ -1,0 +1,74 @@
+---
+import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.astro";
+
+const udtTrainings: TrainingItem[] = [
+  {
+    id: "wozki-widlowe",
+    courseSlug: "wozki-widlowe",
+    title: "Wózki widłowe (UDT)",
+    price: "1 000 zł",
+    description: "Operator wózków jezdniowych podnośnikowych z napędem silnikowym z wyłączeniem wózków z wysięgnikiem. Egzamin UDT do 30 dni roboczych.",
+    features: ["Ważność uprawnień: 10 lat", "Teoria online + jazdy na placu", "Egzamin państwowy UDT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "ladowarki-teleskopowe",
+    courseSlug: "ladowarki-teleskopowe",
+    title: "Ładowarki teleskopowe i wózki z podnoszoną kabiną",
+    price: "1 500 zł",
+    description: "Wózki jezdniowe podnośnikowe ze zmiennym wysięgiem oraz z osobą obsługującą podnoszoną wraz z ładunkiem (najwyższa kategoria UDT).",
+    features: ["Ważność uprawnień: 5 lat", "Wysięgnik i podnoszenie operatora", "Egzamin państwowy UDT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "podesty-ruchome",
+    courseSlug: "podesty-ruchome",
+    title: "Podesty ruchome przejezdne (zwyżki)",
+    price: "1 130 zł",
+    description: "Szkolenie na podesty nożycowe, przegubowe i teleskopowe do prac na wysokościach. Egzamin UDT do 30 dni roboczych.",
+    features: ["Ważność uprawnień: 5 lat", "Podesty wolnobieżne i samojezdne", "Egzamin państwowy UDT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "suwnice",
+    courseSlug: "suwnice",
+    title: "Suwnice, wciągniki i wciągarki",
+    price: "od 1 130 zł",
+    description: "Obsługa suwnic sterowanych z poziomu roboczego (radiowo/przewodowo) oraz z kabiny operatora.",
+    features: ["Ogólne: 1130 zł (10 lat)", "Specjalne: 1380 zł (5 lat)", "Zajęcia praktyczne i hakowanie", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "zurawie",
+    courseSlug: "zurawie",
+    title: "Żurawie (HDS, samojezdne, wieżowe)",
+    price: "od 1 080 zł",
+    description: "Kompleksowe uprawnienia UDT na żurawie przewoźne (HDS), samojezdne, stacjonarne, wieżowe i szynowe.",
+    features: ["HDS / leśne: 1130 zł (10 lat)", "Samojezdne / wieżowe: 2480 zł (5 lat)", "Stacjonarne: 1080 zł (10 lat)", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "wciagarki",
+    title: "Wciągarki i wciągniki",
+    price: "930 zł",
+    description: "Obsługa wciągników i wciągarek mechanicznych ogólnego i specjalnego przeznaczenia w przemyśle.",
+    features: ["Praktyczna obsługa i osprzęt", "Bezpieczna eksploatacja i BHP", "Egzamin państwowy UDT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "odnowienie-udt",
+    title: "Przedłużenie uprawnień UDT (Wniosek)",
+    price: "0 zł (pomoc doradcza)",
+    description: "Bezpłatna pomoc doradcza przy złożeniu wniosku o przedłużenie ważności zaświadczenia UDT przed upływem terminu.",
+    features: ["Bezpłatna pomoc doradcza", "Wniosek przed wygaśnięciem", "Pełne wsparcie formalne", "W razie wygaśnięcia: ponowny kurs"],
+  },
+];
+---
+
+<CategoryLayout
+  title="Szkolenia UDT Kutno"
+  badge="Urząd Dozoru Technicznego"
+  description="Zdobądź oficjalne uprawnienia UDT na wózki widłowe, ładowarki teleskopowe, zwyżki i suwnice ważne 5 lub 10 lat. Teoria online 24/7, praktyka na placu w Kutnie i egzamin państwowy przed komisją UDT."
+  trainings={udtTrainings}
+  heroImage="/operator-wozki-widlowe.webp"
+  servicePromo={{
+    title: "Wynajem podestów i ładowarek w Kutnie",
+    description: "Poza szkoleniami oferujemy nowoczesną flotę podnośników koszowych Genie oraz ładowarek obrotowych Manitou na wynajem krótko- i długoterminowy.",
+    linkText: "Zobacz flotę maszyn na wynajem",
+    linkUrl: "/wynajem",
+  }}
+/>

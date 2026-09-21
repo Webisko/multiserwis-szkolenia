@@ -4,49 +4,324 @@ import { COURSES } from "@multiserwis/shared";
 import { slugify } from "../../utils/slug";
 
 export async function getStaticPaths() {
-  return COURSES.map((course) => ({
-    params: { slug: slugify(course.title) },
-    props: { course }
-  }));
+  const paths: { params: { slug: string }; props: { course: typeof COURSES[0] } }[] = [];
+  
+  for (const course of COURSES) {
+    if (course.slug) {
+      paths.push({ params: { slug: course.slug }, props: { course } });
+    }
+    const titleSlug = slugify(course.title);
+    if (titleSlug && titleSlug !== course.slug) {
+      paths.push({ params: { slug: titleSlug }, props: { course } });
+    }
+  }
+  
+  return paths;
 }
 
 const { course } = Astro.props;
+
+const syllabusMap: Record<string, string[]> = {
+  UDT: [
+    "Wiadomości o dozorze technicznym i akty prawne",
+    "Budowa i parametry techniczne urządzeń transportu bliskiego",
+    "Czynności operatora przed rozpoczęciem, w trakcie i po zakończeniu pracy",
+    "Stateczność urządzenia, diagramy udźwigu i środki ciężkości ładunku",
+    "Mechanizmy napędowe, układy hydrauliczne i instalacje elektryczne",
+    "Bezpieczna wymiana butli gazowych LPG (wózki jezdniowe)",
+    "Praktyczna obsługa maszyny na placu manewrowym w Kutnie",
+    "Symulacja egzaminu państwowego UDT pod okiem instruktora",
+  ],
+  IMBiGS: [
+    "Ogólna budowa i zasada działania maszyn robót ziemnych",
+    "Technologia wykonywania wykopów, nasypów i plantowania terenu",
+    "Układy hydrauliczne wysokociśnieniowe i sterowanie joystickami",
+    "BHP przy eksploatacji maszyn budowlanych w pobliżu instalacji podziemnych",
+    "Obsługa codzienna (OTC), smarowanie, wymiana osprzętu roboczego",
+    "Jazdy praktyczne i manewrowanie maszyną na certyfikowanym poligonie",
+    "Przygotowanie do egzaminu praktycznego przed komisją IMBiGS",
+  ],
+  SEP: [
+    "Podstawowe pojęcia elektrotechniki i przepisy prawa energetycznego",
+    "Ochrona przeciwporażeniowa: środki ochrony podstawowej i przy uszkodzeniu",
+    "Budowa, zasada działania i eksploatacja urządzeń do i powyżej 1 kV",
+    "Aparatura łączeniowa, zabezpieczająca i sterownicza",
+    "Zasady organizacji prac przy urządzeniach elektroenergetycznych pod napięciem",
+    "Postępowanie w przypadku porażenia prądem elektrycznym i pierwsza pomoc",
+    "Egzamin ustny przed Państwową Komisją Kwalifikacyjną",
+  ],
+  Spawalnictwo: [
+    "Zasady BHP i ppoż. przy pracach spawalniczych",
+    "Dobór parametrów spawania, gazów osłonowych i spoiw",
+    "Przygotowanie krawędzi i złączy do spawania",
+    "Praktyczne spawanie w pozycjach podolnych, naściennych i pionowych",
+    "Niezgodności spawalnicze i ich zapobieganie",
+    "Badania wizualne (VT) wykonanych złączy próbnych",
+    "Egzamin końcowy i certyfikacja spawalnicza TÜV / Instytut Spawalnictwa",
+  ],
+};
+
+const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
 ---
 
-<BaseLayout title={`${course.title} | MultiSerwis Kutno`}>
-  <section class="mx-auto max-w-6xl px-6 py-14">
-    <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+<BaseLayout
+  title={`${course.title} Kutno | MultiSerwis`}
+  description={`Zdobądź uprawnienia na ${course.title} w Kutnie. Teoria online 24/7, praktyka na placu manewrowym, egzamin państwowy. Sprawdź terminy i cenę.`}
+>
+  <!-- Breadcrumbs & Category Bar -->
+  <div class="bg-slate-900 border-b border-slate-800 text-xs py-3 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto flex items-center gap-2 text-slate-400">
+      <a href="/" class="hover:text-white transition-colors">Start</a>
+      <span>/</span>
+      <a href="/szkolenia" class="hover:text-white transition-colors">Szkolenia</a>
+      <span>/</span>
+      <a href={`/szkolenia/${course.category.toLowerCase()}`} class="text-brand-accent hover:underline">
+        {course.category}
+      </a>
+      <span>/</span>
+      <span class="text-slate-200 truncate">{course.title}</span>
+    </div>
+  </div>
+
+  <!-- Course Hero Banner -->
+  <section class="relative bg-brand-dark text-white py-14 md:py-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src={course.image}
+        alt={course.title}
+        class="w-full h-full object-cover opacity-25 filter brightness-50"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-primary/80"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-[1.3fr_0.7fr] gap-12 items-center">
       <div class="space-y-6">
-        <div class="inline-flex items-center gap-3 rounded-full bg-brand-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
-          {course.category}
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="px-3 py-1 bg-brand-accent/20 border border-brand-accent/50 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
+            Kategoria: {course.category}
+          </span>
+          {course.hasOnline && (
+            <span class="px-3 py-1 bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-sm">
+              E-learning 24/7
+            </span>
+          )}
+          {course.isPopular && (
+            <span class="px-3 py-1 bg-blue-500/20 border border-blue-500/50 text-blue-300 text-xs font-bold uppercase tracking-wider rounded-sm">
+              Bestseller
+            </span>
+          )}
         </div>
-        <h1 class="text-3xl font-semibold md:text-4xl">{course.title}</h1>
-        <p class="text-base text-slate-600">{course.description}</p>
-        <div class="flex flex-wrap gap-4">
-          <div class="rounded-2xl border border-slate-200 px-4 py-3">
-            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Czas trwania</div>
-            <div class="text-lg font-semibold text-slate-900">{course.duration}</div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-black text-white leading-tight">
+          {course.title}
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+          {course.description}
+        </p>
+
+        <!-- Quick Meta Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 text-xs">
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10">
+            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Czas trwania</span>
+            <span class="text-base font-bold text-white mt-0.5 block">{course.duration}</span>
           </div>
-          <div class="rounded-2xl border border-slate-200 px-4 py-3">
-            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Cena</div>
-            <div class="text-lg font-semibold text-brand-primary">{course.price}</div>
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10">
+            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Egzamin państwowy</span>
+            <span class="text-base font-bold text-emerald-400 mt-0.5 block">Na placu w Kutnie</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10 col-span-2 sm:col-span-1">
+            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Format nauki</span>
+            <span class="text-base font-bold text-white mt-0.5 block">Online + Jazdy</span>
           </div>
         </div>
       </div>
-      <div class="space-y-6">
-        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <img src={`/${course.image}`} alt={course.title} class="h-full w-full object-cover" />
+
+      <!-- Conversion Checkout Box -->
+      <div class="bg-white text-slate-900 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-200">
+        <div class="border-b border-slate-100 pb-5 mb-5">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Inwestycja w szkolenie</span>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-4xl font-heading font-black text-brand-primary">{course.price}</span>
+            <span class="text-xs text-slate-500 font-medium">brutto / os.</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Cena obejmuje teorię, praktykę, materiały oraz przygotowanie do egzaminu.</p>
         </div>
-        <div class="rounded-3xl bg-slate-900 p-6 text-white">
-          <div class="text-sm text-white/70">Gotowy na zapis?</div>
-          <div class="mt-2 text-2xl font-semibold">{course.price}</div>
+
+        <div class="space-y-3 mb-6 text-xs text-slate-700">
+          <div class="flex items-center gap-2">
+            <span class="text-green-600 font-bold text-sm">✓</span>
+            <span>Dostęp do panelu e-learningowego od ręki</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-green-600 font-bold text-sm">✓</span>
+            <span>Elastyczne godziny zajęć praktycznych</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-green-600 font-bold text-sm">✓</span>
+            <span>Możliwość dofinansowania z BUR / KFS (do 100%)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-green-600 font-bold text-sm">✓</span>
+            <span>Zaświadczenie kwalifikacyjne ważne bezterminowo lub 5-10 lat</span>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <a
+            href={`/kontakt?kurs=${encodeURIComponent(course.title)}`}
+            class="block w-full text-center py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-lg shadow-orange-500/20"
+          >
+            Zapisz się na to szkolenie →
+          </a>
+          <a
+            href="tel:+48730101000"
+            class="block w-full text-center py-3 border border-slate-300 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-50 transition-colors"
+          >
+            📞 Zadzwoń: +48 730 101 000
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Course Information Tabs / Blocks -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-[1.3fr_0.7fr] gap-12">
+      <!-- Left Column: Syllabus & Details -->
+      <div class="space-y-12">
+        <!-- Syllabus Block -->
+        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Ramowy Plan Nauczania</span>
+          <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
+            Program Szkolenia i Zagadnienia
+          </h2>
+
+          <div class="space-y-3">
+            {syllabus.map((item, idx) => (
+              <div class="flex items-start gap-3 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                <span class="w-6 h-6 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">
+                  {idx + 1}
+                </span>
+                <span class="text-sm text-slate-800 font-medium pt-0.5">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Requirements Block -->
+        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Kto może wziąć udział?</span>
+          <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
+            Wymagania wstępne dla kursantów
+          </h2>
+
+          <div class="grid sm:grid-cols-2 gap-4 text-sm">
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
+              <span class="text-xl">🎂</span>
+              <div>
+                <strong class="text-slate-900 block font-bold">Wiek</strong>
+                <span class="text-xs text-slate-600">Ukończone 18 lat najpóźniej w dniu przystąpienia do egzaminu.</span>
+              </div>
+            </div>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
+              <span class="text-xl">🎓</span>
+              <div>
+                <strong class="text-slate-900 block font-bold">Wykształcenie</strong>
+                <span class="text-xs text-slate-600">Minimum podstawowe lub gimnazjalne.</span>
+              </div>
+            </div>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
+              <span class="text-xl">🩺</span>
+              <div>
+                <strong class="text-slate-900 block font-bold">Stan zdrowia</strong>
+                <span class="text-xs text-slate-600">Brak przeciwwskazań zdrowotnych do pracy na danym stanowisku.</span>
+              </div>
+            </div>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
+              <span class="text-xl">🚗</span>
+              <div>
+                <strong class="text-slate-900 block font-bold">Prawo jazdy</strong>
+                <span class="text-xs text-slate-600">Niewymagane (prawo jazdy kat. B jest konieczne tylko przy poruszaniu się po drogach publicznych).</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Block -->
+        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Często zadawane pytania</span>
+          <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
+            Pytania o kurs i egzamin
+          </h2>
+
+          <div class="space-y-4">
+            <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
+              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
+                Czy teoria naprawdę odbywa się w 100% online?
+                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                Tak! Otrzymujesz natychmiastowy dostęp do naszej platformy e-learningowej LMS. Oglądasz materiały wideo, rozwiązujesz interaktywne testy UDT/IMBiGS w dogodnym dla siebie tempie. Do ośrodka w Kutnie przyjeżdżasz wyłącznie na jazdy praktyczne i egzamin państwowy.
+              </p>
+            </details>
+
+            <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
+              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
+                Gdzie odbywa się egzamin państwowy?
+                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                Egzamin państwowy przed komisją UDT lub IMBiGS organizujemy bezpośrednio na naszym certyfikowanym placu manewrowym w Kutnie, dokładnie na tym samym sprzęcie, na którym odbywały się jazdy szkoleniowe.
+              </p>
+            </details>
+
+            <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
+              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
+                Czy pomagacie w formalnościach z UDT / IMBiGS?
+                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                Tak, MultiSerwis przejmuje wszystkie formalności: składamy wnioski do Urzędu Dozoru Technicznego, ustalamy termin sesji egzaminacyjnej oraz kompletujemy niezbędną dokumentację.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Training Facility & Contact -->
+      <div class="space-y-8">
+        <!-- Location Card -->
+        <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Baza Szkoleniowa MultiSerwis</h3>
+          <p class="text-xs text-slate-600 mb-4">
+            Zajęcia praktyczne oraz egzaminy państwowe prowadzimy w naszym ośrodku w Kutnie:
+          </p>
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 text-xs space-y-2 mb-4">
+            <div class="font-bold text-slate-900">📍 ul. Siemieradzkiego 18, 99-300 Kutno</div>
+            <div class="text-slate-600">Duży parking dla kursantów, plac manewrowy z rampami, hala z regałami wysokiego składowania.</div>
+          </div>
           <a
             href="/kontakt"
-            class="mt-4 inline-flex w-full items-center justify-center rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-accentHover"
+            class="block text-center py-2.5 bg-slate-900 text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-800 transition-colors"
           >
-            Zapisz się na szkolenie
+            Sprawdź dojazd i mapę →
           </a>
-          <p class="mt-3 text-xs text-white/60">Wymagane jest konto. Finalizacja następuje w platformie.</p>
+        </div>
+
+        <!-- Corporate B2B Banner -->
+        <div class="bg-linear-to-br from-brand-primary to-brand-dark text-white rounded-xl p-6 shadow-lg">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-brand-accent block mb-1">Dla Firm i Zakładów</span>
+          <h3 class="font-heading font-bold text-xl mb-3">Szkolenia Grupowe na terenie Twojej firmy</h3>
+          <p class="text-xs text-slate-200 mb-5 leading-relaxed">
+            Przyjeżdżamy z instruktorem i mobilnym sprzętem do Twojego zakładu pracy na terenie całego województwa łódzkiego i mazowieckiego. Egzamin UDT u Ciebie w firmie.
+          </p>
+          <a
+            href="/kontakt?typ=b2b"
+            class="inline-block px-5 py-2.5 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accent hover:text-white transition-all shadow-sm"
+          >
+            Zamów wycenę B2B →
+          </a>
         </div>
       </div>
     </div>

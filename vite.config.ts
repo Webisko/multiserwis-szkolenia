@@ -7,13 +7,13 @@ export default defineConfig(({ mode }) => {
     const isProduction = mode === 'production';
     
     return {
-      base: isProduction ? '/multiserwis-kutno/' : '/',
+      base: '/',
       server: {
         port: 3000,
         host: '127.0.0.1'
       },
       build: {
-        outDir: 'docs'
+        outDir: 'dist'
       },
       plugins: [react()],
       define: {

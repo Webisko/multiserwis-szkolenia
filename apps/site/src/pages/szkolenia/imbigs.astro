@@ -1,0 +1,87 @@
+---
+import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.astro";
+
+const imbigsTrainings: TrainingItem[] = [
+  {
+    id: "koparko-ladowarki",
+    courseSlug: "koparko-ladowarki",
+    title: "Koparko-ładowarki (Kl. III)",
+    price: "2 350 zł",
+    description: "Obsługa koparko-ładowarek wszystkich typów. Najpopularniejsze uprawnienia w branży budowlanej.",
+    features: ["Wszystkie typy maszyn", "Egzamin ŚBŁ-WIT", "Książka operatora", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "koparki",
+    courseSlug: "koparki-jednonaczyniowe",
+    title: "Koparki jednonaczyniowe (Kl. III)",
+    price: "2 350 zł",
+    description: "Uprawnienia na koparki jednonaczyniowe do 25 ton masy całkowitej. Podstawowe roboty ziemne i wykopy.",
+    features: ["Prace ziemne i wykopy", "Wymiana osprzętu roboczego", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "ladowarki",
+    title: "Ładowarki jednonaczyniowe (Kl. III)",
+    price: "2 350 zł",
+    description: "Obsługa ładowarek jednonaczyniowych do 20 ton masy całkowitej przy załadunku urobku i kruszyw.",
+    features: ["Załadunek i transport bliski", "Praca z łyżką i osprzętem", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "walce",
+    courseSlug: "walce-drogowe",
+    title: "Walce drogowe (Kl. II)",
+    price: "2 500 zł",
+    description: "Uprawnienia na wszystkie typy walców drogowych w budownictwie infrastrukturalnym.",
+    features: ["Zagęszczanie gruntu i asfaltu", "Techniki drogowe", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "spycharki",
+    courseSlug: "spycharki",
+    title: "Spycharki (Kl. III)",
+    price: "2 500 zł",
+    description: "Obsługa spycharek gąsienicowych i kołowych do 110 kW mocy silnika. Niwelacja terenu i skarpowanie.",
+    features: ["Prace lemieszem", "Niwelacja terenu", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "rowniarki",
+    title: "Równiarki drogowe",
+    price: "2 500 zł",
+    description: "Specjalistyczne maszyny do precyzyjnego profilowania podłoża, skarp i nasypów drogowych.",
+    features: ["Budownictwo drogowe", "Precyzyjne profilowanie", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "frezarki",
+    title: "Frezarki do nawierzchni dróg",
+    price: "2 500 zł",
+    description: "Frezowanie warstw asfaltowych i przygotowanie nawierzchni drogowej pod remont.",
+    features: ["Obsługa frezarki", "Bezpieczeństwo robót drogowych", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "rozkladarki",
+    title: "Rozkładarki mas bitumicznych",
+    price: "2 600 zł",
+    description: "Układanie mieszanek mineralno-asfaltowych przy budowie dróg, placów i autostrad.",
+    features: ["Układanie mas asfaltowych", "Kontrola jakości nawierzchni", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "pompy-beton",
+    title: "Pompy do betonu",
+    price: "2 600 zł",
+    description: "Obsługa wysięgnikowych i stacjonarnych pomp do mieszanki betonowej na placu budowy.",
+    features: ["Podawanie mieszanki betonowej", "Mycie i konserwacja", "Egzamin ŚBŁ-WIT", "Cena zwolniona z VAT"],
+  },
+];
+---
+
+<CategoryLayout
+  title="Maszyny Budowlane ŚBŁ-WIT / IMBiGS Kutno"
+  badge="Sieć Badawcza Łukasiewicz – WIT (dawniej IMBiGS)"
+  description="Uzyskaj państwowe uprawnienia operatora maszyn do robót ziemnych i drogowych w Kutnie wydawane przez Warszawski Instytut Technologiczny – Sieć Badawcza Łukasiewicz (ŚBŁ-WIT). Książka operatora."
+  trainings={imbigsTrainings}
+  heroImage="/koparki.webp"
+  servicePromo={{
+    title: "Kompleksowe roboty ziemne i relokacje maszyn",
+    description: "Dział techniczny MultiSerwis realizuje specjalistyczne prace ziemne, wykopy oraz relokacje ciężkich maszyn przemysłowych.",
+    linkText: "Sprawdź usługi techniczne MultiSerwis",
+    linkUrl: "/uslugi",
+  }}
+/>

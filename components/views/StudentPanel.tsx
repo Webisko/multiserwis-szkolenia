@@ -14,6 +14,7 @@ import { StudentExamsPage } from "../student/StudentExamsPage";
 import { StudentGoalsPage } from "../student/StudentGoalsPage";
 import SupportView from "./SupportView";
 import { Course, Student, ViewState } from "../../types";
+import { useAuthStore } from "../../services/authStore";
 
 interface StudentPanelProps {
   currentUser: any;
@@ -107,10 +108,13 @@ export const StudentPanel: React.FC<StudentPanelProps> = ({
       onSectionChange={setActiveSection}
       userName={studentUser?.name || "Kursant"}
       userRole="Kursant"
-      onLogoClick={() => setView("HOME")}
+      onLogoClick={() => {
+        window.location.href = "/";
+      }}
       onLogout={() => {
+        useAuthStore.getState().logout();
         setCurrentUser(null);
-        setView("HOME");
+        window.location.href = "/";
       }}
     >
       {activeSection === "dashboard" && studentUser && (

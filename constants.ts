@@ -91,41 +91,178 @@ export const SEO_DATA: Record<Language, SEOMetadata> = {
 export const COURSES: Course[] = [
   {
     id: 'c1',
-    title: 'Operator Wózków Widłowych (I WJO)',
+    slug: 'wozki-widlowe',
+    title: 'Operator Wózków Widłowych (UDT)',
     category: 'UDT',
     duration: '35h',
-    price: '650 PLN',
+    price: '1 000 PLN',
     image: getImagePath('operator-wozki-widlowe.webp'),
     isPopular: true,
-    description: "Ucz się teorii w domu, przyjedź tylko na egzamin praktyczny. Oszczędź czas i pieniądze dzięki naszej platformie e-learningowej. Gwarantujemy materiały wideo 4K, testy próbne identyczne z państwowymi oraz 100% wsparcia instruktora."
+    hasOnline: true,
+    hasStationary: true,
+    description: "Kompleksowy kurs na wózki jezdniowe podnośnikowe z napędem silnikowym. Teoria online w LMS, praktyka w Kutnie. Uprawnienia UDT ważne 10 lat. Egzamin państwowy do 30 dni roboczych."
   },
   {
     id: 'c2',
-    title: 'Ładowarki Teleskopowe - Pełne Uprawnienia',
+    slug: 'ladowarki-teleskopowe',
+    title: 'Ładowarki Teleskopowe i Wózki z Podnoszoną Kabiną',
     category: 'UDT',
     duration: '40h',
-    price: '850 PLN',
+    price: '1 500 PLN',
     image: getImagePath('ladowarki-teleskopowe.webp'),
     isPopular: true,
-    description: "Szkolenie na wielozadaniowe nośniki osprzętu. Najbardziej poszukiwane uprawnienia w budownictwie."
+    hasOnline: true,
+    hasStationary: true,
+    description: "Uprawnienia na wózki ze zmiennym wysięgiem oraz z osobą obsługującą podnoszoną wraz z ładunkiem. Najwyższa kategoria UDT. Uprawnienia ważne 5 lat."
   },
   {
     id: 'c3',
-    title: 'Uprawnienia Energetyczne G1 (Eksploatacja)',
-    category: 'SEP',
-    duration: '8h',
-    price: '400 PLN',
-    image: getImagePath('uprawnienia-energetyczne-g1.webp'),
-    description: "Kurs przygotowawczy do egzaminu kwalifikacyjnego na stanowisku Eksploatacji."
+    slug: 'koparko-ladowarki',
+    title: 'Koparko-Ładowarki (Kl. III)',
+    category: 'IMBiGS',
+    duration: '60h',
+    price: '2 350 PLN',
+    image: getImagePath('koparki.webp'),
+    isPopular: true,
+    hasOnline: true,
+    hasStationary: true,
+    description: "Obsługa maszyn do robót ziemnych wszystkich typów. Certyfikacja Sieć Badawcza Łukasiewicz – Warszawski Instytut Technologiczny (ŚBŁ-WIT). Książka operatora."
   },
   {
     id: 'c4',
-    title: 'Suwnice i Wciągniki',
+    slug: 'suwnice',
+    title: 'Suwnice, Wciągniki i Wciągarki',
     category: 'UDT',
     duration: '24h',
+    price: '1 130 PLN',
+    image: getImagePath('suwnice-wciagniki.webp'),
+    hasOnline: true,
+    hasStationary: true,
+    description: "Obsługa suwnic sterowanych z poziomu roboczego (radiowo/przewodowo) oraz z kabiny. Szkolenie ogólnego przeznaczenia (1130 zł, 10 lat) lub specjalnego (1380 zł, 5 lat)."
+  },
+  {
+    id: 'c5',
+    slug: 'podesty-ruchome',
+    title: 'Podesty Ruchome Przejezdne - Zwyżki (UDT)',
+    category: 'UDT',
+    duration: '24h',
+    price: '1 130 PLN',
+    image: getImagePath('genie-z-4525j.webp'),
+    hasOnline: true,
+    hasStationary: true,
+    description: "Szkolenie na podesty nożycowe, przegubowe i teleskopowe do prac na wysokościach. Egzamin UDT do 30 dni roboczych. Uprawnienia ważne 5 lat."
+  },
+  {
+    id: 'c6',
+    slug: 'zurawie',
+    title: 'Żurawie Przenośne HDS i Samojezdne',
+    category: 'UDT',
+    duration: '35h',
+    price: '1 130 PLN',
+    image: getImagePath('serwis-i-koserwacja.webp'),
+    hasOnline: true,
+    hasStationary: true,
+    description: "Uprawnienia UDT na żurawie przewoźne i przenośne HDS (1130 zł, 10 lat), stacjonarne (1080 zł) oraz samojezdne i wieżowe (2480 zł, 5 lat)."
+  },
+  {
+    id: 'c7',
+    slug: 'sep-g1',
+    title: 'Uprawnienia Elektryczne SEP G1 (E + D)',
+    category: 'SEP',
+    duration: '1 dzień',
+    price: '860 PLN',
+    image: getImagePath('uprawnienia-energetyczne-g1.webp'),
+    hasOnline: true,
+    hasStationary: true,
+    description: "Kurs i egzamin SEP G1 (eksploatacja 860 zł / dozór 860 zł, zwolnione z VAT). Uprawnienia do i powyżej 1 kV ważne 5 lat."
+  },
+  {
+    id: 'c8',
+    slug: 'spawanie',
+    title: 'Kurs Spawania (MIG/MAG, TIG, MMA)',
+    category: 'Spawalnictwo',
+    duration: '32h',
+    price: '2 400 PLN',
+    image: getImagePath('wynajem-maszyn.webp'),
+    hasStationary: true,
+    description: "Praktyczny kurs spawalniczy w 3 modułach (pachwiny, doczołowe blach, rury). Stal czarna (od 2400 zł), nierdzewna (2700 zł), aluminium (2900 zł). Norma PN-EN ISO 9606-1, Certyfikat SGS."
+  },
+  {
+    id: 'c9',
+    slug: 'koparki-jednonaczyniowe',
+    title: 'Koparki Jednonaczyniowe (Kl. III)',
+    category: 'IMBiGS',
+    duration: '60h',
+    price: '2 350 PLN',
+    image: getImagePath('koparki.webp'),
+    hasStationary: true,
+    description: "Uprawnienia operatora koparek do 25 ton masy całkowitej. Egzamin państwowy ŚBŁ-WIT (dawniej IMBiGS), wydanie książki operatora."
+  },
+  {
+    id: 'c10',
+    slug: 'walce-drogowe',
+    title: 'Walce Drogowe (Kl. II)',
+    category: 'IMBiGS',
+    duration: '50h',
+    price: '2 500 PLN',
+    image: getImagePath('koparki.webp'),
+    hasStationary: true,
+    description: "Obsługa wszystkich typów walców drogowych. Praktyka na placu manewrowym w Kutnie, egzamin państwowy ŚBŁ-WIT."
+  },
+  {
+    id: 'c11',
+    slug: 'spycharki',
+    title: 'Spycharki (Kl. III)',
+    category: 'IMBiGS',
+    duration: '50h',
+    price: '2 500 PLN',
+    image: getImagePath('koparki.webp'),
+    hasStationary: true,
+    description: "Szkolenie na spycharki do 110 kW mocy silnika. Niwelacja terenu i roboty ziemne. Egzamin państwowy ŚBŁ-WIT."
+  },
+  {
+    id: 'c12',
+    slug: 'sep-g2',
+    title: 'Uprawnienia Cieplne i Energetyczne SEP G2',
+    category: 'SEP',
+    duration: '1 dzień',
+    price: '860 PLN',
+    image: getImagePath('uprawnienia-energetyczne-g1.webp'),
+    hasStationary: true,
+    description: "Eksploatacja i dozór urządzeń wytwarzających i zużywających ciepło, kotłów, turbin i sieci ciepłowniczych. Uprawnienia na 5 lat."
+  },
+  {
+    id: 'c13',
+    slug: 'sep-g3',
+    title: 'Uprawnienia Gazowe SEP G3',
+    category: 'SEP',
+    duration: '1 dzień',
+    price: '860 PLN',
+    image: getImagePath('uprawnienia-energetyczne-g1.webp'),
+    hasStationary: true,
+    description: "Obsługa, konserwacja i montaż urządzeń, instalacji i sieci gazowych. Eksploatacja (860 zł) / Dozór (860 zł)."
+  },
+  {
+    id: 'c14',
+    slug: 'kontrola-zawiesi',
+    title: 'Specjalista ds. Kontroli Zawiesi',
+    category: 'Inne',
+    duration: '1 dzień',
     price: '600 PLN',
     image: getImagePath('suwnice-wciagniki.webp'),
-    description: "Obsługa suwnic sterowanych z poziomu roboczego oraz kabiny."
+    hasStationary: true,
+    description: "Szkolenie z zakresu okresowej i bieżącej kontroli stanu technicznego zawiesi linowych, pasowych i łańcuchowych."
+  },
+  {
+    id: 'c15',
+    slug: 'pilarki-mechaniczne',
+    title: 'Operator Pilarek Mechanicznych',
+    category: 'Inne',
+    duration: '1 dzień',
+    price: '550 PLN',
+    image: getImagePath('operator-wozki-widlowe.webp'),
+    hasStationary: true,
+    description: "Bezpieczna obsługa pilarek spalinowych i elektrycznych, techniki ścinki drzew oraz konserwacja łańcucha tnącego."
   }
 ];
 

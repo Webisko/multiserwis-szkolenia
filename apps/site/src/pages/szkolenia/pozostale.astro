@@ -1,0 +1,62 @@
+---
+import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.astro";
+
+const otherTrainings: TrainingItem[] = [
+  {
+    id: "kontrola-zawiesi",
+    title: "Specjalista ds. kontroli zawiesi",
+    price: "600 zł",
+    description: "Uprawnienia do kontroli stanu technicznego zawiesi linowych, łańcuchowych i pasowych oraz osprzętu dźwigowego.",
+    features: ["Kryteria zużycia i brakowania", "Dokumentacja i rejestr kontroli", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "pilarki",
+    title: "Operator pilarek mechanicznych",
+    price: "550 zł",
+    description: "Obsługa pilarek łańcuchowych spalinowych i elektrycznych przy pracach leśnych, ogrodniczych i budowlanych.",
+    features: ["BHP i techniki bezpiecznej ścinki", "Konserwacja i ostrzenie łańcucha", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "kosy",
+    title: "Operator kos spalinowych i wykaszarek",
+    price: "600 zł",
+    description: "Obsługa, konserwacja i bezpieczna praca wykaszarkami oraz kosami spalinowymi przy robotach komunalnych i drogowych.",
+    features: ["BHP przy pracach komunalnych", "Wymiana elementów tnących", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "podesty-zaladowcze",
+    title: "Podesty załadowcze (windy samochodowe)",
+    price: "500 zł",
+    description: "Obsługa burt samowyładowczych i wind montowanych na samochodach ciężarowych i dostawczych.",
+    features: ["Niezbędne dla kierowców i kurierów", "Obsługa sterownic i opuszczanie awaryjne", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "urzadzenia-hakowe",
+    title: "Urządzenia hakowe i bramowe",
+    price: "550 zł",
+    description: "Obsługa pojazdów z systemami załadunku hakowego i bramowego (przewóz kontenerów i odpadów komunalnych).",
+    features: ["Techniki załadunku i zabezpieczenia", "Eksploatacja hydrauliki", "Czas trwania: 1 dzień", "Cena zwolniona z VAT"],
+  },
+  {
+    id: "hakowy",
+    title: "Hakowy – Sygnalista",
+    price: "kontakt tel.",
+    description: "Szkolenie dla pracowników współpracujących z operatorami dźwigów, żurawi i suwnic przy podwieszaniu ładunków.",
+    features: ["Mocowanie i stabilizacja ładunków", "Sygnalizacja ręczna i radiowa", "Czas trwania: 1 dzień", "Zajęcia praktyczne"],
+  },
+];
+---
+
+<CategoryLayout
+  title="Szkolenia BHP, Hakowy i Specjalistyczne Kutno"
+  badge="Bezpieczeństwo Pracy & Kwalifikacje Specjalistyczne"
+  description="Kompleksowa oferta certyfikowanych szkoleń uzupełniających dla przedsiębiorstw i osób prywatnych. Szkolenia hakowych, BHP przez internet, pierwsza pomoc z AED oraz obsługa pił spalinowych."
+  trainings={otherTrainings}
+  heroImage="/hero.webp"
+  servicePromo={{
+    title: "Kompleksowa obsługa BHP i UDT dla przedsiębiorstw",
+    description: "Prowadzimy stałą opiekę nad flotą maszyn poddozorowych, szkolimy personel oraz reprezentujemy firmy przed inspektorami UDT i PIP.",
+    linkText: "Skontaktuj się w sprawie oferty B2B",
+    linkUrl: "/kontakt",
+  }}
+/>

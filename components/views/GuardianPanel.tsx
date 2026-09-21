@@ -71,7 +71,9 @@ export const GuardianPanel: React.FC<GuardianPanelProps> = ({
     <GuardianPanelLayout
       activeSection={activeSection}
       onSectionChange={setActiveSection}
-      onLogoClick={() => setView("HOME")}
+      onLogoClick={() => {
+        window.location.href = "/";
+      }}
       userName={currentUser?.name || "Opiekun firmy"}
       userRole={
         currentUser?.company

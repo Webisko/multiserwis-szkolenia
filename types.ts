@@ -35,8 +35,9 @@ export type UserRole = "ADMIN" | "MANAGER" | "STUDENT" | "COMPANY_GUARDIAN";
 
 export interface Course {
   id: string;
+  slug?: string;
   title: string;
-  category: "UDT" | "SEP" | "BHP" | "Inne";
+  category: "UDT" | "SEP" | "BHP" | "IMBiGS" | "Inne" | "Spawalnictwo";
   duration: string;
   price: string;
   promoPrice?: string;

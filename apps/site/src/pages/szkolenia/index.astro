@@ -1,23 +1,94 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CourseCard from "../../components/CourseCard.astro";
-import { COURSES } from "@multiserwis/shared";
-import { slugify } from "../../utils/slug";
+import { CourseFinderIsland } from "../../components/islands/CourseFinderIsland";
+
+const categories = [
+  { name: "Wszystkie", path: "/szkolenia", active: true },
+  { name: "🚜 Szkolenia UDT", path: "/szkolenia/udt" },
+  { name: "🏗️ Maszyny IMBiGS", path: "/szkolenia/imbigs" },
+  { name: "⚡ Uprawnienia SEP", path: "/szkolenia/sep" },
+  { name: "🔥 Spawalnictwo", path: "/szkolenia/spawalnictwo" },
+  { name: "🦺 BHP i Inne", path: "/szkolenia/pozostale" },
+];
 ---
 
-<BaseLayout title="Szkolenia UDT i SEP | MultiSerwis Kutno">
-  <section class="mx-auto max-w-6xl space-y-8 px-6 py-14">
-    <div class="rounded-3xl bg-brand-primary px-6 py-10 text-white shadow-xl shadow-slate-200">
-      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">Katalog</p>
-      <h1 class="mt-2 text-3xl font-semibold md:text-4xl">Szkolenia, które dają realne uprawnienia</h1>
-      <p class="mt-4 max-w-2xl text-base text-white/80">
-        Wybierz kurs, który najlepiej pasuje do Twoich potrzeb. Teoria online, praktyka i egzamin państwowy.
-      </p>
+<BaseLayout
+  title="Katalog Szkoleń Zawodowych UDT, IMBiGS, SEP Kutno | MultiSerwis"
+  description="Pełna oferta certyfikowanych kursów zawodowych w Kutnie. Wyszukiwarka szkoleń na żywo, wózki widłowe, zwyżki, ładowarki, koparki, uprawnienia elektryczne SEP i spawanie."
+>
+  <!-- Hero Section -->
+  <section class="bg-brand-dark text-white py-14 md:py-20 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="max-w-3xl space-y-4">
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
+          Certyfikacja Państwowa Kutno
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight">
+          Katalog Szkoleń i Uprawnień Zawodowych
+        </h1>
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+          Wybierz specjalizację i zdobądź państwowe uprawnienia honorowane w całej Unii Europejskiej. Wyszukaj kurs i zarezerwuj miejsce online w 60 sekund.
+        </p>
+      </div>
     </div>
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {COURSES.map((course) => (
-        <CourseCard course={course} href={`/szkolenia/${slugify(course.title)}`} />
+  </section>
+
+  <!-- Category Nav Bar -->
+  <div class="bg-white border-b border-slate-200 sticky top-[73px] z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-2 overflow-x-auto py-3 no-scrollbar text-xs font-bold uppercase tracking-wider">
+      {categories.map((cat) => (
+        <a
+          href={cat.path}
+          class={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${cat.active ? "bg-brand-primary text-white shadow-sm" : "text-slate-600 hover:text-brand-primary hover:bg-slate-100"}`}
+        >
+          {cat.name}
+        </a>
       ))}
+    </div>
+  </div>
+
+  <!-- Interactive React Island Section -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <CourseFinderIsland client:load />
+
+      <!-- Categories Links Cards -->
+      <div class="mt-20 pt-12 border-t border-slate-200">
+        <h3 class="text-xl font-heading font-bold text-slate-900 mb-6">
+          Dedykowane strony kategorii uprawnień
+        </h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a
+            href="/szkolenia/udt"
+            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
+          >
+            <span class="text-2xl mb-2 block">🚜</span>
+            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Szkolenia UDT</h4>
+            <p class="text-xs text-slate-500 mt-1">Wózki widłowe, podesty ruchome (zwyżki), ładowarki teleskopowe, suwnice i żurawie HDS.</p>
+            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty UDT →</span>
+          </a>
+
+          <a
+            href="/szkolenia/imbigs"
+            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
+          >
+            <span class="text-2xl mb-2 block">🏗️</span>
+            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Maszyny Budowlane IMBiGS</h4>
+            <p class="text-xs text-slate-500 mt-1">Koparko-ładowarki, koparki jednonaczyniowe, ładowarki, walce drogowe i spycharki.</p>
+            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty IMBiGS →</span>
+          </a>
+
+          <a
+            href="/szkolenia/sep"
+            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
+          >
+            <span class="text-2xl mb-2 block">⚡</span>
+            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Uprawnienia Elektryczne SEP</h4>
+            <p class="text-xs text-slate-500 mt-1">Grupa G1 (elektryczne), G2 (cieplne), G3 (gazowe) na stanowiskach Eksploatacji 'E' i Dozoru 'D'.</p>
+            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty SEP →</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

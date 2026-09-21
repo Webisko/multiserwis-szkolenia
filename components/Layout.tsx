@@ -87,7 +87,7 @@ export const Layout: React.FC<LayoutProps> = ({
   }, []);
 
   const navItemClass = (view: ViewState) => `
-    cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300
+    cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap
     ${currentView === view ? "text-brand-accent" : "text-white hover:text-brand-accent"}
   `;
 
@@ -98,11 +98,11 @@ export const Layout: React.FC<LayoutProps> = ({
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex space-x-6">
             <span className="flex items-center gap-2">
-              <Phone size={14} className="text-brand-accent" /> +48 730 101 000
+              <Phone size={14} className="text-brand-accent" /> +48 730 101 000 / 570 403 806
             </span>
             <span className="hidden items-center gap-2 md:flex">
               <Mail size={14} className="text-brand-accent" />{" "}
-              biuro@multiserwis.pl
+              multiserwis.kutno@gmail.com
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -159,7 +159,7 @@ export const Layout: React.FC<LayoutProps> = ({
           <BrandMark onClick={() => setView("HOME")} />
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-6">
             {/* Szkolenia Dropdown */}
             <div
               className="relative group"
@@ -256,17 +256,10 @@ export const Layout: React.FC<LayoutProps> = ({
               href="https://multiserwis-kutno.pl"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 text-white hover:text-brand-accent flex items-center gap-1"
+              className="cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 text-white hover:text-brand-accent flex items-center gap-1 whitespace-nowrap"
             >
               Usługi <Truck size={14} />
             </a>
-
-            <span
-              onClick={() => setView("ABOUT")}
-              className={navItemClass("ABOUT")}
-            >
-              O Firmie
-            </span>
 
             <span
               onClick={() => setView("ABOUT")}
@@ -285,7 +278,7 @@ export const Layout: React.FC<LayoutProps> = ({
             {/* Koszyk */}
             <button
               onClick={() => setView("CART")}
-              className="relative p-2 text-white hover:text-brand-accent transition-colors flex items-center mr-2 cursor-pointer"
+              className="relative p-2 text-white hover:text-brand-accent transition-colors flex items-center mr-1 cursor-pointer flex-shrink-0"
               title="Koszyk zakupowy"
             >
               <ShoppingBag size={20} />
@@ -299,17 +292,17 @@ export const Layout: React.FC<LayoutProps> = ({
             {!isLoggedIn ? (
               <button
                 onClick={onShowLoginModal}
-                className="px-5 py-2 rounded-sm font-bold text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg"
+                className="px-4 lg:px-5 py-2 rounded-sm font-bold text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg whitespace-nowrap flex-shrink-0"
               >
                 <User size={16} className="inline mr-2" />
                 Zaloguj
               </button>
             ) : (
-              <div className="flex items-center gap-4">
-                <span className="text-white text-sm font-bold">{userName}</span>
+              <div className="flex items-center gap-4 flex-shrink-0">
+                <span className="text-white text-sm font-bold whitespace-nowrap">{userName}</span>
                 <button
                   onClick={onLogout}
-                  className="px-4 py-2 rounded-sm font-bold text-xs uppercase tracking-wide bg-brand-accent text-white hover:bg-brand-accentHover transition-colors"
+                  className="px-4 py-2 rounded-sm font-bold text-xs uppercase tracking-wide bg-brand-accent text-white hover:bg-brand-accentHover transition-colors whitespace-nowrap"
                 >
                   Wyloguj
                 </button>
@@ -319,12 +312,12 @@ export const Layout: React.FC<LayoutProps> = ({
             {/* Nowe Panele Dropdown */}
             {onShowNewPanel && (
               <div
-                className="relative group"
+                className="relative group flex-shrink-0"
                 onMouseEnter={() => setNewPanelsMenuOpen(true)}
                 onMouseLeave={() => setNewPanelsMenuOpen(false)}
               >
                 <span
-                  className={`cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 ${
+                  className={`cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
                     currentView === "NEW_ADMIN_PANEL" ||
                     currentView === "NEW_MANAGER_PANEL" ||
                     currentView === "NEW_GUARDIAN_PANEL" ||
@@ -689,8 +682,9 @@ export const Layout: React.FC<LayoutProps> = ({
                   <Phone size={14} className="text-brand-accent" />
                 </div>
                 <div>
-                  +48 730 101 000
-                  <br />
+                  <div className="font-semibold text-white">+48 730 101 000</div>
+                  <div className="text-xs text-slate-400">+48 570 403 806 (Szkolenia)</div>
+                  <div className="text-xs text-slate-400">+48 730 202 000 (Usługi)</div>
                   <span className="text-xs text-slate-500">
                     Pn-Pt 8:00 - 16:00
                   </span>
@@ -698,14 +692,13 @@ export const Layout: React.FC<LayoutProps> = ({
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={14} className="text-brand-accent" />{" "}
-                biuro@multiserwis.pl
+                multiserwis.kutno@gmail.com
               </li>
               <li className="flex items-start gap-3">
                 <div className="mt-1">📍</div>
                 <div>
-                  ul. Siemieradzkiego 18
-                  <br />
-                  99-300 Kutno
+                  <strong>Biuro:</strong> ul. Siemieradzkiego 18, Kutno<br />
+                  <strong>Baza & Plac:</strong> ul. Przemysłowa 2, Kutno
                 </div>
               </li>
             </ul>

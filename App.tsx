@@ -21,34 +21,56 @@ import {
 import { PanelFooter } from "./components/panel/PanelFooter";
 import { BrandMark } from "./components/BrandMark";
 
-import { AdminView } from "./components/views/AdminView";
-import { ManagerPanel } from "./components/views/ManagerPanel";
-import { GuardianPanel } from "./components/views/GuardianPanel";
-import { StudentPanel } from "./components/views/StudentPanel";
-import AnalyticsView from "./components/views/AnalyticsView";
-import SupportView from "./components/views/SupportView";
 import HomeView from "./components/views/HomeView";
 import CatalogView from "./components/views/CatalogView";
 import CourseDetailView from "./components/views/CourseDetailView";
-import RentalsView from "./components/views/RentalsView";
-import MachineDetailView from "./components/views/MachineDetailView";
-import ServicesView from "./components/views/ServicesView";
 import ContactView from "./components/views/ContactView";
-import StudentDetailView from "./components/views/StudentDetailView";
-import LessonPlayerView from "./components/views/LessonPlayerView";
-import LMSView from "./components/views/LMSView";
 
-// Landing Sections
+// Lazy-loaded Panels and Secondary Views (Code Splitting)
+const AdminView = React.lazy(() =>
+  import("./components/views/AdminView").then((m) => ({ default: m.AdminView }))
+);
+const ManagerPanel = React.lazy(() =>
+  import("./components/views/ManagerPanel").then((m) => ({
+    default: m.ManagerPanel,
+  }))
+);
+const GuardianPanel = React.lazy(() =>
+  import("./components/views/GuardianPanel").then((m) => ({
+    default: m.GuardianPanel,
+  }))
+);
+const StudentPanel = React.lazy(() =>
+  import("./components/views/StudentPanel").then((m) => ({
+    default: m.StudentPanel,
+  }))
+);
+const AnalyticsView = React.lazy(() => import("./components/views/AnalyticsView"));
+const SupportView = React.lazy(() => import("./components/views/SupportView"));
+const StudentDetailView = React.lazy(
+  () => import("./components/views/StudentDetailView")
+);
+const LessonPlayerView = React.lazy(
+  () => import("./components/views/LessonPlayerView")
+);
+const LMSView = React.lazy(() => import("./components/views/LMSView"));
+const RentalsView = React.lazy(() => import("./components/views/RentalsView"));
+const MachineDetailView = React.lazy(
+  () => import("./components/views/MachineDetailView")
+);
+const ServicesView = React.lazy(() => import("./components/views/ServicesView"));
+const ScheduleView = React.lazy(() => import("./components/views/ScheduleView"));
+const AboutView = React.lazy(() => import("./components/views/AboutView"));
+const WizardView = React.lazy(() => import("./components/views/WizardView"));
+const PrivacyView = React.lazy(() => import("./components/views/PrivacyView"));
+const TermsView = React.lazy(() => import("./components/views/TermsView"));
+
+// Landing Sections (Eager for instant marketing loads)
 import { UDTSection } from "./components/landing/UDTSection";
 import { IMBIGSSection } from "./components/landing/IMBIGSSection";
 import { SEPSection } from "./components/landing/SEPSection";
 import { WeldingSection } from "./components/landing/WeldingSection";
 import { OtherSection } from "./components/landing/OtherSection";
-import ScheduleView from "./components/views/ScheduleView";
-import AboutView from "./components/views/AboutView";
-import WizardView from "./components/views/WizardView";
-import PrivacyView from "./components/views/PrivacyView";
-import TermsView from "./components/views/TermsView";
 
 import {
   COURSES,
@@ -121,91 +143,208 @@ const App = () => {
 
   const currentView = React.useMemo<ViewState>(() => {
     const path = location.pathname;
-    if (path === "/" || path === "" || path === "/multiserwis-kutno/") return "HOME";
-    if (path === "/catalog") return "CATALOG";
-    if (path === "/courses/detail") return "COURSE_DETAIL";
-    if (path === "/rentals") return "RENTALS";
-    if (path === "/machines/detail") return "MACHINE_DETAIL";
-    if (path === "/services") return "SERVICES";
-    if (path === "/contact") return "CONTACT";
-    if (path === "/panel/admin") return "NEW_ADMIN_PANEL";
-    if (path === "/panel/manager") return "NEW_MANAGER_PANEL";
-    if (path === "/panel/guardian") return "NEW_GUARDIAN_PANEL";
-    if (path === "/panel/student") return "NEW_STUDENT_PANEL";
-    if (path === "/panel/analytics") return "NEW_ANALYTICS_PANEL";
-    if (path === "/panel/support") return "NEW_SUPPORT_PANEL";
-    if (path === "/schedule") return "SCHEDULE";
-    if (path === "/about") return "ABOUT";
-    if (path === "/signup") return "SIGNUP";
-    if (path === "/privacy") return "PRIVACY";
-    if (path === "/terms") return "TERMS";
-    if (path === "/landing/udt") return "LANDING_UDT";
-    if (path === "/landing/imbigs") return "LANDING_IMBIGS";
-    if (path === "/landing/sep") return "LANDING_SEP";
-    if (path === "/landing/welding") return "LANDING_WELDING";
-    if (path === "/landing/other") return "LANDING_OTHER";
-    if (path === "/student/detail") return "STUDENT_DETAIL";
-    if (path === "/courses/lessons") return "LESSON_PLAYER";
-    if (path === "/cart") return "CART";
+    if (path === "/" || path === "") return "HOME";
+    if (path === "/katalog" || path === "/catalog") return "CATALOG";
+    if (
+      path === "/szkolenia/szczegoly" ||
+      path.startsWith("/szkolenia/szczegoly") ||
+      path === "/courses/detail" ||
+      path.startsWith("/courses/detail")
+    ) return "COURSE_DETAIL";
+    if (path === "/wynajem" || path === "/rentals") return "RENTALS";
+    if (
+      path === "/maszyny/szczegoly" ||
+      path.startsWith("/maszyny/szczegoly") ||
+      path === "/machines/detail" ||
+      path.startsWith("/machines/detail")
+    ) return "MACHINE_DETAIL";
+    if (path === "/uslugi" || path === "/services") return "SERVICES";
+    if (path === "/kontakt" || path === "/contact") return "CONTACT";
+    if (path === "/harmonogram" || path === "/schedule") return "SCHEDULE";
+    if (path === "/o-nas" || path === "/about") return "ABOUT";
+    if (path === "/zapisz-sie" || path === "/signup") return "SIGNUP";
+    if (path === "/polityka-prywatnosci" || path === "/privacy") return "PRIVACY";
+    if (path === "/regulamin" || path === "/terms") return "TERMS";
+    if (path === "/szkolenia/udt" || path === "/landing/udt") return "LANDING_UDT";
+    if (path === "/szkolenia/imbigs" || path === "/landing/imbigs") return "LANDING_IMBIGS";
+    if (path === "/szkolenia/sep" || path === "/landing/sep") return "LANDING_SEP";
+    if (path === "/szkolenia/spawalnictwo" || path === "/landing/welding") return "LANDING_WELDING";
+    if (path === "/szkolenia/pozostale" || path === "/landing/other") return "LANDING_OTHER";
+    if (path === "/panel/administrator" || path === "/panel/admin") return "NEW_ADMIN_PANEL";
+    if (path === "/panel/kierownik" || path === "/panel/manager" || path === "/panel/menedzer") return "NEW_MANAGER_PANEL";
+    if (path === "/panel/opiekun-firmy" || path === "/panel/guardian" || path === "/panel/opiekun") return "NEW_GUARDIAN_PANEL";
+    if (path === "/panel/kursant" || path === "/panel/student") return "NEW_STUDENT_PANEL";
+    if (path === "/panel/analityka" || path === "/panel/analytics") return "NEW_ANALYTICS_PANEL";
+    if (path === "/panel/wsparcie" || path === "/panel/support") return "NEW_SUPPORT_PANEL";
+    if (path === "/kursant/profil" || path === "/student/detail") return "STUDENT_DETAIL";
+    if (path === "/kursant/lekcje" || path === "/courses/lessons") return "LESSON_PLAYER";
+    if (path === "/koszyk" || path === "/cart") return "CART";
     return "HOME";
   }, [location.pathname]);
 
-  const setView = (view: ViewState) => {
-    const viewPathMap: Record<ViewState, string> = {
-      HOME: "/",
-      CATALOG: "/catalog",
-      COURSE_DETAIL: "/courses/detail",
-      LMS: "/panel/student",
-      LESSON_PLAYER: "/courses/lessons",
-      RENTALS: "/rentals",
-      MACHINE_DETAIL: "/machines/detail",
-      SERVICES: "/services",
-      CONTACT: "/contact",
-      ADMIN: "/panel/admin",
-      STUDENT_DETAIL: "/student/detail",
-      STUDENTS_LIST: "/panel/admin",
-      ADMIN_PANEL: "/panel/admin",
-      COMPANY_GUARDIAN_PANEL: "/panel/guardian",
-      NEW_ADMIN_PANEL: "/panel/admin",
-      NEW_MANAGER_PANEL: "/panel/manager",
-      NEW_GUARDIAN_PANEL: "/panel/guardian",
-      NEW_STUDENT_PANEL: "/panel/student",
-      NEW_ANALYTICS_PANEL: "/panel/analytics",
-      NEW_SUPPORT_PANEL: "/panel/support",
-      SCHEDULE: "/schedule",
-      ABOUT: "/about",
-      SIGNUP: "/signup",
-      PRIVACY: "/privacy",
-      TERMS: "/terms",
-      LANDING_UDT: "/landing/udt",
-      LANDING_IMBIGS: "/landing/imbigs",
-      LANDING_SEP: "/landing/sep",
-      LANDING_WELDING: "/landing/welding",
-      LANDING_OTHER: "/landing/other",
-      CART: "/cart",
+  // W architekturze hybrydowej strona główna i marketing są serwowane przez Astro
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "") {
+      window.location.replace("/");
+    }
+  }, [location.pathname]);
+
+  // Update document.title dynamically per route/view
+  useEffect(() => {
+    const titles: Partial<Record<ViewState, string>> = {
+      HOME: "MultiSerwis - Szkolenia UDT, IMBiGS, SEP i Wynajem Maszyn Kutno",
+      CATALOG: "Katalog Szkoleń Zawodowych - MultiSerwis",
+      COURSE_DETAIL: "Szczegóły Szkolenia - MultiSerwis",
+      LANDING_UDT: "Szkolenia UDT Kutno - Wózki widłowe, Podesty, Suwnice - MultiSerwis",
+      LANDING_IMBIGS: "Maszyny Budowlane IMBiGS - Koparki, Ładowarki - MultiSerwis",
+      LANDING_SEP: "Uprawnienia Energetyczne SEP G1, G2, G3 - MultiSerwis",
+      LANDING_WELDING: "Kursy Spawania MIG/MAG, TIG, MMA - MultiSerwis",
+      LANDING_OTHER: "Szkolenia Specjalistyczne i BHP - MultiSerwis",
+      RENTALS: "Wynajem Maszyn Ciężkich i Podnośników - MultiSerwis",
+      MACHINE_DETAIL: "Wynajem Maszyny - Szczegóły - MultiSerwis",
+      SERVICES: "Usługi Serwisowe i Utrzymanie Ruchu - MultiSerwis",
+      SCHEDULE: "Harmonogram Szkoleń i Egzaminów - MultiSerwis",
+      ABOUT: "O Nas - Ośrodek Szkoleniowy MultiSerwis",
+      CONTACT: "Kontakt i Dojazd - MultiSerwis Kutno",
+      CART: "Twój Koszyk - MultiSerwis Szkolenia",
+      SIGNUP: "Zapisz się na Szkolenie - MultiSerwis",
+      PRIVACY: "Polityka Prywatności - MultiSerwis",
+      TERMS: "Regulamin Świadczenia Usług - MultiSerwis",
+      NEW_STUDENT_PANEL: "Panel Kursanta LMS - MultiSerwis",
+      NEW_GUARDIAN_PANEL: "Panel Opiekuna B2B - MultiSerwis",
+      NEW_MANAGER_PANEL: "Panel Managera Szkoleń - MultiSerwis",
+      NEW_ADMIN_PANEL: "Panel Administratora - MultiSerwis",
+      NEW_ANALYTICS_PANEL: "Analityka i Raporty - MultiSerwis",
+      NEW_SUPPORT_PANEL: "Wsparcie i Pomoc - MultiSerwis",
+      LESSON_PLAYER: "Odtwarzacz Lekcji - MultiSerwis LMS",
+      STUDENT_DETAIL: "Profil Kursanta - MultiSerwis",
     };
-    const path = viewPathMap[view];
-    if (path) {
-      navigate(path);
+    document.title = titles[currentView] || "MultiSerwis - Szkolenia i Wynajem";
+  }, [currentView]);
+
+  const [language, setLanguage] = useState<Language>("PL");
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [selectedMachineId, setSelectedMachineId] = useState<string | null>(null);
+
+  // Sync URL search params with state so refresh / direct links always resolve correctly
+  useEffect(() => {
+    if (
+      location.pathname === "/szkolenia/szczegoly" ||
+      location.pathname.startsWith("/szkolenia/szczegoly") ||
+      location.pathname === "/courses/detail" ||
+      location.pathname.startsWith("/courses/detail")
+    ) {
+      const searchParams = new URLSearchParams(location.search);
+      const urlId = searchParams.get("id");
+      if (urlId && urlId !== selectedCourseId) {
+        setSelectedCourseId(urlId);
+      } else if (!urlId && !selectedCourseId) {
+        setSelectedCourseId("c1");
+      }
+    } else if (
+      location.pathname === "/maszyny/szczegoly" ||
+      location.pathname.startsWith("/maszyny/szczegoly") ||
+      location.pathname === "/machines/detail" ||
+      location.pathname.startsWith("/machines/detail")
+    ) {
+      const searchParams = new URLSearchParams(location.search);
+      const urlId = searchParams.get("id");
+      if (urlId && urlId !== selectedMachineId) {
+        setSelectedMachineId(urlId);
+      } else if (!urlId && !selectedMachineId) {
+        setSelectedMachineId("m1");
+      }
+    }
+  }, [location.pathname, location.search]);
+
+  const handleSelectCourse = (id: string | null) => {
+    setSelectedCourseId(id);
+    if (id) {
+      navigate(`/szkolenia/szczegoly?id=${id}`);
+    } else {
+      navigate("/szkolenia/szczegoly?id=c1");
     }
   };
 
-  const [language, setLanguage] = useState<Language>("PL");
+  const handleSelectMachine = (id: string | null) => {
+    setSelectedMachineId(id);
+    if (id) {
+      navigate(`/maszyny/szczegoly?id=${id}`);
+    } else {
+      navigate("/maszyny/szczegoly?id=m1");
+    }
+  };
+
+  const setView = (view: ViewState) => {
+    const marketingViews: ViewState[] = [
+      "HOME",
+      "CATALOG",
+      "RENTALS",
+      "SERVICES",
+      "CONTACT",
+      "SCHEDULE",
+      "ABOUT",
+      "PRIVACY",
+      "TERMS",
+      "LANDING_UDT",
+      "LANDING_IMBIGS",
+      "LANDING_SEP",
+      "LANDING_WELDING",
+      "LANDING_OTHER",
+    ];
+
+    const viewPathMap: Record<ViewState, string> = {
+      HOME: "/",
+      CATALOG: "/szkolenia",
+      COURSE_DETAIL: selectedCourseId ? `/szkolenia/szczegoly?id=${selectedCourseId}` : "/szkolenia/szczegoly?id=c1",
+      LMS: "/panel/kursant",
+      LESSON_PLAYER: "/kursant/lekcje",
+      RENTALS: "/wynajem",
+      MACHINE_DETAIL: selectedMachineId ? `/maszyny/szczegoly?id=${selectedMachineId}` : "/maszyny/szczegoly?id=m1",
+      SERVICES: "/uslugi",
+      CONTACT: "/kontakt",
+      ADMIN: "/panel/administrator",
+      STUDENT_DETAIL: "/kursant/profil",
+      STUDENTS_LIST: "/panel/administrator",
+      ADMIN_PANEL: "/panel/administrator",
+      COMPANY_GUARDIAN_PANEL: "/panel/opiekun",
+      NEW_ADMIN_PANEL: "/panel/administrator",
+      NEW_MANAGER_PANEL: "/panel/menedzer",
+      NEW_GUARDIAN_PANEL: "/panel/opiekun",
+      NEW_STUDENT_PANEL: "/panel/kursant",
+      NEW_ANALYTICS_PANEL: "/panel/analityka",
+      NEW_SUPPORT_PANEL: "/panel/wsparcie",
+      SCHEDULE: "/harmonogram",
+      ABOUT: "/o-nas",
+      SIGNUP: "/zapisz-sie",
+      PRIVACY: "/polityka-prywatnosci",
+      TERMS: "/regulamin",
+      LANDING_UDT: "/szkolenia/udt",
+      LANDING_IMBIGS: "/szkolenia/imbigs",
+      LANDING_SEP: "/szkolenia/sep",
+      LANDING_WELDING: "/szkolenia/spawalnictwo",
+      LANDING_OTHER: "/szkolenia/pozostale",
+      CART: "/koszyk",
+    };
+    const path = viewPathMap[view];
+    if (path) {
+      if (marketingViews.includes(view)) {
+        window.location.href = path;
+      } else {
+        navigate(path);
+      }
+    }
+  };
 
   // Sync state language with i18next
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [selectedMachineId, setSelectedMachineId] = useState<string | null>(
-    null,
-  );
+
   const [catalogCategory, setCatalogCategory] = useState<string>("Wszystkie");
   const [currentLessonId, setCurrentLessonId] = useState<string>("l5");
   const [isFromAdmin, setIsFromAdmin] = useState(false);
-  const [adminEditingCourseId, setAdminEditingCourseId] = useState<
-    string | null
-  >(null);
+  const [adminEditingCourseId, setAdminEditingCourseId] = useState<string | null>(null);
 
   const [viewingStudentId, setViewingStudentId] = useState<string | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
@@ -1024,7 +1163,7 @@ const App = () => {
     setPanelOrders([]);
     setPanelUsers([]);
     setPendingOrder(null);
-    setView("HOME");
+    window.location.href = "/";
   };
 
   const handleShowNewPanel = (panel: NewPanelKey) => {
@@ -1307,8 +1446,16 @@ const App = () => {
         </div>
       )}
 
-      {currentView === "NEW_ADMIN_PANEL" ? (
-        <AdminView
+      <React.Suspense
+        fallback={
+          <div className="min-h-[60vh] flex flex-col items-center justify-center py-20 text-slate-500">
+            <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-sm font-medium">Ładowanie modułu...</p>
+          </div>
+        }
+      >
+        {currentView === "NEW_ADMIN_PANEL" ? (
+          <AdminView
           currentUser={currentUser}
           handleLogout={handleLogout}
           setView={setView}
@@ -1418,7 +1565,7 @@ const App = () => {
           onShowNewPanel={handleShowNewPanel}
           setCatalogCategory={setCatalogCategory}
         >
-          <UDTSection setView={setView} />
+          <UDTSection setView={setView} setSelectedCourseId={handleSelectCourse} />
         </Layout>
       ) : currentView === "LANDING_IMBIGS" ? (
         <Layout
@@ -1433,7 +1580,7 @@ const App = () => {
           onShowNewPanel={handleShowNewPanel}
           setCatalogCategory={setCatalogCategory}
         >
-          <IMBIGSSection setView={setView} />
+          <IMBIGSSection setView={setView} setSelectedCourseId={handleSelectCourse} />
         </Layout>
       ) : currentView === "LANDING_SEP" ? (
         <Layout
@@ -1448,7 +1595,7 @@ const App = () => {
           onShowNewPanel={handleShowNewPanel}
           setCatalogCategory={setCatalogCategory}
         >
-          <SEPSection setView={setView} />
+          <SEPSection setView={setView} setSelectedCourseId={handleSelectCourse} />
         </Layout>
       ) : currentView === "LANDING_WELDING" ? (
         <Layout
@@ -1463,7 +1610,7 @@ const App = () => {
           onShowNewPanel={handleShowNewPanel}
           setCatalogCategory={setCatalogCategory}
         >
-          <WeldingSection setView={setView} />
+          <WeldingSection setView={setView} setSelectedCourseId={handleSelectCourse} />
         </Layout>
       ) : currentView === "LANDING_OTHER" ? (
         <Layout
@@ -1478,7 +1625,7 @@ const App = () => {
           onShowNewPanel={handleShowNewPanel}
           setCatalogCategory={setCatalogCategory}
         >
-          <OtherSection setView={setView} />
+          <OtherSection setView={setView} setSelectedCourseId={handleSelectCourse} />
         </Layout>
       ) : currentView === "SCHEDULE" ? (
         <Layout
@@ -1639,7 +1786,7 @@ const App = () => {
               <HomeView
                 language={language}
                 setView={setView}
-                setSelectedCourseId={setSelectedCourseId}
+                setSelectedCourseId={handleSelectCourse}
                 importBaseUrl={importBaseUrl}
               />
             )}
@@ -1648,7 +1795,7 @@ const App = () => {
                 catalogCategory={catalogCategory}
                 setCatalogCategory={setCatalogCategory}
                 setCurrentView={setView}
-                setSelectedCourseId={setSelectedCourseId}
+                setSelectedCourseId={handleSelectCourse}
                 setView={setView}
                 courses={panelCourses}
               />
@@ -1657,7 +1804,7 @@ const App = () => {
               <CourseDetailView
                 selectedCourseId={selectedCourseId}
                 setView={setView}
-                setSelectedCourseId={setSelectedCourseId}
+                setSelectedCourseId={handleSelectCourse}
                 language={language}
                 courses={panelCourses}
                 onBuyCourse={handleBuyCourse}
@@ -1666,7 +1813,7 @@ const App = () => {
             {currentView === "RENTALS" && (
               <RentalsView
                 setView={setView}
-                setSelectedMachineId={setSelectedMachineId}
+                setSelectedMachineId={handleSelectMachine}
               />
             )}
             {currentView === "MACHINE_DETAIL" && (
@@ -1701,6 +1848,7 @@ const App = () => {
           </>
         </Layout>
       )}
+      </React.Suspense>
       <Toaster position="top-right" richColors />
     </>
   );

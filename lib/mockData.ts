@@ -110,113 +110,253 @@ export const JOB_PROGRAMS: {
     },
   ],
   c3: [
-    // ... [Content abbreviated for brevity but should be full]
-    // Reusing the same content as in App.tsx for c3
     {
-      title: "Bezpieczeństwo pracy",
+      title: "BHP i zasady bezpieczeństwa na budowie",
       details: [
-        "Podstawy BHP w energetyce",
-        "Bezpieczna praca przy urządzeniach elektrycznych",
-        "Pierwsza pomoc przy porażeniu prądem",
-        "Zasady pracy w strefach zagrożonych",
-        "Środki ochrony indywidualnej w energetyce",
+        "Przepisy BHP przy wykonywaniu robót ziemnych i wykopów",
+        "Praca w pobliżu instalacji podziemnych (gaz, prąd, woda, telekomunikacja)",
+        "Stateczność maszyny na skarpach i w grząskim gruncie",
+        "Procedury awaryjne i bezpieczna ewakuacja",
+        "Środki ochrony indywidualnej operatora maszyn budowlanych",
       ],
     },
     {
-      title: "Obsługa urządzeń",
+      title: "Budowa i obsługa koparko-ładowarki",
       details: [
-        "Obsługa tablic rozdzielczych i aparatury sterowniczej",
-        "Identyfikacja i lokalizacja usterek",
-        "Podstawowe pomiary elektryczne",
-        "Zasady konserwacji urządzeń elektrycznych",
-        "Protokoły eksploatacji i dokumentacja",
+        "Konstrukcja podwozia, układu jezdnego i napędu 4x4",
+        "Układ hydrauliczny: pompy, rozdzielacze, siłowniki osprzętu",
+        "Obsługa osprzętu ładowarkowego (łyżka przednia 4w1, widły)",
+        "Obsługa osprzętu koparkowego (ramię teleskopowe, podpory)",
+        "Codzienna obsługa techniczna i punkty smarne (Daily Check)",
       ],
     },
     {
-      title: "Przepisy elektroenergetyczne",
+      title: "Technologia i technika robót ziemnych",
       details: [
-        "Przepisy eksploatacji urządzeń elektroenergetycznych",
-        "Normy i standardy branżowe SEP",
-        "Wymagania dla personelu eksploatacyjnego",
-        "Dokumentacja techniczna i eksploatacyjna",
-        "Odpowiedzialność prawna i ubezpieczenia",
+        "Kategorie gruntów i dobór parametrów pracy",
+        "Wykonywanie wykopów liniowych, jamistych i szerokoprzestrzennych",
+        "Zdejmowanie warstwy humusu i niwelacja terenu",
+        "Załadunek urobku na środki transportu wywrotkami",
+        "Zasypywanie wykopów i zagęszczanie podłoża osprzętem",
       ],
     },
     {
-      title: "Teoria elektryczności",
+      title: "Zajęcia praktyczne na poligonie",
       details: [
-        "Podstawowe pojęcia i prawa elektryczności",
-        "Rodzaje prądów i napięć",
-        "Układy jednofazowe i trójfazowe",
-        "Ochrona przeciwporażeniowa",
-        "Interpretacja schematów elektrycznych",
+        "Jazda manewrowa i praca w trudnych warunkach terenowych",
+        "Precyzyjne kopanie wykopu pod fundamenty i rurociągi",
+        "Wymiana osprzętu (łyżki skarpowe, młot hydrauliczny)",
+        "Bezpieczne parkowanie i zabezpieczenie maszyny po pracy",
+        "Praktyka prowadzona na maszynach JCB 3CX i CAT",
       ],
     },
     {
-      title: "Przygotowanie do egzaminu",
+      title: "Przygotowanie do egzaminu państwowego IMBiGS",
       details: [
-        "Omówienie wymagań egzaminu kwalifikacyjnego SEP",
-        "Testy próbne z zakresu G1",
-        "Analiza najczęstszych pytań egzaminacyjnych",
-        "Powtórka kluczowych zagadnień",
-        "Wskazówki odnośnie przebiegu egzaminu",
+        "Wymagania formalne komisji Instytutu Mechanizacji Budownictwa",
+        "Część teoretyczna: testy i pytania ustne z budowy oraz technologii",
+        "Część praktyczna: wykonanie zadania egzaminacyjnego na placu",
+        "Omówienie najczęstszych błędów dyskwalifikujących",
       ],
     },
   ],
   c4: [
     {
-      title: "Bezpieczeństwo pracy",
+      title: "Bezpieczeństwo pracy i BHP",
       details: [
-        "BHP przy obsłudze suwnic i wciągników",
-        "Bezpieczne techniki podnoszenia ciężarów",
-        "Sygnalizacja i komunikacja z nawiązywaczem",
-        "Zasady podczepiania i odczepiania ładunków",
-        "Procedury awaryjne przy uszkodzeniu urządzenia",
+        "BHP przy obsłudze suwnic, wciągników i wciągarek",
+        "Zasady bezpiecznego transportu ładunków w halach",
+        "Dobór atestowanych zawiesi linowych, łańcuchowych i pasowych",
+        "Sygnalizacja i komunikacja z hakowym-sygnalistą",
+        "Procedury awaryjne przy zaniku napięcia lub awarii hamulca",
       ],
     },
     {
-      title: "Obsługa maszyn",
+      title: "Budowa urządzeń i sterowanie",
       details: [
-        "Budowa i rodzaje suwnic (pomostowe, bramowe, obrotowe)",
-        "Obsługa wciągników elektrycznych i ręcznych",
-        "Sterowanie z poziomu roboczego i z kabiny",
-        "Obsługa mechanizmów jazdy i podnoszenia",
-        "Kontrola stanu technicznego przed rozpoczęciem pracy",
+        "Budowa suwnic natorowych, podwieszanych i bramowych",
+        "Mechanizmy podnoszenia, jazdy mostu i wózka suwnicowego",
+        "Sterowanie z poziomu roboczego (kaseta sterownicza, pilot radiowy)",
+        "Sterowanie z kabiny operatora",
+        "Aparatura zabezpieczająca: wyłączniki krańcowe, ograniczniki udźwigu",
       ],
     },
     {
-      title: "Przepisy UDT",
+      title: "Wymagania i przepisy UDT",
       details: [
-        "Przepisy dozoru technicznego dla dźwignic",
-        "Wymagania dla operatorów suwnic kategorii II",
-        "Dokumentacja eksploatacyjna i badania techniczne",
-        "Przeglądy okresowe i roczne",
-        "Obowiązki operatora zgodnie z przepisami UDT",
+        "Ustawa o dozorze technicznym dla urządzeń transportu bliskiego",
+        "Kategorie uprawnień: IS (z kabiny i robocze) oraz IIS (poziom roboczy)",
+        "Księga rewizyjna urządzenia i wpisy w dzienniku konserwacji",
+        "Zakres codziennych przeglądów przed rozpoczęciem zmiany",
       ],
     },
     {
-      title: "Praktyka na hali produkcyjnej",
+      title: "Praktyka na suwnicy",
       details: [
-        "Jazda suwnicą z ładunkiem i bez ładunku",
-        "Precyzyjne ustawienie ładunku w wyznaczonych miejscach",
-        "Obsługa różnych rodzajów zawiesi i haków",
-        "Współpraca z nawiązywaczem - sygnały i komunikacja",
-        "Wykonanie manewrów awaryjnych",
-        "Szkolenie praktyczne trwa minimum 16 godzin",
+        "Jazda suwnicą z ładunkiem gabarytowym i nieforemnym",
+        "Tłumienie kołysania ładunku podczas ruszania i hamowania",
+        "Precyzyjne osadzanie ładunku na stanowiskach montażowych",
+        "Ćwiczenia na hali przemysłowej pod okiem instruktora",
       ],
     },
     {
-      title: "Przygotowanie do egzaminu",
+      title: "Egzamin państwowy UDT",
       details: [
-        "Struktura egzaminu UDT dla operatorów dźwignic",
-        "Testy próbne - część teoretyczna",
-        "Symulacja części praktycznej egzaminu",
-        "Omówienie typowych błędów na egzaminie",
-        "Dokumentacja wymagana w dniu egzaminu",
+        "Pytania egzaminacyjne UDT z budowy, eksploatacji i BHP",
+        "Symulacja egzaminu praktycznego przed inspektorem UDT",
+        "Wydanie bezterminowego zaświadczenia kwalifikacyjnego",
+      ],
+    },
+  ],
+  c5: [
+    {
+      title: "BHP i stabilność podestów ruchomych",
+      details: [
+        "BHP przy pracach na wysokości z kosza roboczego",
+        "Wykresy stateczności, dopuszczalny udźwig i siła wiatru",
+        "Stosowanie szelek bezpieczeństwa i punktów asekuracyjnych",
+        "Ocena nośności podłoża i prawidłowe rozstawianie podpór",
+      ],
+    },
+    {
+      title: "Budowa podestów nożycowych, przegubowych i teleskopowych",
+      details: [
+        "Konstrukcja masztu, wysięgnika teleskopowego i nożyc",
+        "Układy hydrauliczne, napędy spalinowe i elektryczne",
+        "Pulpity sterownicze w koszu oraz sterowanie awaryjne z dołu",
+        "Układy awaryjnego opuszczania platformy",
+      ],
+    },
+    {
+      title: "Praktyka manewrowa i obsługa kosza",
+      details: [
+        "Jazda podestem w pozycji transportowej i roboczej",
+        "Precyzyjne manewrowanie koszem w pobliżu przeszkód i konstrukcji",
+        "Ewakuacja z wysokości i procedury zjazdu awaryjnego",
+      ],
+    },
+    {
+      title: "Przygotowanie do egzaminu UDT (kategoria I P)",
+      details: [
+        "Testy UDT na podesty ruchome przejezdne",
+        "Zadanie praktyczne przed komisją Dozoru Technicznego",
+        "Międzynarodowy certyfikat ukończenia",
+      ],
+    },
+  ],
+  c6: [
+    {
+      title: "Bezpieczeństwo i przepisy dla żurawi HDS",
+      details: [
+        "BHP przy przeładunku materiałów z pojazdów",
+        "Wykresy udźwigu żurawia przenośnego (HDS)",
+        "Strefy niebezpieczne i praca w pobliżu linii elektroenergetycznych",
+        "Prawidłowe podparcie pojazdu na stopach hydraulicznych",
+      ],
+    },
+    {
+      title: "Budowa i osprzęt żurawi przeładunkowych",
+      details: [
+        "Konstrukcja kolumny, wysięgników teleskopowych i zbloczy",
+        "Sterowanie mechaniczne, hydrauliczne i radiowe",
+        "Zabezpieczenia przeciążeniowe i zawory zamkowe",
+        "Obsługa chwytaków, wideł do palet i haków",
+      ],
+    },
+    {
+      title: "Praktyka i egzamin UDT",
+      details: [
+        "Przeładunek palet i ładunków przestrzennych na samochód",
+        "Składanie żurawia do pozycji transportowej",
+        "Egzamin państwowy UDT na żurawie przenośne i przewoźne",
+      ],
+    },
+  ],
+  c7: [
+    {
+      title: "Podstawy elektrotechniki i przepisy SEP",
+      details: [
+        "Ustawa Prawo Energetyczne i rozporządzenia wykonawcze",
+        "Struktura uprawnień Grupy G1: Eksploatacja (E) i Dozór (D)",
+        "Prawa elektrotechniki, układy sieciowe TN-C, TN-S, TT, IT",
+      ],
+    },
+    {
+      title: "Ochrona przeciwporażeniowa i BHP",
+      details: [
+        "Środki ochrony podstawowej i dodatkowej (RCD, wyłączniki nadprądowe)",
+        "Pierwsza pomoc przy porażeniu prądem elektrycznym i oparzeniach",
+        "Sprzęt ochronny, drążki izolacyjne i pomiary rezystancji izolacji",
+      ],
+    },
+    {
+      title: "Obsługa, konserwacja i pomiary instalacji do 1 kV",
+      details: [
+        "Rozdzielnice elektryczne, aparatura łączeniowa i transformatory",
+        "Instalacje oświetleniowe, siłowe i odgromowe",
+        "Prowadzenie książki eksploatacji i protokołów pomiarowych",
+      ],
+    },
+    {
+      title: "Przygotowanie do państwowego egzaminu komisji kwalifikacyjnej",
+      details: [
+        "Pytania egzaminacyjne i typowe zagadnienia komisji SEP",
+        "Wydanie państwowego świadectwa kwalifikacji ważnego 5 lat",
+      ],
+    },
+  ],
+  c8: [
+    {
+      title: "BHP i ochrona przeciwpożarowa przy pracach spawalniczych",
+      details: [
+        "Zagrożenia: dymy spawalnicze, promieniowanie UV/IR, pole elektromagnetyczne",
+        "Wentylacja stanowiskowa i środki ochrony spawalniczej",
+        "Bezpieczeństwo butli z gazami osłonowymi (Argon, CO2, mieszanki)",
+      ],
+    },
+    {
+      title: "Technologia spawania MIG/MAG (metoda 131/135) oraz TIG (141)",
+      details: [
+        "Dobór drutów spawalniczych, gazów i parametrów prądowych",
+        "Przygotowanie złączy: rowkowanie, ukosowanie, sczepianie",
+        "Prowadzenie uchwytu spawalniczego w różnych pozycjach (PA, PB, PC, PF)",
+      ],
+    },
+    {
+      title: "Intensywny warsztat praktyczny",
+      details: [
+        "Spawanie blach i rur ze stali czarnej oraz nierdzewnej",
+        "Ocena wizualna i badania nieniszczące (VT) złączy spawanych",
+        "Eliminacja wad spawalniczych (porowatości, przyklejenia, podtopienia)",
+      ],
+    },
+    {
+      title: "Egzamin i Certyfikacja Instytutu Spawalnictwa",
+      details: [
+        "Wykonanie próbki egzaminacyjnej pod nadzorem rzeczoznawcy",
+        "Badania łamania i próby zginania próbek",
+        "Wydanie Międzynarodowej Książeczki Spawacza i Certyfikatu wg normy EN ISO 9606",
       ],
     },
   ],
 };
+
+// Aliases for string IDs used in category landings
+JOB_PROGRAMS["wozki-widlowe"] = JOB_PROGRAMS["c1"];
+JOB_PROGRAMS["ladowarki-teleskopowe"] = JOB_PROGRAMS["c2"];
+JOB_PROGRAMS["koparko-ladowarki"] = JOB_PROGRAMS["c3"];
+JOB_PROGRAMS["koparki"] = JOB_PROGRAMS["c3"];
+JOB_PROGRAMS["ladowarki"] = JOB_PROGRAMS["c3"];
+JOB_PROGRAMS["spycharki"] = JOB_PROGRAMS["c3"];
+JOB_PROGRAMS["suwnice"] = JOB_PROGRAMS["c4"];
+JOB_PROGRAMS["podesty"] = JOB_PROGRAMS["c5"];
+JOB_PROGRAMS["podesty-ruchome"] = JOB_PROGRAMS["c5"];
+JOB_PROGRAMS["zurawie"] = JOB_PROGRAMS["c6"];
+JOB_PROGRAMS["sep-g1"] = JOB_PROGRAMS["c7"];
+JOB_PROGRAMS["g1-elektryczne"] = JOB_PROGRAMS["c7"];
+JOB_PROGRAMS["spawanie"] = JOB_PROGRAMS["c8"];
+JOB_PROGRAMS["mig-mag"] = JOB_PROGRAMS["c8"];
+JOB_PROGRAMS["tig"] = JOB_PROGRAMS["c8"];
 
 export const MOCK_USERS: {
   [key: string]: { password: string; user: StudentUser };

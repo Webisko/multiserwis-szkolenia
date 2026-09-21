@@ -50,6 +50,8 @@ interface TrainingCategoryPageProps {
   servicePromo?: ServicePromoProps;
   heroImage?: string;
   setView?: (view: any) => void;
+  setSelectedCourseId?: (id: string) => void;
+  children?: React.ReactNode;
 }
 
 export const TrainingCategoryPage: React.FC<TrainingCategoryPageProps> = ({
@@ -59,6 +61,8 @@ export const TrainingCategoryPage: React.FC<TrainingCategoryPageProps> = ({
   servicePromo,
   heroImage = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
   setView,
+  setSelectedCourseId,
+  children,
 }) => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -124,25 +128,32 @@ export const TrainingCategoryPage: React.FC<TrainingCategoryPageProps> = ({
                   </ul>
                 )}
               </div>
-              <div className="p-6 pt-0 mt-auto">
+              <div className="p-6 pt-0 mt-auto flex flex-col gap-2">
                 <button
-                  onClick={() => setView && setView("SIGNUP")}
-                  className="block w-full text-center py-2.5 bg-brand-primary text-white font-bold rounded hover:bg-brand-dark transition-colors uppercase tracking-wide"
-                >
-                  Zapisz się
-                </button>
-                <div
                   onClick={() => {
-                    /* Open modal logic if needed */
-                  }} // Placeholder
-                  className="block w-full text-center py-2 text-sm text-slate-500 hover:text-brand-primary mt-2 cursor-pointer"
+                    if (setSelectedCourseId) setSelectedCourseId(training.id);
+                    if (setView) setView("COURSE_DETAIL");
+                  }}
+                  className="block w-full text-center py-2.5 bg-brand-primary text-white font-bold rounded-sm hover:bg-brand-dark transition-colors uppercase tracking-wide cursor-pointer text-xs"
                 >
-                  Szczegóły
-                </div>
+                  Zobacz szczegóły i program
+                </button>
+                <button
+                  onClick={() => {
+                    if (setSelectedCourseId) setSelectedCourseId(training.id);
+                    if (setView) setView("SIGNUP");
+                  }}
+                  className="block w-full text-center py-1.5 text-xs font-bold text-brand-accent hover:text-brand-accentHover cursor-pointer uppercase tracking-wider transition-colors"
+                >
+                  Zapisz się bezpośrednio →
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Optional Custom Content (e.g. Detailed Price Tables) */}
+        {children && <div className="mb-16">{children}</div>}
 
         {/* Cross Promotion */}
         {servicePromo && (
