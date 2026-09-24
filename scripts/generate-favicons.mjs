@@ -56,29 +56,67 @@ async function run() {
   // 3. Render high-res PNGs and ICO using Chromium
   const browser = await chromium.launch({ channel: "chrome", headless: true });
 
-  const renderIcon = async (size, filename) => {
+  const renderPng = async (size) => {
     const page = await browser.newPage({ viewport: { width: size, height: size } });
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0;padding:0;background:transparent;overflow:hidden;">${orangeFaviconSvg}</body></html>`);
     const svgEl = await page.$("svg");
     const buffer = await svgEl.screenshot({ omitBackground: true });
-    
+    await page.close();
+    return buffer;
+  };
+
+  const renderIcon = async (size, filename) => {
+    const buffer = await renderPng(size);
     fs.writeFileSync(path.join(projectRoot, "public", filename), buffer);
     fs.writeFileSync(path.join(projectRoot, "apps", "site", "public", filename), buffer);
-    await page.close();
     console.log(`✓ Rendered ${filename} (${size}x${size})`);
     return buffer;
   };
 
-  await renderIcon(32, "favicon-32x32.png");
+  const png16 = await renderPng(16);
+  const png32 = await renderIcon(32, "favicon-32x32.png");
+  const png48 = await renderPng(48);
   await renderIcon(180, "apple-touch-icon.png");
   await renderIcon(192, "favicon-192x192.png");
-  const icoBuffer = await renderIcon(48, "favicon.ico");
 
-  fs.writeFileSync(path.join(projectRoot, "public", "favicon.ico"), icoBuffer);
-  fs.writeFileSync(path.join(projectRoot, "apps", "site", "public", "favicon.ico"), icoBuffer);
+  // Build a true multi-resolution binary ICO container (16x16, 32x32, 48x48)
+  const icoImages = [
+    { size: 16, buffer: png16 },
+    { size: 32, buffer: png32 },
+    { size: 48, buffer: png48 },
+  ];
+
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // icon type
+  header.writeUInt16LE(icoImages.length, 4); // number of images
+
+  let offset = 6 + 16 * icoImages.length;
+  const directoryEntries = [];
+  const imageBuffers = [];
+
+  for (const img of icoImages) {
+    const entry = Buffer.alloc(16);
+    entry.writeUInt8(img.size === 256 ? 0 : img.size, 0);
+    entry.writeUInt8(img.size === 256 ? 0 : img.size, 1);
+    entry.writeUInt8(0, 2); // color count
+    entry.writeUInt8(0, 3); // reserved
+    entry.writeUInt16LE(1, 4); // color planes
+    entry.writeUInt16LE(32, 6); // bpp
+    entry.writeUInt32LE(img.buffer.length, 8); // size
+    entry.writeUInt32LE(offset, 12); // offset
+    directoryEntries.push(entry);
+    imageBuffers.push(img.buffer);
+    offset += img.buffer.length;
+  }
+
+  const finalIcoBuffer = Buffer.concat([header, ...directoryEntries, ...imageBuffers]);
+  fs.writeFileSync(path.join(projectRoot, "public", "favicon.ico"), finalIcoBuffer);
+  fs.writeFileSync(path.join(projectRoot, "apps", "site", "public", "favicon.ico"), finalIcoBuffer);
+  console.log("✓ Built true multi-resolution binary favicon.ico (16, 32, 48px)");
 
   await browser.close();
-  console.log("All icons regenerated and verified!");
+  console.log("All icons regenerated and verified successfully!");
 }
 
 run().catch(console.error);
