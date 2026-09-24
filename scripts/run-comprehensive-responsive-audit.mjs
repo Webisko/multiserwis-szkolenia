@@ -98,13 +98,20 @@ async function runAudit() {
           }
 
           // Navigation menu accessibility check
-          const desktopNav = document.querySelector("nav .hidden.lg\\:flex, header .hidden.lg\\:flex, nav .lg\\:flex");
-          const mobileBurger = document.querySelector("#mobile-menu-btn, button[aria-label*='menu' i], .md\\:hidden .lucide-menu, button.lg\\:hidden");
+          const desktopNav = document.querySelector(
+            "nav .hidden.lg\\:flex, header .hidden.lg\\:flex, nav .lg\\:flex, aside.hidden.md\\:flex, aside.hidden.lg\\:block, header .hidden.md\\:flex"
+          );
+          const mobileBurger = document.querySelector(
+            "#mobile-menu-btn, button[aria-label*='menu' i], button[aria-label*='Otwórz menu' i], button.lg\\:hidden, button.md\\:hidden, .md\\:hidden .lucide-menu"
+          );
           const isDesktopNavVisible = desktopNav ? window.getComputedStyle(desktopNav).display !== "none" : false;
           const isMobileBurgerVisible = mobileBurger ? window.getComputedStyle(mobileBurger).display !== "none" : false;
 
-          // Navigation anomaly: neither desktop nor mobile menu visible
-          const navAnomaly = (!isDesktopNavVisible && !isMobileBurgerVisible);
+          // Panel headers and standalone views fallback
+          const hasPanelHeader = document.querySelector("header") !== null;
+
+          // Navigation anomaly: neither desktop nor mobile navigation visible
+          const navAnomaly = !isDesktopNavVisible && !isMobileBurgerVisible && !hasPanelHeader;
 
           return {
             scrollWidth,
