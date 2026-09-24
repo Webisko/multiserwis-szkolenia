@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256">
+import { chromium } from "@playwright/test";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(__dirname, "..");
+
+const faviconSvgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256">
   <defs>
     <clipPath id="fav_e278f55ca7"><path d="M 0 0.371094 L 214.503906 0.371094 L 214.503906 190 L 0 190 Z M 0 0.371094 " clip-rule="nonzero"/></clipPath>
     <clipPath id="fav_37a554b49f"><path d="M 0 0.371094 L 214.503906 0.371094 L 214.503906 212.628906 L 0 212.628906 Z M 0 0.371094 " clip-rule="nonzero"/></clipPath>
@@ -40,4 +48,54 @@
       <path stroke-linecap="round" transform="matrix(0.549434, -0.506678, 0.506678, 0.549434, 91.588072, 151.143562)" fill="none" stroke-linejoin="miter" d="M 16.502923 16.50019 L 31.212682 16.500169 " stroke="#ffffff" stroke-width="33" stroke-opacity="1" stroke-miterlimit="4"/>
     </g>
   </g>
-</svg>
+</svg>`;
+
+async function generateFavicons() {
+  console.log("Generating Orange Background Favicons...");
+
+  // Write SVG files
+  const rootPublicSvg = path.join(projectRoot, "public", "favicon.svg");
+  const sitePublicSvg = path.join(projectRoot, "apps", "site", "public", "favicon.svg");
+  fs.writeFileSync(rootPublicSvg, faviconSvgContent, "utf8");
+  fs.writeFileSync(sitePublicSvg, faviconSvgContent, "utf8");
+  console.log("✓ Saved favicon.svg");
+
+  // Also update logo.svg / icon
+  const rootLogoSvg = path.join(projectRoot, "public", "logo.svg");
+  const siteLogoSvg = path.join(projectRoot, "apps", "site", "public", "logo.svg");
+  fs.writeFileSync(rootLogoSvg, faviconSvgContent, "utf8");
+  fs.writeFileSync(siteLogoSvg, faviconSvgContent, "utf8");
+  console.log("✓ Updated logo.svg with orange background");
+
+  // Render PNGs and ICO using Chromium
+  const browser = await chromium.launch({ channel: "chrome", headless: true });
+  
+  const renderPng = async (size, filename) => {
+    const page = await browser.newPage({
+      viewport: { width: size, height: size }
+    });
+    await page.setContent(`<!DOCTYPE html><html><body style="margin:0;padding:0;background:transparent;overflow:hidden;">${faviconSvgContent}</body></html>`);
+    const svgEl = await page.$("svg");
+    const buffer = await svgEl.screenshot({ omitBackground: true });
+    
+    fs.writeFileSync(path.join(projectRoot, "public", filename), buffer);
+    fs.writeFileSync(path.join(projectRoot, "apps", "site", "public", filename), buffer);
+    await page.close();
+    console.log(`✓ Rendered ${filename} (${size}x${size})`);
+    return buffer;
+  };
+
+  await renderPng(32, "favicon-32x32.png");
+  await renderPng(180, "apple-touch-icon.png");
+  await renderPng(192, "favicon-192x192.png");
+  const icoBuffer = await renderPng(48, "favicon.ico"); // Browser supports PNG-in-ICO format
+
+  // Copy 48x48 to favicon.ico in both places
+  fs.writeFileSync(path.join(projectRoot, "public", "favicon.ico"), icoBuffer);
+  fs.writeFileSync(path.join(projectRoot, "apps", "site", "public", "favicon.ico"), icoBuffer);
+
+  await browser.close();
+  console.log("All favicons generated successfully!");
+}
+
+generateFavicons().catch(console.error);
