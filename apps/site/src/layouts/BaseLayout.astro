@@ -27,6 +27,15 @@ const ogImageUrl = image.startsWith("http") ? image : new URL(image, siteOrigin)
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260924" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260924" />
 
+    <!-- AI Agentic Browsing (ARD & LLMs) -->
+    <link rel="describedby" href="/llms.txt" />
+    <link rel="alternate" type="application/json" href="/.well-known/ai-catalog.json" />
+
+    <!-- Preload Critical Assets (LCP Hero & Typography) -->
+    <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
+    <link rel="preload" href="/fonts/montserrat-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/roboto-400-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+
 
     <!-- Open Graph / Facebook / LinkedIn / Messenger -->
     <meta property="og:type" content="website" />

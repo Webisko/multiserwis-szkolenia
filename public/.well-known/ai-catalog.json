@@ -1,0 +1,81 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "MultiSerwis Kutno",
+    "documentationUrl": "https://multiserwis-szkolenia.webisko.pl/llms.txt",
+    "logoUrl": "https://multiserwis-szkolenia.webisko.pl/logo.svg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:webisko.pl:multiserwis:szkolenia",
+      "displayName": "Katalog Szkoleń i Uprawnień MultiSerwis Kutno",
+      "type": "text/html",
+      "url": "https://multiserwis-szkolenia.webisko.pl/szkolenia",
+      "description": "Certyfikowane kursy i szkolenia operatorów maszyn UDT, maszyn budowlanych IMBiGS oraz uprawnień SEP w Kutnie.",
+      "tags": [
+        "szkolenia",
+        "udt",
+        "imbigs",
+        "sep",
+        "wozki-widlowe",
+        "ladowarki-teleskopowe"
+      ],
+      "capabilities": [
+        "CourseInquiry",
+        "CertificationUDT",
+        "MachineryRental"
+      ],
+      "representativeQueries": [
+        "zapisz się na kurs wózków widłowych w Kutnie",
+        "ile kosztuje kurs operatora ładowarki teleskopowej UDT",
+        "szkolenia na maszyny budowlane koparki IMBiGS"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-09-24T10:00:00Z"
+    },
+    {
+      "identifier": "urn:air:webisko.pl:multiserwis:wynajem",
+      "displayName": "Wynajem Maszyn i Podnośników Koszowych",
+      "type": "text/html",
+      "url": "https://multiserwis-szkolenia.webisko.pl/wynajem",
+      "description": "Wynajem podnośników koszowych oraz ładowarek teleskopowych Manitou i Genie w Kutnie i centralnej Polsce.",
+      "tags": [
+        "wynajem",
+        "podnosniki-koszowe",
+        "ladowarki-teleskopowe"
+      ],
+      "capabilities": [
+        "MachineryRental",
+        "EquipmentFleet"
+      ],
+      "representativeQueries": [
+        "wynajem podnośnika koszowego Kutno",
+        "wypożyczalnia ładowarek teleskopowych z operatorem"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-09-24T10:00:00Z"
+    },
+    {
+      "identifier": "urn:air:webisko.pl:multiserwis:kontakt",
+      "displayName": "Formularz Zgłoszeniowy i Kontakt",
+      "type": "text/html",
+      "url": "https://multiserwis-szkolenia.webisko.pl/kontakt",
+      "description": "Bezpośredni kontakt z doradcą szkoleniowym, zapisy na kursy oraz rezerwacja terminów badań i jazd.",
+      "tags": [
+        "kontakt",
+        "zapisy",
+        "rezerwacja"
+      ],
+      "capabilities": [
+        "ContactForm",
+        "Booking"
+      ],
+      "representativeQueries": [
+        "jak zapisać się na szkolenie w MultiSerwis",
+        "kontakt z biurem obsługi klienta MultiSerwis Kutno"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-09-24T10:00:00Z"
+    }
+  ]
+}

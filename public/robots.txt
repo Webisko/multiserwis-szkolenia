@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://multiserwis-szkolenia.webisko.pl/sitemap-index.xml

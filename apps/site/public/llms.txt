@@ -1,0 +1,37 @@
+# MultiSerwis Kutno - Szkolenia Zawodowe i Wynajem Maszyn
+
+> MultiSerwis Kutno to certyfikowany ośrodek szkoleniowy i wypożyczalnia maszyn budowlanych oraz podnośników koszowych w Kutnie (woj. łódzkie). Oferujemy kursy operatorów UDT, IMBiGS (ŚBŁ-WIT) oraz uprawnienia elektroenergetyczne SEP (G1, G2, G3) z teorią online 24/7, własnym placem manewrowym i egzaminami państwowymi na naszym sprzęcie.
+
+## Oferta Szkoleń Zawodowych
+
+- [Szkolenia UDT](https://multiserwis-szkolenia.webisko.pl/szkolenia/udt): Kursy na wózki widłowe (jezdniowe podnośnikowe), ładowarki teleskopowe ze zmiennym wysięgiem, podesty ruchome (zwyżki) oraz suwnice i żurawie HDS.
+- [Maszyny Budowlane IMBiGS](https://multiserwis-szkolenia.webisko.pl/szkolenia/imbigs): Uprawnienia operatora koparek jednonaczyniowych, koparko-ładowarek, walców drogowych i spycharek (egzaminy państwowe Sieci Badawczej Łukasiewicz - WIT).
+- [Uprawnienia Elektroenergetyczne SEP](https://multiserwis-szkolenia.webisko.pl/szkolenia/sep): Grupy G1 (elektryczne), G2 (cieplne) i G3 (gazowe) w zakresie Eksploatacji (E) oraz Dozoru (D).
+- [Kursy Spawalnicze](https://multiserwis-szkolenia.webisko.pl/szkolenia/spawalnictwo): Szkolenia spawacza metodami MIG/MAG (135/136), TIG (141) i MMA (111) wraz z Międzynarodową Książeczką Spawacza TÜV.
+- [Szkolenia Specjalistyczne i BHP](https://multiserwis-szkolenia.webisko.pl/szkolenia/pozostale): Piły mechaniczne, hakowy-sygnalista, windy załadowcze oraz kierowanie ruchem drogowym.
+- [Harmonogram Zjazdów](https://multiserwis-szkolenia.webisko.pl/harmonogram): Aktualny terminarz szkoleń stacjonarnych, jazd próbnych oraz sesji egzaminacyjnych w Kutnie.
+
+## Wynajem Maszyn i Usługi Przemysłowe
+
+- [Wynajem Maszyn Budowlanych](https://multiserwis-szkolenia.webisko.pl/wynajem): Wynajem krótko- i długoterminowy ładowarek teleskopowych Manitou oraz podnośników koszowych Genie z dowozem do klienta.
+- [Serwis i Konserwacja UDT](https://multiserwis-szkolenia.webisko.pl/uslugi): Przeglądy okresowe i konserwacyjne maszyn UDT, obliczanie resursu (UTB), rejestracja urządzeń w dozorze oraz serwis mobilny.
+
+## Dostęp do Systemu i E-learningu
+
+- [Strona Główna](https://multiserwis-szkolenia.webisko.pl/): Portal główny firmy MultiSerwis z informacjami o zapisach i ofercie.
+- [Panel Kursanta LMS](https://multiserwis-szkolenia.webisko.pl/panel/kursant): Dostęp do platformy e-learningowej, bazy pytań testowych UDT, materiałów wideo i symulatorów egzaminacyjnych 24/7.
+- [Strefa Klienta B2B i Opiekuna Firmy](https://multiserwis-szkolenia.webisko.pl/panel/opiekun): Portal dla firm partnerskich, zgłaszanie pracowników na kursy i podgląd postępów.
+
+## Kontakt i Lokalizacja
+
+- [Kontakt i Dojazd](https://multiserwis-szkolenia.webisko.pl/kontakt): Dane teleadresowe, formularz zapytań i mapa dojazdu do placu manewrowego.
+- **Biuro:** ul. Siemieradzkiego 18, 99-300 Kutno
+- **Poligon szkoleniowy:** ul. Przemysłowa 2, 99-300 Kutno
+- **Telefon:** +48 730 101 000 / +48 570 403 806
+- **Email:** multiserwis.kutno@gmail.com
+- **NIP:** 7752404382, **REGON:** 100587019
+
+## Informacje Prawne
+
+- [Polityka Prywatności](https://multiserwis-szkolenia.webisko.pl/polityka-prywatnosci): Zasady przetwarzania danych osobowych RODO.
+- [Regulamin Świadczenia Usług](https://multiserwis-szkolenia.webisko.pl/regulamin): Regulamin szkoleń i wynajmu maszyn.

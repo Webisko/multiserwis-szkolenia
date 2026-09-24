@@ -43,11 +43,27 @@ function copyDirRecursive(src, dest, excludeDirs = []) {
 // Copy Astro dist into root dist, without overwriting 'assets' or 'panel'
 copyDirRecursive(astroDist, distDir, ["assets", "panel"]);
 
-// Copy .htaccess into dist
-const htaccessSrc = path.join(projectRoot, "public", ".htaccess");
-if (fs.existsSync(htaccessSrc)) {
-  fs.copyFileSync(htaccessSrc, path.join(distDir, ".htaccess"));
-  console.log("✓ Hybrid .htaccess copied to dist/.htaccess");
+// Copy .htaccess and critical manifest files into dist
+const criticalFiles = ["robots.txt", "llms.txt", "ai-catalog.json", ".htaccess"];
+for (const file of criticalFiles) {
+  const rootSrc = path.join(projectRoot, "public", file);
+  const astroSrc = path.join(astroDist, file);
+  const dest = path.join(distDir, file);
+  const chosenSrc = fs.existsSync(astroSrc) ? astroSrc : (fs.existsSync(rootSrc) ? rootSrc : null);
+  if (chosenSrc) {
+    fs.copyFileSync(chosenSrc, dest);
+    console.log(`✓ ${file} verified in dist/${file}`);
+  }
+}
+
+// Copy .well-known into dist/.well-known
+const wellKnownSrc = fs.existsSync(path.join(astroDist, ".well-known")) 
+  ? path.join(astroDist, ".well-known") 
+  : path.join(projectRoot, "public", ".well-known");
+const wellKnownDest = path.join(distDir, ".well-known");
+if (fs.existsSync(wellKnownSrc)) {
+  copyDirRecursive(wellKnownSrc, wellKnownDest);
+  console.log("✓ .well-known verified in dist/.well-known");
 }
 
 console.log("==> [4/4] Hybrid Build Completed Successfully!");

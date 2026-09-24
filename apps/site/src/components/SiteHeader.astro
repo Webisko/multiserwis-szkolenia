@@ -12,7 +12,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
           </svg>
           <span>+48 730 101 000 / 570 403 806</span>
-          <span class="text-slate-500 font-normal">(Pn-Pt 8:00 - 16:00)</span>
+          <span class="text-slate-400 font-normal">(Pn-Pt 8:00 - 16:00)</span>
         </a>
         <span class="text-slate-600">|</span>
         <span class="flex items-center gap-2">
@@ -23,7 +23,7 @@
           <span>ul. Siemieradzkiego 18, 99-300 Kutno</span>
         </span>
       </div>
-      <div class="flex items-center gap-4 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+      <div class="flex items-center gap-4 text-[11px] uppercase tracking-wider text-slate-200 font-semibold">
         <span>Akredytacja UDT &amp; ŚBŁ-WIT</span>
         <span class="text-slate-600">•</span>
         <span>Certyfikat ISO 9001</span>
@@ -42,7 +42,7 @@
         <span class="text-2xl font-heading font-extrabold text-white leading-none tracking-tight">
           MULTI<span class="text-brand-accent">SERWIS</span>
         </span>
-        <span class="text-[10px] text-slate-300 font-medium tracking-[0.2em] uppercase leading-none mt-1">
+        <span class="text-[10px] text-slate-100 font-bold tracking-[0.2em] uppercase leading-none mt-1">
           Profesjonalne Szkolenia
         </span>
       </div>
@@ -178,6 +178,8 @@
       type="button"
       class="lg:hidden p-2 text-slate-300 hover:text-white focus:outline-none"
       aria-label="Otwórz menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
     >
       <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -241,7 +243,8 @@
   const menu = document.getElementById("mobile-menu");
   if (btn && menu) {
     btn.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
+      const isHidden = menu.classList.toggle("hidden");
+      btn.setAttribute("aria-expanded", (!isHidden).toString());
     });
   }
 </script>
