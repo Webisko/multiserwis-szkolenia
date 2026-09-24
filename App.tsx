@@ -182,12 +182,7 @@ const App = () => {
     return "HOME";
   }, [location.pathname]);
 
-  // W architekturze hybrydowej strona główna i marketing są serwowane przez Astro
-  useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "") {
-      window.location.replace("/");
-    }
-  }, [location.pathname]);
+  // W architekturze hybrydowej w produkcji strona marketingowa jest serwowana bezpośrednio z Astro
 
   // Update document.title dynamically per route/view
   useEffect(() => {
@@ -1387,8 +1382,8 @@ const App = () => {
     <>
       {/* Modal logowania */}
       {showLoginModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-sm shadow-lg p-8 w-full max-w-md">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-sm shadow-lg p-6 sm:p-8 w-full max-w-md">
             <h2 className="text-2xl font-heading font-bold text-brand-dark mb-6">
               Zaloguj się
             </h2>

@@ -126,7 +126,7 @@ export const PanelHeader: React.FC<PanelHeaderProps> = ({
         </div>
 
         {/* Prawe opcje: Notifications + Profile */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Notifications Dropdown */}
           <div className="relative">
             <button
@@ -155,7 +155,7 @@ export const PanelHeader: React.FC<PanelHeaderProps> = ({
             </button>
 
             {showNotificationsMenu && (
-              <div className="absolute right-0 mt-2 w-96 bg-white border border-slate-200 rounded-sm shadow-xl z-50 max-h-96 overflow-y-auto">
+              <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-sm bg-white border border-slate-200 rounded-sm shadow-xl z-50 max-h-96 overflow-y-auto">
                 <div className="px-4 py-3 border-b border-slate-100 bg-slate-50 sticky top-0">
                   <p className="text-sm font-bold text-slate-700">
                     Powiadomienia ({mockNotifications.length})
@@ -505,7 +505,7 @@ export const PanelLayout: React.FC<PanelLayoutProps> = ({
       {header && header}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <div className="flex gap-8">
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 min-w-0">{children}</div>
           {sidebarContent && (
             <aside className="hidden lg:block w-64">{sidebarContent}</aside>
           )}

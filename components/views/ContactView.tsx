@@ -16,7 +16,7 @@ const ContactView: React.FC<Props> = ({ setView }) => {
         />
 
         <div className="bg-white shadow-xl rounded-sm overflow-hidden flex flex-col md:flex-row">
-          <div className="md:w-1/3 bg-brand-dark p-8 text-white flex flex-col justify-between">
+          <div className="md:w-1/3 bg-brand-dark p-5 sm:p-8 text-white flex flex-col justify-between">
             <div>
               <h3 className="text-xl font-heading font-bold mb-6">
                 Dane kontaktowe
@@ -82,12 +82,12 @@ const ContactView: React.FC<Props> = ({ setView }) => {
             </div>
           </div>
 
-          <div className="md:w-2/3 p-8">
+          <div className="md:w-2/3 p-5 sm:p-8">
             <h3 className="text-xl font-heading font-bold text-brand-dark mb-6">
               Napisz do nas
             </h3>
             <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
                     Imię

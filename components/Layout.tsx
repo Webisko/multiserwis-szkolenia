@@ -87,7 +87,7 @@ export const Layout: React.FC<LayoutProps> = ({
   }, []);
 
   const navItemClass = (view: ViewState) => `
-    cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap
+    cursor-pointer text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap
     ${currentView === view ? "text-brand-accent" : "text-white hover:text-brand-accent"}
   `;
 
@@ -159,7 +159,7 @@ export const Layout: React.FC<LayoutProps> = ({
           <BrandMark onClick={() => setView("HOME")} />
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-6">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-5">
             {/* Szkolenia Dropdown */}
             <div
               className="relative group"
@@ -256,7 +256,7 @@ export const Layout: React.FC<LayoutProps> = ({
               href="https://multiserwis-kutno.pl"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 text-white hover:text-brand-accent flex items-center gap-1 whitespace-nowrap"
+              className="cursor-pointer text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-300 text-white hover:text-brand-accent flex items-center gap-1 whitespace-nowrap"
             >
               Usługi <Truck size={14} />
             </a>
@@ -292,9 +292,9 @@ export const Layout: React.FC<LayoutProps> = ({
             {!isLoggedIn ? (
               <button
                 onClick={onShowLoginModal}
-                className="px-4 lg:px-5 py-2 rounded-sm font-bold text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg whitespace-nowrap flex-shrink-0"
+                className="px-3 xl:px-5 py-2 rounded-sm font-bold text-xs xl:text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg whitespace-nowrap flex-shrink-0"
               >
-                <User size={16} className="inline mr-2" />
+                <User size={15} className="inline mr-1.5" />
                 Zaloguj
               </button>
             ) : (
@@ -317,7 +317,7 @@ export const Layout: React.FC<LayoutProps> = ({
                 onMouseLeave={() => setNewPanelsMenuOpen(false)}
               >
                 <span
-                  className={`cursor-pointer text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
+                  className={`cursor-pointer text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
                     currentView === "NEW_ADMIN_PANEL" ||
                     currentView === "NEW_MANAGER_PANEL" ||
                     currentView === "NEW_GUARDIAN_PANEL" ||
@@ -380,7 +380,7 @@ export const Layout: React.FC<LayoutProps> = ({
           </div>
 
           {/* Mobile Cart and Menu Toggle */}
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
             <button
               onClick={() => setView("CART")}
               className="relative p-2 text-white hover:text-brand-accent transition-colors flex items-center cursor-pointer"
@@ -392,18 +392,21 @@ export const Layout: React.FC<LayoutProps> = ({
                 </span>
               )}
             </button>
-            <div
-              className="text-white cursor-pointer"
+            <button
+              id="mobile-menu-btn"
+              type="button"
+              aria-label={mobileMenuOpen ? "Zamknij menu" : "Otwórz menu"}
+              className="text-white cursor-pointer p-1.5 rounded hover:bg-white/10 transition-colors focus:outline-none"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </div>
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu Content */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-brand-primary border-t border-brand-secondary/50 shadow-2xl">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-brand-primary border-t border-brand-secondary/50 shadow-2xl">
             <div className="flex flex-col p-4 space-y-4">
               {/* Szkolenia Mobile */}
               <div className="border-b border-brand-secondary/30">
@@ -484,7 +487,7 @@ export const Layout: React.FC<LayoutProps> = ({
               {/* Harmonogram Mobile */}
               <div
                 onClick={() => {
-                  setView("CATALOG");
+                  setView("SCHEDULE");
                   setMobileMenuOpen(false);
                 }}
                 className="text-white font-bold py-2 border-b border-brand-secondary/30 cursor-pointer"

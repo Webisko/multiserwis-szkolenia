@@ -106,17 +106,17 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
 
   const titleClass =
     variant === "sidebar"
-      ? "text-2xl font-heading font-black text-white leading-none tracking-tight"
+      ? "text-xl sm:text-2xl font-heading font-black text-white leading-none tracking-tight"
       : variant === "dark"
-        ? "text-2xl font-heading font-black text-brand-dark leading-none tracking-tight"
-        : "text-2xl font-heading font-black text-white leading-none tracking-tight";
+        ? "text-xl sm:text-2xl font-heading font-black text-brand-dark leading-none tracking-tight"
+        : "text-xl sm:text-2xl font-heading font-black text-white leading-none tracking-tight";
 
   const subtitleClass =
     variant === "sidebar"
-      ? "text-xs text-slate-400 font-semibold tracking-[0.15em] uppercase leading-none mt-1.5"
+      ? "text-[10px] sm:text-xs text-slate-400 font-semibold tracking-[0.15em] uppercase leading-none mt-1"
       : variant === "dark"
-        ? "text-xs text-slate-500 font-semibold tracking-[0.15em] uppercase leading-none mt-1.5"
-        : "text-xs text-slate-300 font-semibold tracking-[0.15em] uppercase leading-none mt-1.5";
+        ? "text-[10px] sm:text-xs text-slate-500 font-semibold tracking-[0.15em] uppercase leading-none mt-1"
+        : "text-[10px] sm:text-xs text-slate-300 font-semibold tracking-[0.15em] uppercase leading-none mt-1";
 
   return (
     <div

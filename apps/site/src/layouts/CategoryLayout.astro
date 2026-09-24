@@ -91,11 +91,11 @@ const {
         </a>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {trainings.map((item) => (
-          <div class="bg-white rounded-xl border border-slate-200/80 p-6 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-brand-accent/40 transition-all duration-300">
+          <div class="bg-white rounded-xl border border-slate-200/80 p-4 sm:p-6 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-brand-accent/40 transition-all duration-300">
             <div>
-              <div class="flex justify-between items-start gap-4 mb-3">
+              <div class="flex flex-wrap sm:flex-nowrap justify-between items-start gap-2 sm:gap-4 mb-3">
                 <h3 class="font-heading font-bold text-lg text-slate-900 leading-snug">
                   {item.title}
                 </h3>
