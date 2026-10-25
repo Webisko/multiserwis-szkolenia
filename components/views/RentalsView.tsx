@@ -7,6 +7,12 @@ interface Props {
   setView: (view: any) => void;
 }
 
+const specLabels: Record<string, string> = {
+  height: "Wysokość robocza",
+  capacity: "Udźwig / pojemność",
+  weight: "Masa własna",
+};
+
 const RentalsView: React.FC<Props> = ({ setSelectedMachineId, setView }) => {
   return (
     <div className="py-12 bg-brand-surface animate-fade-in">
@@ -45,7 +51,7 @@ const RentalsView: React.FC<Props> = ({ setSelectedMachineId, setView }) => {
                       key={key}
                       className="flex justify-between text-base border-b border-slate-100 pb-1"
                     >
-                      <span className="text-slate-500 capitalize">{key}</span>
+                      <span className="text-slate-500">{specLabels[key] || key}</span>
                       <span className="font-bold text-slate-700">{value}</span>
                     </div>
                   ))}

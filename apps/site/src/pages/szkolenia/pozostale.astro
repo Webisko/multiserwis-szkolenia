@@ -4,6 +4,7 @@ import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.
 const otherTrainings: TrainingItem[] = [
   {
     id: "kontrola-zawiesi",
+    courseSlug: "kontrola-zawiesi",
     title: "Specjalista ds. kontroli zawiesi",
     price: "600 zł",
     description: "Uprawnienia do kontroli stanu technicznego zawiesi linowych, łańcuchowych i pasowych oraz osprzętu dźwigowego.",
@@ -11,6 +12,7 @@ const otherTrainings: TrainingItem[] = [
   },
   {
     id: "pilarki",
+    courseSlug: "pilarki-mechaniczne",
     title: "Operator pilarek mechanicznych",
     price: "550 zł",
     description: "Obsługa pilarek łańcuchowych spalinowych i elektrycznych przy pracach leśnych, ogrodniczych i budowlanych.",
@@ -39,8 +41,8 @@ const otherTrainings: TrainingItem[] = [
   },
   {
     id: "hakowy",
-    title: "Hakowy – Sygnalista",
-    price: "kontakt tel.",
+    title: "Hakowy – sygnalista",
+    price: "Wycena indyw.",
     description: "Szkolenie dla pracowników współpracujących z operatorami dźwigów, żurawi i suwnic przy podwieszaniu ładunków.",
     features: ["Mocowanie i stabilizacja ładunków", "Sygnalizacja ręczna i radiowa", "Czas trwania: 1 dzień", "Zajęcia praktyczne"],
   },
@@ -48,15 +50,15 @@ const otherTrainings: TrainingItem[] = [
 ---
 
 <CategoryLayout
-  title="Szkolenia BHP, Hakowy i Specjalistyczne Kutno"
-  badge="Bezpieczeństwo Pracy & Kwalifikacje Specjalistyczne"
-  description="Kompleksowa oferta certyfikowanych szkoleń uzupełniających dla przedsiębiorstw i osób prywatnych. Szkolenia hakowych, BHP przez internet, pierwsza pomoc z AED oraz obsługa pił spalinowych."
+  title="Szkolenia BHP, hakowy i specjalistyczne Kutno"
+  badge="Bezpieczeństwo pracy i kwalifikacje specjalistyczne"
+  description="Kompleksowa oferta certyfikowanych szkoleń uzupełniających dla przedsiębiorstw i osób prywatnych. Kontrola zawiesi, obsługa pilarek i kos spalinowych, podesty załadowcze oraz kursy hakowych-sygnalistów."
   trainings={otherTrainings}
-  heroImage="/hero.webp"
+  heroImage="/bhp-pierwsza-pomoc.webp"
   servicePromo={{
     title: "Kompleksowa obsługa BHP i UDT dla przedsiębiorstw",
     description: "Prowadzimy stałą opiekę nad flotą maszyn poddozorowych, szkolimy personel oraz reprezentujemy firmy przed inspektorami UDT i PIP.",
     linkText: "Skontaktuj się w sprawie oferty B2B",
-    linkUrl: "/kontakt",
+    linkUrl: "/kontakt?typ=b2b",
   }}
 />

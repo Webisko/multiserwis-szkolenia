@@ -215,7 +215,7 @@ const HomeView: React.FC<Props> = ({
                   </div>
                   <div className="text-right">
                     <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
-                    <span className="font-heading font-black text-brand-primary text-lg">750 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                    <span className="font-heading font-black text-brand-primary text-lg">1 000 zł <span className="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
                   </div>
                 </div>
               </div>
@@ -259,7 +259,7 @@ const HomeView: React.FC<Props> = ({
                   </div>
                   <div className="text-right">
                     <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
-                    <span className="font-heading font-black text-brand-primary text-lg">850 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                    <span className="font-heading font-black text-brand-primary text-lg">1 500 zł <span className="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
                   </div>
                 </div>
               </div>
@@ -303,7 +303,7 @@ const HomeView: React.FC<Props> = ({
                   </div>
                   <div className="text-right">
                     <span className="text-xs text-slate-400 block font-normal leading-none mb-1">cena od</span>
-                    <span className="font-heading font-black text-brand-primary text-lg">1 200 zł <span className="text-xs font-semibold text-slate-500">brutto</span></span>
+                    <span className="font-heading font-black text-brand-primary text-lg">2 350 zł <span className="text-xs font-semibold text-slate-500">zw. z VAT</span></span>
                   </div>
                 </div>
               </div>

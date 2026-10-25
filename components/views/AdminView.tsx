@@ -103,9 +103,11 @@ export const AdminView: React.FC<AdminPanelProps> = ({
       activeSection={activeSection}
       onSectionChange={setActiveSection}
       onLogoClick={() => {
-        window.location.href = "/";
+        window.location.href = window.location.hostname.endsWith("multiserwis.edu.pl")
+          ? "https://multiserwis.edu.pl/"
+          : "/";
       }}
-      userName={currentUser?.name || "Administrator"}
+      userName={currentUser?.name || "admin@webisko.pl"}
       userRole="Superadministrator"
       onLogout={handleLogout}
     >

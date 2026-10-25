@@ -40,20 +40,28 @@ function copyDirRecursive(src, dest, excludeDirs = []) {
   }
 }
 
-// Copy Astro dist into root dist, without overwriting 'assets' or 'panel'
-copyDirRecursive(astroDist, distDir, ["assets", "panel"]);
+// Copy Astro dist into root dist, without overwriting 'assets', 'panel', or 'api'
+copyDirRecursive(astroDist, distDir, ["assets", "panel", "api"]);
 
-// Copy .htaccess and critical manifest files into dist
+// Copy .htaccess and critical manifest files into dist (root public/ takes priority)
 const criticalFiles = ["robots.txt", "llms.txt", "ai-catalog.json", ".htaccess"];
 for (const file of criticalFiles) {
   const rootSrc = path.join(projectRoot, "public", file);
   const astroSrc = path.join(astroDist, file);
   const dest = path.join(distDir, file);
-  const chosenSrc = fs.existsSync(astroSrc) ? astroSrc : (fs.existsSync(rootSrc) ? rootSrc : null);
+  const chosenSrc = fs.existsSync(rootSrc) ? rootSrc : (fs.existsSync(astroSrc) ? astroSrc : null);
   if (chosenSrc) {
     fs.copyFileSync(chosenSrc, dest);
     console.log(`✓ ${file} verified in dist/${file}`);
   }
+}
+
+// Copy API backend into dist/api
+const apiSrc = path.join(projectRoot, "public", "api");
+const apiDest = path.join(distDir, "api");
+if (fs.existsSync(apiSrc)) {
+  copyDirRecursive(apiSrc, apiDest);
+  console.log("✓ Production API engine verified in dist/api/index.php");
 }
 
 // Copy .well-known into dist/.well-known
@@ -67,5 +75,7 @@ if (fs.existsSync(wellKnownSrc)) {
 }
 
 console.log("==> [4/4] Hybrid Build Completed Successfully!");
-console.log("   - Marketing Pages: Astro SSG (Static HTML)");
-console.log("   - LMS / Admin / Manager / Guardian: React SPA (/panel/index.html)");
+console.log("   - Marketing Pages: Astro SSG (multiserwis.edu.pl)");
+console.log("   - Student & Guardian LMS: React SPA (szkolenia.multiserwis.edu.pl)");
+console.log("   - Admin CMS & Manager: React SPA (panel.multiserwis.edu.pl)");
+console.log("   - Backend REST API + SQLite: /api/index.php");

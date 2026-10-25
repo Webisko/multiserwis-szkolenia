@@ -1,26 +1,50 @@
-# MultiSerwis Kutno - Apache Web Server Configuration
-# Optimized for PageSpeed, CWV, Security & AI Agentic Browsing
+# MultiSerwis Kutno - Apache / LiteSpeed Web Server Configuration
+# Optimized for PageSpeed, CWV, Security & Subdomain Routing
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # 1. Direct access to existing physical files and directories
+  # Pass Authorization header to PHP (required for JWT Bearer tokens)
+  RewriteCond %{HTTP:Authorization} ^(.*)
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+  # 0. REST API routing (/api/* -> /api/index.php)
+  RewriteRule ^api(/.*)?$ /api/index.php [QSA,L]
+
+  # 1. On main domain multiserwis.edu.pl: redirect /panel/* to dedicated subdomains
+  RewriteCond %{HTTP_HOST} ^(www\.)?multiserwis\.edu\.pl$ [NC]
+  RewriteRule ^panel/(administrator|admin|menedzer|manager|kierownik|analityka)(.*)$ https://panel.multiserwis.edu.pl/panel/$1$2 [R=301,L]
+
+  RewriteCond %{HTTP_HOST} ^(www\.)?multiserwis\.edu\.pl$ [NC]
+  RewriteRule ^panel/(kursant|student|opiekun|opiekun-firmy|guardian|wsparcie)(.*)$ https://szkolenia.multiserwis.edu.pl/panel/$1$2 [R=301,L]
+
+  # 2a. On subdomains (szkolenia.* and panel.*), route root / to /panel/index.html
+  RewriteCond %{HTTP_HOST} ^(szkolenia|panel)\.multiserwis\.edu\.pl$ [NC]
+  RewriteRule ^/?$ /panel/index.html [L]
+
+  # 2b. On subdomains (szkolenia.* and panel.*), route any non-file SPA path to /panel/index.html
+  RewriteCond %{HTTP_HOST} ^(szkolenia|panel)\.multiserwis\.edu\.pl$ [NC]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !^/api(/|$) [NC]
+  RewriteRule ^.*$ /panel/index.html [L]
+
+  # 3. Direct access to existing physical files and directories
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # 2. Panel & Kursant LMS routes -> route to React SPA at /panel/index.html
+  # 4. Panel & Kursant LMS routes -> route to React SPA at /panel/index.html
   RewriteCond %{REQUEST_URI} ^/panel [OR]
   RewriteCond %{REQUEST_URI} ^/kursant
   RewriteRule ^.*$ /panel/index.html [L]
 
-  # 3. Clean URLs for Astro static pages (e.g. /kontakt -> /kontakt/index.html)
+  # 5. Clean URLs for Astro static pages (e.g. /kontakt -> /kontakt/index.html)
   RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
   RewriteRule ^(.*)/?$ /$1/index.html [L]
 
-  # 4. Fallback for SPA routing (exclude static resource extensions from returning index.html)
-  RewriteCond %{REQUEST_URI} !\.(txt|json|xml|webp|svg|ico|png|jpg|jpeg|woff2|woff|css|js)$ [NC]
+  # 6. Fallback for SPA routing (exclude static resource extensions from returning index.html)
+  RewriteCond %{REQUEST_URI} !\.(txt|json|xml|webp|svg|ico|png|jpg|jpeg|woff2|woff|css|js|php)$ [NC]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]

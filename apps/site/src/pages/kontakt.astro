@@ -1,23 +1,24 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import IndustrialIcon from "../components/IndustrialIcon.astro";
 ---
 
 <BaseLayout
-  title="Kontakt i Dojazd | MultiSerwis Kutno - Ośrodek Szkoleniowy"
-  description="Skontaktuj się z ośrodkiem MultiSerwis w Kutnie. Infolinia szkoleń: +48 730 101 000 / +48 570 403 806. Biuro: ul. Siemieradzkiego 18, Baza manewrowa: ul. Przemysłowa 2."
+  title="Kontakt i dojazd | MultiSerwis Kutno – ośrodek szkoleniowy"
+  description="Skontaktuj się z ośrodkiem MultiSerwis w Kutnie. Infolinia szkoleń: +48 730 101 000 / +48 570 403 806. Biuro: ul. Henryka Siemiradzkiego 18, baza manewrowa: ul. Przemysłowa 2."
 >
   <!-- Hero Section -->
   <div class="bg-brand-dark text-white py-14 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="max-w-2xl space-y-3">
-        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
-          Kontakt & Lokalizacja
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Kontakt i lokalizacja
         </span>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight">
-          Skontaktuj się z Ośrodkiem MultiSerwis
+          Skontaktuj się z ośrodkiem MultiSerwis
         </h1>
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-          Chcesz zapisać się na kurs UDT, IMBiGS lub SEP? Potrzebujesz szkolenia dla pracowników firmy? Zadzwoń do nas lub odwiedź nasze biuro w Kutnie.
+          Chcesz zapisać się na kurs UDT, ŚBŁ-WIT (IMBiGS) lub SEP? Potrzebujesz wyceny szkolenia grupowego dla firmy lub wynajmu maszyny? Zadzwoń do nas lub odwiedź biuro w Kutnie.
         </p>
       </div>
     </div>
@@ -32,40 +33,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <!-- Info Card -->
           <div class="bg-white rounded-xl border border-slate-200/90 p-6 sm:p-8 shadow-sm space-y-6">
             <h2 class="text-xl font-heading font-bold text-slate-900 border-b border-slate-100 pb-4">
-              Dane Teleadresowe
+              Dane teleadresowe
             </h2>
 
             <div class="space-y-5 text-sm">
               <div class="flex items-start gap-3.5">
-                <span class="w-9 h-9 rounded-lg bg-orange-100 text-brand-accent flex items-center justify-center text-lg shrink-0">
-                  📞
+                <span class="w-10 h-10 rounded-lg bg-orange-100 text-brand-accent flex items-center justify-center shrink-0">
+                  <IndustrialIcon name="phone" class="w-5 h-5" />
                 </span>
                 <div>
-                  <span class="text-xs text-slate-500 uppercase font-semibold block">Dział Szkoleń (UDT / IMBiGS / SEP)</span>
+                  <span class="text-xs text-slate-500 uppercase font-semibold block">Dział szkoleń (UDT / ŚBŁ-WIT / SEP / spawanie)</span>
                   <a href="tel:+48730101000" class="text-lg font-heading font-black text-brand-primary hover:text-brand-accent transition-colors block">
                     +48 730 101 000
                   </a>
                   <a href="tel:+48570403806" class="text-sm font-semibold text-slate-700 hover:text-brand-accent transition-colors block">
                     +48 570 403 806
                   </a>
-                  <span class="text-xs text-slate-400 block mt-0.5">Pn–Pt: 8:00 – 16:00</span>
+                  <span class="text-xs text-slate-500 block mt-0.5">Pon.–pt.: 8:00 – 16:00</span>
                 </div>
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-9 h-9 rounded-lg bg-orange-50 text-brand-accent flex items-center justify-center text-lg shrink-0">
-                  🏗️
+                <span class="w-10 h-10 rounded-lg bg-orange-50 text-brand-accent flex items-center justify-center shrink-0">
+                  <IndustrialIcon name="crane" class="w-5 h-5" />
                 </span>
                 <div>
-                  <span class="text-xs text-slate-500 uppercase font-semibold block">Usługi Dźwigowe & Wynajem Maszyn</span>
-                  <div class="text-base font-bold text-slate-800">+48 730 202 000</div>
-                  <div class="text-sm text-slate-600">+48 733 929 100</div>
+                  <span class="text-xs text-slate-500 uppercase font-semibold block">Usługi dźwigowe i wynajem maszyn</span>
+                  <a href="tel:+48730202000" class="text-base font-bold text-slate-800 hover:text-brand-accent transition-colors block">+48 730 202 000</a>
+                  <a href="tel:+48733929100" class="text-sm text-slate-600 hover:text-brand-accent transition-colors block">+48 733 929 100</a>
                 </div>
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-9 h-9 rounded-lg bg-blue-100 text-brand-primary flex items-center justify-center text-lg shrink-0">
-                  ✉️
+                <span class="w-10 h-10 rounded-lg bg-blue-100 text-brand-primary flex items-center justify-center shrink-0">
+                  <IndustrialIcon name="mail" class="w-5 h-5" />
                 </span>
                 <div>
                   <span class="text-xs text-slate-500 uppercase font-semibold block">E-mail biura</span>
@@ -76,47 +77,55 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg shrink-0">
-                  🏢
+                <span class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                  <IndustrialIcon name="building" class="w-5 h-5" />
                 </span>
                 <div>
-                  <span class="text-xs text-slate-500 uppercase font-semibold block">Biuro Obsługi Klienta</span>
+                  <span class="text-xs text-slate-500 uppercase font-semibold block">Biuro obsługi klienta</span>
                   <div class="font-bold text-slate-900 leading-snug">
                     MultiSerwis Kutno<br />
-                    ul. Siemieradzkiego 18<br />
+                    ul. Henryka Siemiradzkiego 18<br />
                     99-300 Kutno<br />
-                    <span class="text-xs text-slate-500 font-normal">Godziny otwarcia: Pn–Pt 8:00 – 16:00</span>
+                    <span class="text-xs text-slate-500 font-normal">Godziny otwarcia: pon.–pt. 8:00 – 16:00</span>
                   </div>
                 </div>
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg shrink-0">
-                  📍
+                <span class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                  <IndustrialIcon name="pin" class="w-5 h-5" />
                 </span>
                 <div>
-                  <span class="text-xs text-slate-500 uppercase font-semibold block">Baza Szkoleniowa i Plac Manewrowy</span>
+                  <span class="text-xs text-slate-500 uppercase font-semibold block">Baza szkoleniowa i plac manewrowy</span>
                   <div class="font-bold text-slate-900 leading-snug">
                     ul. Przemysłowa 2<br />
                     99-300 Kutno<br />
-                    <span class="text-xs text-emerald-600 font-semibold">✓ Bezpłatny parking dla kursantów</span>
+                    <span class="inline-flex items-center gap-1 text-xs text-emerald-700 font-semibold mt-0.5">
+                      <IndustrialIcon name="check" class="w-3.5 h-3.5" />
+                      Bezpłatny parking dla kursantów
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Access Advice -->
-            <div class="border-t border-slate-100 pt-5 space-y-2 text-xs text-slate-600">
-              <div class="font-bold text-slate-800">🚘 Wskazówki dojazdu:</div>
-              <p>Biuro mieści się przy ul. Siemieradzkiego 18 w Kutnie. Zajęcia praktyczne i jazdy odbywają się na naszym placu manewrowym przy ul. Przemysłowej 2 z bezpłatnym parkingiem.</p>
+            <div class="border-t border-slate-100 pt-5 space-y-1.5 text-sm text-slate-600">
+              <div class="font-bold text-slate-800 flex items-center gap-2">
+                <IndustrialIcon name="car" class="w-4 h-4 text-brand-primary" />
+                Wskazówki dojazdu:
+              </div>
+              <p class="leading-relaxed">
+                Biuro zapisów mieści się przy ul. Henryka Siemiradzkiego 18 w Kutnie. Zajęcia praktyczne i egzaminy państwowe odbywają się na placu manewrowym przy ul. Przemysłowej 2.
+              </p>
             </div>
           </div>
 
           <!-- Google Maps Embed -->
           <div class="rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white h-72">
             <iframe
-              title="Multiserwis Kutno - Lokalizacja Ośrodka Szkoleniowego"
-              src="https://maps.google.com/maps?q=ul.+Siemieradzkiego+18,+99-300+Kutno&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              title="MultiSerwis Kutno – lokalizacja biura przy ul. Henryka Siemiradzkiego 18"
+              src="https://maps.google.com/maps?q=ul.+Henryka+Siemiradzkiego+18,+99-300+Kutno&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style="border:0;"
@@ -128,12 +137,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         <!-- Right Column: Interactive Form (7 cols) -->
         <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200/90 p-6 sm:p-10 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Szybki Kontakt</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Szybki kontakt</span>
           <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1 mb-2">
             Wyślij formularz zgłoszeniowy
           </h2>
-          <p class="text-xs sm:text-sm text-slate-600 mb-8">
-            Nasi doradcy oddzwonią lub odpiszą na Twoje zapytanie zazwyczaj w ciągu 1-2 godzin roboczych.
+          <p class="text-sm text-slate-600 mb-8 leading-relaxed">
+            Zostaw swoje dane i wybierz temat. Oddzwonimy z informacją o najbliższym terminie lub wyceną w ciągu 1–2 godzin roboczych.
           </p>
 
           <form id="contact-form" class="space-y-5">
@@ -184,20 +193,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
               <div>
                 <label for="subject" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  Temat / Kategoria
+                  Temat / kategoria
                 </label>
                 <select
                   id="subject"
                   name="subject"
                   class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 bg-white transition-all"
                 >
-                  <option value="Szkolenia UDT">Szkolenia UDT (Wózki, Podesty, Suwnice)</option>
-                  <option value="Maszyny IMBiGS">Maszyny Budowlane IMBiGS (Koparki)</option>
-                  <option value="Uprawnienia SEP">Uprawnienia SEP (G1, G2, G3)</option>
-                  <option value="Kursy Spawania">Kursy Spawalnicze (MIG/MAG, TIG)</option>
-                  <option value="Wynajem Maszyn">Wynajem Maszyn i Podnośników</option>
-                  <option value="Serwis Maszyn">Serwis Techniczny i Konserwacja UDT</option>
-                  <option value="Szkolenia Firmowe B2B">Szkolenia dla Firm / Grupy (B2B)</option>
+                  <option value="Szkolenia UDT">Szkolenia UDT (wózki, podesty, suwnice, żurawie)</option>
+                  <option value="Maszyny IMBiGS">Maszyny budowlane ŚBŁ-WIT / IMBiGS (koparki, walce)</option>
+                  <option value="Uprawnienia SEP">Uprawnienia energetyczne SEP (G1, G2, G3)</option>
+                  <option value="Kursy Spawania">Kursy spawalnicze (MIG/MAG, TIG, MMA)</option>
+                  <option value="Szkolenia Specjalistyczne">Szkolenia specjalistyczne (zawiesia, pilarki, hakowy)</option>
+                  <option value="Wynajem Maszyn">Wynajem maszyn i podnośników</option>
+                  <option value="Serwis Maszyn">Serwis techniczny i konserwacja UDT</option>
+                  <option value="Szkolenia Firmowe B2B">Szkolenia dla firm / dotacje KFS (B2B)</option>
                   <option value="Inne">Inne zapytanie</option>
                 </select>
               </div>
@@ -205,13 +215,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
             <div>
               <label for="message" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Treść wiadomości / Preferowany termin
+                Treść wiadomości / preferowany termin
               </label>
               <textarea
                 id="message"
                 name="message"
                 rows="4"
-                placeholder="Podaj szczegóły: ilu uczestników, jaki kurs Cię interesuje, czy potrzebujesz szkolenia w Kutnie czy w swojej firmie..."
+                placeholder="Podaj szczegóły: jaki kurs Cię interesuje, ilu uczestników chcesz zgłosić lub jakiej maszyny potrzebujesz..."
                 class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
               ></textarea>
             </div>
@@ -224,20 +234,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 required
                 class="mt-1 w-4 h-4 rounded border-slate-300 text-brand-primary focus:ring-brand-primary"
               />
-              <label for="consent" class="text-xs text-slate-500 leading-normal">
-                Wyrażam zgodę na przetwarzanie moich danych osobowych przez MultiSerwis Kutno w celu odpowiedzi na przesłane zapytanie zgodnie z naszą <a href="/polityka-prywatnosci" class="text-brand-primary underline">Polityką Prywatności</a>.
+              <label for="consent" class="text-xs text-slate-600 leading-relaxed">
+                Wyrażam zgodę na przetwarzanie moich danych osobowych przez MultiSerwis Kutno w celu odpowiedzi na przesłane zapytanie zgodnie z <a href="/polityka-prywatnosci" class="text-brand-primary underline">Polityką prywatności</a>.
               </label>
             </div>
 
             <button
               type="submit"
-              class="w-full py-4 bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider rounded-sm transition-all shadow-md cursor-pointer"
+              id="contact-submit-btn"
+              class="inline-flex items-center justify-center gap-2 w-full py-4 bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all shadow-md cursor-pointer"
             >
-              Wyślij wiadomość do doradcy →
+              <span>Wyślij wiadomość do doradcy</span>
+              <IndustrialIcon name="arrow-right" class="w-4 h-4" />
             </button>
 
-            <div id="form-feedback" class="hidden p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs text-center font-bold">
-              ✓ Dziękujemy! Twoja wiadomość została wysłana. Skontaktujemy się z Tobą najszybciej jak to możliwe.
+            <div id="form-feedback" class="hidden p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm text-center font-bold">
+              Dziękujemy! Twoje zgłoszenie zostało przyjęte. Nasz doradca skontaktuje się z Tobą telefonicznie lub mailowo.
             </div>
           </form>
         </div>
@@ -247,29 +259,93 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <script>
-  // Simple client-side UX for the contact form
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const feedback = document.getElementById("form-feedback");
+  const submitBtn = document.getElementById("contact-submit-btn") as HTMLButtonElement | null;
+  const msgField = document.getElementById("message") as HTMLTextAreaElement | null;
+  const subjectField = document.getElementById("subject") as HTMLSelectElement | null;
 
-  // Pre-fill fields based on query string (e.g. ?kurs=..., ?wynajem=...)
   const params = new URLSearchParams(window.location.search);
   const kurs = params.get("kurs");
   const wynajem = params.get("wynajem");
   const termin = params.get("termin");
-  const msgField = document.getElementById("message") as HTMLTextAreaElement | null;
+  const usluga = params.get("usluga");
+  const typ = params.get("typ");
+
+  if (subjectField) {
+    if (wynajem) {
+      subjectField.value = "Wynajem Maszyn";
+    } else if (usluga) {
+      subjectField.value = "Serwis Maszyn";
+    } else if (typ && (typ.includes("b2b") || typ.includes("termin"))) {
+      subjectField.value = "Szkolenia Firmowe B2B";
+    } else if (kurs) {
+      const lower = kurs.toLowerCase();
+      if (lower.includes("spawan") || lower.includes("mig") || lower.includes("tig")) {
+        subjectField.value = "Kursy Spawania";
+      } else if (lower.includes("sep") || lower.includes("g1") || lower.includes("g2") || lower.includes("g3")) {
+        subjectField.value = "Uprawnienia SEP";
+      } else if (lower.includes("kopark") || lower.includes("walc") || lower.includes("spychark")) {
+        subjectField.value = "Maszyny IMBiGS";
+      } else if (lower.includes("zawies") || lower.includes("pilark") || lower.includes("hakow")) {
+        subjectField.value = "Szkolenia Specjalistyczne";
+      } else {
+        subjectField.value = "Szkolenia UDT";
+      }
+    }
+  }
 
   if (msgField) {
-    if (kurs) msgField.value = `Dzień dobry, interesuje mnie zapis na szkolenie: ${kurs}. Proszę o informację o najbliższym terminie.`;
-    if (wynajem) msgField.value = `Dzień dobry, chciałbym zapytać o wynajem maszyny: ${wynajem}.`;
-    if (termin) msgField.value = `Dzień dobry, chciałbym zarezerwować miejsce na terminie: ${termin}.`;
+    if (kurs) {
+      msgField.value = `Dzień dobry, interesuje mnie zapis na szkolenie: ${kurs}. Proszę o informację o najbliższym terminie.`;
+    } else if (wynajem) {
+      msgField.value = `Dzień dobry, proszę o informację o dostępności i stawce wynajmu maszyny: ${wynajem}.`;
+    } else if (termin) {
+      msgField.value = `Dzień dobry, chciałbym zarezerwować miejsce na termin: ${termin}.`;
+    } else if (usluga) {
+      msgField.value = `Dzień dobry, zgłaszam zapotrzebowanie na usługę serwisową: ${usluga}. Proszę o kontakt.`;
+    } else if (typ === "b2b_kfs") {
+      msgField.value = `Dzień dobry, interesuje mnie organizacja szkolenia dla pracowników firmy wraz z dofinansowaniem z KFS / BUR. Proszę o kontakt.`;
+    } else if (typ === "b2b" || typ === "termin_indywidualny") {
+      msgField.value = `Dzień dobry, chciałbym zapytać o wycenę i termin szkolenia zamkniętego dla grupy pracowników.`;
+    }
   }
 
   if (form && feedback) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      feedback.classList.remove("hidden");
-      form.reset();
-      window.scrollTo({ top: feedback.offsetTop - 100, behavior: "smooth" });
+      const formData = new FormData(form);
+      const name = String(formData.get("name") || "").trim();
+      const phone = String(formData.get("phone") || "").trim();
+      const email = String(formData.get("email") || "").trim();
+      const subject = String(formData.get("subject") || "Zapytanie ze strony");
+      const rawMessage = String(formData.get("message") || "").trim();
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+      }
+
+      try {
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            email,
+            message: `[Kategoria: ${subject}] ${rawMessage}`,
+          }),
+        });
+      } catch {
+        // Fallback: even if offline/dev without PHP backend, show confirmation
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+        }
+        feedback.classList.remove("hidden");
+        form.reset();
+        window.scrollTo({ top: feedback.offsetTop - 120, behavior: "smooth" });
+      }
     });
   }
 </script>

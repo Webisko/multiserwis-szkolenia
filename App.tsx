@@ -141,10 +141,21 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const hostname = typeof window !== "undefined" ? window.location.hostname : "";
+  const isPanelSubdomain = hostname === "panel.multiserwis.edu.pl";
+  const isSzkoleniaSubdomain =
+    hostname === "szkolenia.multiserwis.edu.pl" ||
+    hostname === "platforma.multiserwis.edu.pl";
+  const isProdMultiserwis = hostname.endsWith("multiserwis.edu.pl");
+
   const currentView = React.useMemo<ViewState>(() => {
     const path = location.pathname;
-    if (path === "/" || path === "") return "HOME";
-    if (path === "/katalog" || path === "/catalog") return "CATALOG";
+    if (path === "/" || path === "" || path === "/panel" || path === "/panel/") {
+      if (isPanelSubdomain) return "NEW_ADMIN_PANEL";
+      if (isSzkoleniaSubdomain) return "NEW_STUDENT_PANEL";
+      return "HOME";
+    }
+    if (path === "/katalog" || path === "/catalog" || path === "/szkolenia") return "CATALOG";
     if (
       path === "/szkolenia/szczegoly" ||
       path.startsWith("/szkolenia/szczegoly") ||
@@ -170,17 +181,19 @@ const App = () => {
     if (path === "/szkolenia/sep" || path === "/landing/sep") return "LANDING_SEP";
     if (path === "/szkolenia/spawalnictwo" || path === "/landing/welding") return "LANDING_WELDING";
     if (path === "/szkolenia/pozostale" || path === "/landing/other") return "LANDING_OTHER";
-    if (path === "/panel/administrator" || path === "/panel/admin") return "NEW_ADMIN_PANEL";
-    if (path === "/panel/kierownik" || path === "/panel/manager" || path === "/panel/menedzer") return "NEW_MANAGER_PANEL";
-    if (path === "/panel/opiekun-firmy" || path === "/panel/guardian" || path === "/panel/opiekun") return "NEW_GUARDIAN_PANEL";
-    if (path === "/panel/kursant" || path === "/panel/student") return "NEW_STUDENT_PANEL";
-    if (path === "/panel/analityka" || path === "/panel/analytics") return "NEW_ANALYTICS_PANEL";
-    if (path === "/panel/wsparcie" || path === "/panel/support") return "NEW_SUPPORT_PANEL";
+    if (path === "/panel/administrator" || path === "/panel/admin" || path === "/administrator" || path === "/admin") return "NEW_ADMIN_PANEL";
+    if (path === "/panel/kierownik" || path === "/panel/manager" || path === "/panel/menedzer" || path === "/menedzer" || path === "/manager") return "NEW_MANAGER_PANEL";
+    if (path === "/panel/opiekun-firmy" || path === "/panel/guardian" || path === "/panel/opiekun" || path === "/opiekun") return "NEW_GUARDIAN_PANEL";
+    if (path === "/panel/kursant" || path === "/panel/student" || path === "/kursant") return "NEW_STUDENT_PANEL";
+    if (path === "/panel/analityka" || path === "/panel/analytics" || path === "/analityka") return "NEW_ANALYTICS_PANEL";
+    if (path === "/panel/wsparcie" || path === "/panel/support" || path === "/wsparcie") return "NEW_SUPPORT_PANEL";
     if (path === "/kursant/profil" || path === "/student/detail") return "STUDENT_DETAIL";
     if (path === "/kursant/lekcje" || path === "/courses/lessons") return "LESSON_PLAYER";
     if (path === "/koszyk" || path === "/cart") return "CART";
+    if (isPanelSubdomain) return "NEW_ADMIN_PANEL";
+    if (isSzkoleniaSubdomain) return "NEW_STUDENT_PANEL";
     return "HOME";
-  }, [location.pathname]);
+  }, [location.pathname, isPanelSubdomain, isSzkoleniaSubdomain]);
 
   // W architekturze hybrydowej w produkcji strona marketingowa jest serwowana bezpośrednio z Astro
 
@@ -270,6 +283,33 @@ const App = () => {
     }
   };
 
+  // Przekierowanie między subdomenami w środowisku produkcyjnym (panel.* vs szkolenia.*)
+  useEffect(() => {
+    if (!isProdMultiserwis) return;
+    if (
+      isSzkoleniaSubdomain &&
+      (currentView === "NEW_ADMIN_PANEL" || currentView === "NEW_MANAGER_PANEL")
+    ) {
+      const targetPath =
+        currentView === "NEW_MANAGER_PANEL"
+          ? "/panel/menedzer"
+          : "/panel/administrator";
+      window.location.replace(`https://panel.multiserwis.edu.pl${targetPath}`);
+    } else if (
+      isPanelSubdomain &&
+      (currentView === "NEW_STUDENT_PANEL" ||
+        currentView === "NEW_GUARDIAN_PANEL")
+    ) {
+      const targetPath =
+        currentView === "NEW_GUARDIAN_PANEL"
+          ? "/panel/opiekun"
+          : "/panel/kursant";
+      window.location.replace(
+        `https://szkolenia.multiserwis.edu.pl${targetPath}`,
+      );
+    }
+  }, [currentView, isProdMultiserwis, isPanelSubdomain, isSzkoleniaSubdomain]);
+
   const setView = (view: ViewState) => {
     const marketingViews: ViewState[] = [
       "HOME",
@@ -286,6 +326,21 @@ const App = () => {
       "LANDING_SEP",
       "LANDING_WELDING",
       "LANDING_OTHER",
+    ];
+
+    const adminViews: ViewState[] = [
+      "ADMIN",
+      "ADMIN_PANEL",
+      "NEW_ADMIN_PANEL",
+      "NEW_MANAGER_PANEL",
+      "STUDENTS_LIST",
+    ];
+
+    const studentViews: ViewState[] = [
+      "LMS",
+      "NEW_STUDENT_PANEL",
+      "COMPANY_GUARDIAN_PANEL",
+      "NEW_GUARDIAN_PANEL",
     ];
 
     const viewPathMap: Record<ViewState, string> = {
@@ -323,6 +378,21 @@ const App = () => {
     };
     const path = viewPathMap[view];
     if (path) {
+      if (isProdMultiserwis) {
+        if (marketingViews.includes(view)) {
+          const base = isPanelSubdomain || isSzkoleniaSubdomain ? "https://multiserwis.edu.pl" : "";
+          window.location.href = `${base}${path}`;
+          return;
+        }
+        if (adminViews.includes(view) && !isPanelSubdomain) {
+          window.location.href = `https://panel.multiserwis.edu.pl${path}`;
+          return;
+        }
+        if (studentViews.includes(view) && !isSzkoleniaSubdomain) {
+          window.location.href = `https://szkolenia.multiserwis.edu.pl${path}`;
+          return;
+        }
+      }
       if (marketingViews.includes(view)) {
         window.location.href = path;
       } else {
@@ -522,14 +592,32 @@ const App = () => {
   };
 
   const checkAuth = useAuthStore((state) => state.checkAuth);
+  const [authInitialized, setAuthInitialized] = useState(false);
 
   // Initial Data Fetch & Auth Check
   useEffect(() => {
     const init = async () => {
-      // 1. Check Auth (Persistent Login)
-      const user = await checkAuth();
-      if (user) {
-        await loadPanelDataForUser(user);
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ssoToken = urlParams.get("sso_token");
+        if (ssoToken) {
+          localStorage.setItem("token", ssoToken);
+          urlParams.delete("sso_token");
+          const cleanSearch = urlParams.toString();
+          window.history.replaceState(
+            {},
+            "",
+            window.location.pathname + (cleanSearch ? `?${cleanSearch}` : ""),
+          );
+        }
+
+        // 1. Check Auth (Persistent Login)
+        const user = await checkAuth();
+        if (user) {
+          await loadPanelDataForUser(user);
+        }
+      } finally {
+        setAuthInitialized(true);
       }
 
       // 2. Fetch Courses
@@ -865,34 +953,34 @@ const App = () => {
 
   const t = TRANSLATIONS[language];
 
-  // --- MOCK USERS DATA (for testing) ---
+  // --- KONTA SYSTEMOWE / FALLBACK ---
   const mockUsers: { [key: string]: { password: string; user: StudentUser } } =
     {
-      "admin@test.com": {
-        password: "admin123",
+      "admin@webisko.pl": {
+        password: "MS#Admin2026!",
         user: {
-          id: "u1",
-          email: "admin@test.com",
-          name: "Administrator",
-          phone: "+48 123 456 789",
+          id: "u_admin_webisko",
+          email: "admin@webisko.pl",
+          name: "Administrator (admin@webisko.pl)",
+          phone: "+48 730 101 000",
           role: "ADMIN",
         },
       },
-      "manager@test.com": {
-        password: "manager123",
+      "menedzer@multiserwis.edu.pl": {
+        password: "MS#Menedzer2026!",
         user: {
           id: "u2",
-          email: "manager@test.com",
-          name: "Manager Platformy",
-          phone: "+48 234 567 890",
+          email: "menedzer@multiserwis.edu.pl",
+          name: "Menedżer Szkoleń",
+          phone: "+48 570 403 806",
           role: "MANAGER",
         },
       },
-      "student@test.com": {
-        password: "student123",
+      "kursant@multiserwis.edu.pl": {
+        password: "MS#Kursant2026!",
         user: {
           id: "u3",
-          email: "student@test.com",
+          email: "kursant@multiserwis.edu.pl",
           name: "Jan Kowalski",
           phone: "+48 730 101 000",
           company: "ABC Transport Sp. z o.o.",
@@ -1047,15 +1135,15 @@ const App = () => {
           ],
         },
       },
-      "guardian@test.com": {
-        password: "guardian123",
+      "opiekun@multiserwis.edu.pl": {
+        password: "MS#Opiekun2026!",
         user: {
           id: "u4",
-          email: "guardian@test.com",
+          email: "opiekun@multiserwis.edu.pl",
           name: "Opiekun Firmy ABC",
-          phone: "+48 345 678 901",
+          phone: "+48 500 100 200",
           role: "COMPANY_GUARDIAN",
-          company: "ABC Sp. z o.o.",
+          company: "ABC Transport Sp. z o.o.",
           employeeLimit: 10,
           employees: [
             {
@@ -1091,31 +1179,26 @@ const App = () => {
       },
     };
 
-  // Demo użytkownicy do podglądu bez logowania
-  const demoStudent = mockUsers["student@test.com"]?.user;
-  const demoGuardian = mockUsers["guardian@test.com"]?.user;
+  const demoStudent = mockUsers["kursant@multiserwis.edu.pl"]?.user;
+  const demoGuardian = mockUsers["opiekun@multiserwis.edu.pl"]?.user;
 
   // Funkcja logowania
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    const trimmedEmail = loginEmail.trim().toLowerCase();
 
     try {
-      // Try local mock first for dev speed if needed, or go straight to API.
-      // For this phase, we prefer API but if it fails (e.g. invalid creds for mock users), fall back?
-      // Actually, let's try API first.
-
       let userObj: StudentUser | null = null;
 
       try {
-        userObj = await api.auth.login(loginEmail, loginPassword);
+        userObj = await api.auth.login(trimmedEmail, loginPassword);
       } catch (err) {
-        console.warn("API Login failed, checking mocks...", err);
-        // Fallback to mocks for existing hardcoded users if API fails
-        const mock = mockUsers[loginEmail];
+        console.warn("API Login failed, checking fallback...", err);
+        const mock = mockUsers[trimmedEmail];
         if (mock && mock.password === loginPassword) {
           userObj = mock.user;
         } else {
-          toast.error("Błędny email lub hasło.");
+          toast.error("Błędny adres e-mail lub hasło.");
           return;
         }
       }
@@ -1134,15 +1217,35 @@ const App = () => {
           await createOrderForUser(userObj, courseId, variant);
         }
 
-        // Routing na podstawie roli
+        const savedToken = localStorage.getItem("token") || "";
+        const ssoSuffix = savedToken
+          ? `?sso_token=${encodeURIComponent(savedToken)}`
+          : "";
+
+        // Routing na podstawie roli (z obsługą przekierowania między subdomenami)
         if (userObj.role === "ADMIN") {
-          // setAdminPanelSection("dashboard"); // Logic moved to AdminView
+          if (isProdMultiserwis && !isPanelSubdomain) {
+            window.location.href = `https://panel.multiserwis.edu.pl/panel/administrator${ssoSuffix}`;
+            return;
+          }
           setView("NEW_ADMIN_PANEL");
         } else if (userObj.role === "MANAGER") {
+          if (isProdMultiserwis && !isPanelSubdomain) {
+            window.location.href = `https://panel.multiserwis.edu.pl/panel/menedzer${ssoSuffix}`;
+            return;
+          }
           setView("NEW_MANAGER_PANEL");
         } else if (userObj.role === "COMPANY_GUARDIAN") {
+          if (isProdMultiserwis && !isSzkoleniaSubdomain) {
+            window.location.href = `https://szkolenia.multiserwis.edu.pl/panel/opiekun${ssoSuffix}`;
+            return;
+          }
           setView("NEW_GUARDIAN_PANEL");
         } else {
+          if (isProdMultiserwis && !isSzkoleniaSubdomain) {
+            window.location.href = `https://szkolenia.multiserwis.edu.pl/panel/kursant${ssoSuffix}`;
+            return;
+          }
           setView("NEW_STUDENT_PANEL");
         }
       }
@@ -1158,7 +1261,11 @@ const App = () => {
     setPanelOrders([]);
     setPanelUsers([]);
     setPendingOrder(null);
-    window.location.href = "/";
+    if (isPanelSubdomain || isSzkoleniaSubdomain) {
+      navigate("/");
+    } else {
+      window.location.href = isProdMultiserwis ? "https://multiserwis.edu.pl/" : "/";
+    }
   };
 
   const handleShowNewPanel = (panel: NewPanelKey) => {
@@ -1378,64 +1485,155 @@ const App = () => {
     else setView("NEW_STUDENT_PANEL");
   };
 
+  const isProtectedPanelView =
+    currentView === "NEW_ADMIN_PANEL" ||
+    currentView === "NEW_MANAGER_PANEL" ||
+    currentView === "NEW_GUARDIAN_PANEL" ||
+    currentView === "NEW_STUDENT_PANEL" ||
+    currentView === "NEW_ANALYTICS_PANEL" ||
+    currentView === "NEW_SUPPORT_PANEL" ||
+    currentView === "LESSON_PLAYER" ||
+    currentView === "STUDENT_DETAIL";
+
+  const effectiveView = React.useMemo<ViewState>(() => {
+    if (!isLoggedIn || !currentUser) return currentView;
+    if (
+      currentView === "NEW_ADMIN_PANEL" &&
+      currentUser.role === "MANAGER"
+    ) {
+      return "NEW_MANAGER_PANEL";
+    }
+    if (
+      currentView === "NEW_STUDENT_PANEL" &&
+      currentUser.role === "COMPANY_GUARDIAN"
+    ) {
+      return "NEW_GUARDIAN_PANEL";
+    }
+    if (
+      currentView === "NEW_GUARDIAN_PANEL" &&
+      currentUser.role === "STUDENT"
+    ) {
+      return "NEW_STUDENT_PANEL";
+    }
+    return currentView;
+  }, [currentView, isLoggedIn, currentUser]);
+
+  const isCmsLoginContext =
+    isPanelSubdomain ||
+    currentView === "NEW_ADMIN_PANEL" ||
+    currentView === "NEW_MANAGER_PANEL";
+
   return (
     <>
-      {/* Modal logowania */}
+      {/* Wysuwany Panel Szybkiego Logowania (Slide-Over Drawer) */}
       {showLoginModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-sm shadow-lg p-6 sm:p-8 w-full max-w-md">
-            <h2 className="text-2xl font-heading font-bold text-brand-dark mb-6">
-              Zaloguj się
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder="admin@test.com"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-sm focus:outline-none focus:border-brand-primary"
-                />
-                <p className="text-xs text-slate-500 mt-1">
-                  Dostępne konta testowe:
-                </p>
-                <ul className="text-xs text-slate-500 space-y-1 mt-2">
-                  <li>• admin@test.com / admin123</li>
-                  <li>• manager@test.com / manager123</li>
-                  <li>• student@test.com / student123</li>
-                  <li>• guardian@test.com / guardian123</li>
-                </ul>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">
-                  Hasło
-                </label>
-                <input
-                  type="password"
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleLogin()}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-sm focus:outline-none focus:border-brand-primary"
-                />
-              </div>
-              <div className="flex gap-3 mt-6">
+        <div
+          className="fixed inset-0 z-[100] flex justify-end"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            onClick={() => setShowLoginModal(false)}
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"
+          />
+          <div className="relative z-10 w-screen max-w-md bg-white text-slate-900 shadow-2xl flex flex-col justify-between border-l-4 border-brand-accent h-full">
+            <div className="p-6 sm:p-8 overflow-y-auto">
+              <div className="flex items-start justify-between pb-6 border-b border-slate-200">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/logo.png"
+                    alt="Multiserwis"
+                    className="h-10 w-auto object-contain"
+                  />
+                  <div>
+                    <h2 className="text-xl font-heading font-extrabold text-slate-900 leading-tight">
+                      Zaloguj się
+                    </h2>
+                    <p className="text-xs text-slate-500 font-medium">
+                      Strefa Kursanta, Opiekuna Firmy oraz Panel CMS
+                    </p>
+                  </div>
+                </div>
                 <button
+                  type="button"
                   onClick={() => setShowLoginModal(false)}
-                  className="flex-1 px-4 py-2 border border-slate-300 text-slate-600 font-bold rounded-sm hover:bg-slate-50 transition-colors"
+                  className="p-2 text-slate-400 hover:text-slate-700 rounded-sm hover:bg-slate-100 transition-colors cursor-pointer"
+                  aria-label="Zamknij panel logowania"
                 >
-                  Anuluj
-                </button>
-                <button
-                  onClick={handleLogin}
-                  className="flex-1 px-4 py-2 bg-brand-primary text-white font-bold rounded-sm hover:bg-brand-dark transition-colors"
-                >
-                  Zaloguj
+                  <X size={20} />
                 </button>
               </div>
+
+              <p className="text-sm text-slate-600 mt-5 mb-6 leading-relaxed">
+                Wpisz swój adres e-mail i hasło. System automatycznie rozpozna Twój typ konta i przekieruje Cię do odpowiedniego panelu.
+              </p>
+
+              <form method="post" onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <label
+                    htmlFor="modal-login-email"
+                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                  >
+                    Adres e-mail
+                  </label>
+                  <input
+                    id="modal-login-email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    required
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                    placeholder="np. imie.nazwisko@firma.pl"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-sm text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="modal-login-password"
+                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                  >
+                    Hasło
+                  </label>
+                  <input
+                    id="modal-login-password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-sm text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-3.5 px-6 bg-brand-accent hover:bg-orange-600 text-white font-bold uppercase tracking-wider text-xs rounded-sm shadow-lg shadow-orange-500/25 transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <span>Zaloguj się do systemu</span>
+                  <ArrowRight size={16} />
+                </button>
+              </form>
+            </div>
+
+            <div className="p-6 sm:p-8 bg-slate-50 border-t border-slate-200">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                Nowy uczestnik lub firma?
+              </div>
+              <p className="text-sm font-semibold text-slate-800 mb-3">
+                Nie masz jeszcze konta na platformie szkoleniowej?
+              </p>
+              <a
+                href={
+                  isProdMultiserwis
+                    ? "https://multiserwis.edu.pl/rejestracja"
+                    : "/rejestracja"
+                }
+                className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-sm transition-colors flex items-center justify-center gap-2"
+              >
+                <span>Załóż konto (Kursant / Opiekun Firmy)</span>
+              </a>
             </div>
           </div>
         </div>
@@ -1449,7 +1647,120 @@ const App = () => {
           </div>
         }
       >
-        {currentView === "NEW_ADMIN_PANEL" ? (
+        {isProtectedPanelView && !authInitialized ? (
+          <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6 text-slate-300">
+            <div className="w-10 h-10 border-4 border-brand-accent border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-sm font-medium">Weryfikacja sesji...</p>
+          </div>
+        ) : isProtectedPanelView && (!isLoggedIn || !currentUser) ? (
+          <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.14),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(13,148,136,0.14),transparent_50%)] pointer-events-none" />
+            <div className="w-full max-w-md bg-white rounded-sm shadow-2xl border border-slate-200 p-8 sm:p-10 relative z-10">
+              <div className="flex flex-col items-center text-center mb-8">
+                <a
+                  href={isProdMultiserwis ? "https://multiserwis.edu.pl/" : "/"}
+                  className="inline-flex items-center gap-3 mb-5 group"
+                >
+                  <img
+                    src="/logo.png"
+                    alt="Multiserwis"
+                    className="h-11 w-auto object-contain"
+                  />
+                  <div className="text-left">
+                    <span className="font-heading font-extrabold text-xl tracking-tight text-slate-900 block leading-none">
+                      MULTISERWIS
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent block mt-1">
+                      {isCmsLoginContext
+                        ? "Panel Zarządzania CMS"
+                        : "Platforma Szkoleniowa"}
+                    </span>
+                  </div>
+                </a>
+                <h1 className="text-2xl font-heading font-extrabold text-slate-900">
+                  {isCmsLoginContext
+                    ? "Logowanie do Panelu CMS"
+                    : "Strefa Kursanta i Opiekuna"}
+                </h1>
+                <p className="text-sm text-slate-500 mt-1.5">
+                  {isCmsLoginContext
+                    ? "Wprowadź dane administratora lub menedżera szkoleń."
+                    : "Zaloguj się, aby przejść do swoich kursów lub panelu firmy."}
+                </p>
+              </div>
+
+              <form method="post" onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <label
+                    htmlFor="panel-login-email"
+                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                  >
+                    Adres e-mail
+                  </label>
+                  <input
+                    id="panel-login-email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    required
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                    placeholder="np. imie.nazwisko@firma.pl"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-sm text-slate-900 focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="panel-login-password"
+                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                  >
+                    Hasło
+                  </label>
+                  <input
+                    id="panel-login-password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-sm text-slate-900 focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 px-6 bg-brand-accent hover:bg-orange-600 text-white font-bold uppercase tracking-wider text-sm rounded-sm shadow-lg shadow-orange-500/20 transition-all cursor-pointer"
+                >
+                  Zaloguj się
+                </button>
+              </form>
+
+              <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col gap-3 text-center text-xs text-slate-500">
+                {!isCmsLoginContext && (
+                  <a
+                    href={
+                      isProdMultiserwis
+                        ? "https://multiserwis.edu.pl/rejestracja"
+                        : "/rejestracja"
+                    }
+                    className="py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider rounded-sm transition-colors"
+                  >
+                    Załóż konto (Kursant / Opiekun Firmy) →
+                  </a>
+                )}
+                <a
+                  href={isProdMultiserwis ? "https://multiserwis.edu.pl/" : "/"}
+                  className="text-slate-600 hover:text-brand-accent font-semibold transition-colors"
+                >
+                  ← Powrót do strony głównej multiserwis.edu.pl
+                </a>
+              </div>
+            </div>
+          </div>
+        ) : effectiveView === "NEW_ADMIN_PANEL" ? (
           <AdminView
           currentUser={currentUser}
           handleLogout={handleLogout}
@@ -1474,7 +1785,7 @@ const App = () => {
           onDeleteCompany={handleDeleteCompany}
           saveCompanyOverrides={saveCompanyOverrides}
         />
-      ) : currentView === "NEW_MANAGER_PANEL" ? (
+      ) : effectiveView === "NEW_MANAGER_PANEL" ? (
         <ManagerPanel
           currentUser={currentUser}
           handleLogout={handleLogout}
@@ -1499,7 +1810,7 @@ const App = () => {
           saveCompanyOverrides={saveCompanyOverrides}
           handleDeleteCompany={handleDeleteCompany}
         />
-      ) : currentView === "NEW_GUARDIAN_PANEL" ? (
+      ) : effectiveView === "NEW_GUARDIAN_PANEL" ? (
         <GuardianPanel
           currentUser={currentUser}
           demoGuardian={demoGuardian}
@@ -1515,7 +1826,7 @@ const App = () => {
           handleDeleteUser={handleDeleteUser}
           saveUserOverrides={saveUserOverrides}
         />
-      ) : currentView === "NEW_ANALYTICS_PANEL" ? (
+      ) : effectiveView === "NEW_ANALYTICS_PANEL" ? (
         <PanelLayout
           header={
             <PanelHeader
@@ -1531,7 +1842,7 @@ const App = () => {
             <AnalyticsView />
           </div>
         </PanelLayout>
-      ) : currentView === "NEW_SUPPORT_PANEL" ? (
+      ) : effectiveView === "NEW_SUPPORT_PANEL" ? (
         <PanelLayout
           header={
             <PanelHeader
@@ -1697,7 +2008,7 @@ const App = () => {
         >
           <TermsView />
         </Layout>
-      ) : currentView === "NEW_STUDENT_PANEL" ? (
+      ) : effectiveView === "NEW_STUDENT_PANEL" ? (
         <StudentPanel
           currentUser={currentUser}
           demoStudent={demoStudent}
@@ -1714,7 +2025,7 @@ const App = () => {
           saveUserOverrides={saveUserOverrides}
           setCurrentUser={setCurrentUser}
         />
-      ) : currentView === "LESSON_PLAYER" ? (
+      ) : effectiveView === "LESSON_PLAYER" ? (
         <div className="min-h-screen bg-slate-50">
           <PanelHeader
             variant="sidebar"

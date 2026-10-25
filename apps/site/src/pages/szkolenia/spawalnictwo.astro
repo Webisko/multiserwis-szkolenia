@@ -1,5 +1,6 @@
 ---
 import CategoryLayout, { type TrainingItem } from "../../layouts/CategoryLayout.astro";
+import IndustrialIcon from "../../components/IndustrialIcon.astro";
 
 const weldingTrainings: TrainingItem[] = [
   {
@@ -8,7 +9,7 @@ const weldingTrainings: TrainingItem[] = [
     title: "Spawanie MIG/MAG (131, 135, 136)",
     price: "od 2 400 zł / moduł",
     description: "Najpopularniejsza metoda spawania w osłonie gazów aktywnych (MAG) lub obojętnych (MIG). Stal czarna, nierdzewna i aluminium.",
-    features: ["Stal czarna: 2400 zł | Nierdzewna: 2700 zł | Alu: 2900 zł", "3 moduły: pachwiny (I), blachy (II), rury (III)", "Czas trwania: 32 godz. zajęć praktycznych", "Norma PN-EN ISO 9606-1 + Certyfikat SGS"],
+    features: ["Stal czarna: 2 400 zł | Nierdzewna: 2 700 zł | Alu: 2 900 zł", "3 moduły: pachwiny (I), blachy (II), rury (III)", "Czas trwania: 32 godz. zajęć praktycznych", "Norma PN-EN ISO 9606-1 + Certyfikat SGS"],
   },
   {
     id: "spawanie-tig",
@@ -16,7 +17,7 @@ const weldingTrainings: TrainingItem[] = [
     title: "Spawanie TIG (141)",
     price: "od 2 400 zł / moduł",
     description: "Metoda 141 – spawanie elektrodą wolframową w osłonie argonu. Najwyższa jakość i estetyka spoin w instalacjach i rurociągach.",
-    features: ["Stal czarna: 2400 zł | Nierdzewna: 2700 zł | Alu: 2900 zł", "Spawanie rur cienkościennych i zbiorników", "Czas trwania: 32 godz. intensywnej praktyki", "Książeczka Spawacza + Certyfikat SGS"],
+    features: ["Stal czarna: 2 400 zł | Nierdzewna: 2 700 zł | Alu: 2 900 zł", "Spawanie rur cienkościennych i zbiorników", "Czas trwania: 32 godz. intensywnej praktyki", "Książeczka Spawacza + Certyfikat SGS"],
   },
   {
     id: "spawanie-elektryczne",
@@ -24,24 +25,24 @@ const weldingTrainings: TrainingItem[] = [
     title: "Spawanie elektryczne MMA (111)",
     price: "od 2 400 zł / moduł",
     description: "Metoda 111 – spawanie elektrodą otuloną. Uniwersalna metoda montażowa na budowach i przy pracach w terenie.",
-    features: ["Stal czarna: 2400 zł | Stal nierdzewna: 2700 zł", "Wszystkie pozycje spawania (PA, PB, PC, PF)", "Czas trwania: 32 godz. zajęć praktycznych", "Świadectwo egzaminu spawacza wg ISO 9606-1"],
+    features: ["Stal czarna: 2 400 zł | Stal nierdzewna: 2 700 zł", "Wszystkie pozycje spawania (PA, PB, PC, PF)", "Czas trwania: 32 godz. zajęć praktycznych", "Świadectwo egzaminu spawacza wg ISO 9606-1"],
   },
   {
     id: "odnowienie-spawanie",
     title: "Odnowienie uprawnień i cięcie termiczne",
     price: "od 600 zł",
     description: "Egzaminy weryfikacyjne przedłużające ważność certyfikatów spawalniczych oraz kursy cięcia tlenowego i plazmowego.",
-    features: ["Odnowienie uprawnień spawacza: 600 zł", "Cięcie gazowe i plazmowe: 900 zł", "Egzamin weryfikacyjny przed komisją", "Przedłużenie certyfikatu na kolejne 2-3 lata"],
+    features: ["Odnowienie uprawnień spawacza: 600 zł", "Cięcie gazowe i plazmowe: 900 zł", "Egzamin weryfikacyjny przed komisją", "Przedłużenie certyfikatu na kolejne 2–3 lata"],
   },
 ];
 ---
 
 <CategoryLayout
-  title="Kursy Spawalnicze (MIG, MAG, TIG, MMA) Kutno"
+  title="Kursy spawalnicze (MIG, MAG, TIG, MMA) Kutno"
   badge="Certyfikacja SGS & PN-EN ISO 9606-1"
   description="Praktyczne kursy spawania na nowoczesnych stanowiskach w Kutnie. Zdobądź międzynarodową Książeczkę Spawacza oraz certyfikat zgodny z europejską normą PN-EN ISO 9606-1 (SGS)."
   trainings={weldingTrainings}
-  heroImage="/wynajem-maszyn.webp"
+  heroImage="/serwis-i-koserwacja.webp"
   servicePromo={{
     title: "Naprawy spawalnicze maszyn budowlanych",
     description: "Prowadzimy profesjonalny serwis spawalniczy: regeneracja ram, wysięgników koparek, łyżek i osprzętu ciężkiego.",
@@ -49,14 +50,14 @@ const weldingTrainings: TrainingItem[] = [
     linkUrl: "/uslugi",
   }}
 >
-  <!-- Tabela szczegółowa modułów ze starej strony -->
-  <div class="mt-14 bg-white rounded-2xl border border-slate-200/90 p-6 md:p-8 shadow-sm">
+  <!-- Tabela szczegółowa modułów -->
+  <div class="mt-14 bg-white rounded-xl border border-slate-200/90 p-6 md:p-8 shadow-sm">
     <div class="mb-6">
-      <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Cennik Modułowy PN-EN ISO 9606-1</span>
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Cennik modułowy PN-EN ISO 9606-1</span>
       <h3 class="text-xl md:text-2xl font-heading font-black text-slate-900 mt-1">
-        Kompletny Cennik Kursów Spawalniczych w podziale na Moduły
+        Kompletny cennik kursów spawalniczych w podziale na moduły
       </h3>
-      <p class="text-xs md:text-sm text-slate-600 mt-1">
+      <p class="text-sm text-slate-600 mt-1.5 leading-relaxed">
         Szkolenia prowadzimy w 3 modułach zaawansowania. Czas trwania modułu: 32 godziny intensywnych zajęć praktycznych. Po zdanym egzaminie kursant otrzymuje Świadectwo Egzaminu Spawacza oraz Książeczkę Spawacza (Certyfikacja SGS, ważność 2–3 lata). Ceny zwolnione z VAT.
       </p>
     </div>
@@ -66,9 +67,9 @@ const weldingTrainings: TrainingItem[] = [
         <thead>
           <tr class="bg-slate-900 text-white font-heading font-bold text-xs uppercase tracking-wider">
             <th class="p-3.5 rounded-tl-lg">Metoda spawania i materiał</th>
-            <th class="p-3.5 text-center">Moduł I<br /><span class="text-[10px] font-normal text-slate-300">Pachwinowe blach i rur</span></th>
-            <th class="p-3.5 text-center">Moduł II<br /><span class="text-[10px] font-normal text-slate-300">Doczołowe blach</span></th>
-            <th class="p-3.5 text-center rounded-tr-lg">Moduł III<br /><span class="text-[10px] font-normal text-slate-300">Doczołowe rur</span></th>
+            <th class="p-3.5 text-center">Moduł I<br /><span class="text-xs font-normal text-slate-300 normal-case">Pachwinowe blach i rur</span></th>
+            <th class="p-3.5 text-center">Moduł II<br /><span class="text-xs font-normal text-slate-300 normal-case">Doczołowe blach</span></th>
+            <th class="p-3.5 text-center rounded-tr-lg">Moduł III<br /><span class="text-xs font-normal text-slate-300 normal-case">Doczołowe rur</span></th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-200 text-slate-700">
@@ -144,15 +145,16 @@ const weldingTrainings: TrainingItem[] = [
       </table>
     </div>
 
-    <div class="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+    <div class="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-600">
       <div>
-        <strong>Wymagania formalne:</strong> Ukończone 18 lat, wykształcenie minimum podstawowe, zaświadczenie lekarskie medycyny pracy (ośrodek wydaje skierowanie).
+        <strong class="text-slate-900">Wymagania formalne:</strong> Ukończone 18 lat, wykształcenie minimum podstawowe, zaświadczenie lekarskie medycyny pracy (ośrodek wydaje skierowanie).
       </div>
       <a
-        href="/kontakt?kurs=spawanie_modulowe"
-        class="shrink-0 px-5 py-2.5 bg-brand-primary hover:bg-brand-secondary text-white font-bold rounded-sm uppercase tracking-wider transition-colors"
+        href="/kontakt?kurs=Spawanie%20modu%C5%82owe%20(MIG%2FMAG%2FTIG%2FMMA)"
+        class="inline-flex items-center gap-2 shrink-0 px-5 py-3 bg-brand-primary hover:bg-brand-secondary text-white font-bold text-xs rounded-md uppercase tracking-wider transition-colors"
       >
-        Zapisz się na moduł spawalniczy →
+        Zapisz się na moduł spawalniczy
+        <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
       </a>
     </div>
   </div>

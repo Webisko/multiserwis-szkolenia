@@ -1,32 +1,66 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { CourseFinderIsland } from "../../components/islands/CourseFinderIsland";
+import IndustrialIcon, { type IconName } from "../../components/IndustrialIcon.astro";
 
-const categories = [
-  { name: "Wszystkie", path: "/szkolenia", active: true },
-  { name: "🚜 Szkolenia UDT", path: "/szkolenia/udt" },
-  { name: "🏗️ Maszyny IMBiGS", path: "/szkolenia/imbigs" },
-  { name: "⚡ Uprawnienia SEP", path: "/szkolenia/sep" },
-  { name: "🔥 Spawalnictwo", path: "/szkolenia/spawalnictwo" },
-  { name: "🦺 BHP i Inne", path: "/szkolenia/pozostale" },
+const categories: { name: string; path: string; active?: boolean; icon?: IconName }[] = [
+  { name: "Wszystkie szkolenia", path: "/szkolenia", active: true },
+  { name: "Szkolenia UDT", path: "/szkolenia/udt", icon: "forklift" },
+  { name: "Maszyny IMBiGS", path: "/szkolenia/imbigs", icon: "excavator" },
+  { name: "Uprawnienia SEP", path: "/szkolenia/sep", icon: "sep" },
+  { name: "Spawalnictwo", path: "/szkolenia/spawalnictwo", icon: "welding" },
+  { name: "BHP i specjalistyczne", path: "/szkolenia/pozostale", icon: "bhp" },
+];
+
+const categoryCards: { title: string; desc: string; path: string; icon: IconName }[] = [
+  {
+    title: "Szkolenia UDT",
+    desc: "Wózki widłowe jezdniowe, podesty ruchome (zwyżki), ładowarki teleskopowe, suwnice i żurawie HDS.",
+    path: "/szkolenia/udt",
+    icon: "forklift",
+  },
+  {
+    title: "Maszyny budowlane IMBiGS",
+    desc: "Koparko-ładowarki kl. III, koparki jednonaczyniowe, ładowarki, walce drogowe, spycharki i równiarki.",
+    path: "/szkolenia/imbigs",
+    icon: "excavator",
+  },
+  {
+    title: "Uprawnienia energetyczne SEP",
+    desc: "Grupa G1 (elektryczne), G2 (cieplne) oraz G3 (gazowe) na stanowiskach Eksploatacji (E) i Dozoru (D).",
+    path: "/szkolenia/sep",
+    icon: "sep",
+  },
+  {
+    title: "Kursy spawalnicze",
+    desc: "Spawanie metodami MIG/MAG (131/135/136), TIG (141) i MMA (111). Certyfikat SGS wg PN-EN ISO 9606-1.",
+    path: "/szkolenia/spawalnictwo",
+    icon: "welding",
+  },
+  {
+    title: "BHP i kursy specjalistyczne",
+    desc: "Specjalista ds. kontroli zawiesi, pilarki mechaniczne, kosy spalinowe, windy załadowcze i hakowy.",
+    path: "/szkolenia/pozostale",
+    icon: "bhp",
+  },
 ];
 ---
 
 <BaseLayout
-  title="Katalog Szkoleń Zawodowych UDT, IMBiGS, SEP Kutno | MultiSerwis"
-  description="Pełna oferta certyfikowanych kursów zawodowych w Kutnie. Wyszukiwarka szkoleń na żywo, wózki widłowe, zwyżki, ładowarki, koparki, uprawnienia elektryczne SEP i spawanie."
+  title="Katalog szkoleń zawodowych UDT, IMBiGS, SEP Kutno | MultiSerwis"
+  description="Pełna oferta certyfikowanych kursów zawodowych w Kutnie. Wyszukiwarka szkoleń na żywo: wózki widłowe, zwyżki, ładowarki, koparki, uprawnienia elektryczne SEP i spawanie."
 >
   <!-- Hero Section -->
   <section class="bg-brand-dark text-white py-14 md:py-20 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="max-w-3xl space-y-4">
-        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
-          Certyfikacja Państwowa Kutno
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Certyfikacja państwowa Kutno
         </span>
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight">
-          Katalog Szkoleń i Uprawnień Zawodowych
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold leading-tight">
+          Katalog szkoleń i uprawnień zawodowych
         </h1>
-        <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+        <p class="text-base sm:text-lg text-slate-200 leading-relaxed">
           Wybierz specjalizację i zdobądź państwowe uprawnienia honorowane w całej Unii Europejskiej. Wyszukaj kurs i zarezerwuj miejsce online w 60 sekund.
         </p>
       </div>
@@ -34,14 +68,19 @@ const categories = [
   </section>
 
   <!-- Category Nav Bar -->
-  <div class="bg-white border-b border-slate-200 sticky top-[73px] z-30 shadow-xs">
+  <div class="bg-white border-b border-slate-200 sticky top-[68px] sm:top-[101px] z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-2 overflow-x-auto py-3 no-scrollbar text-xs font-bold uppercase tracking-wider">
       {categories.map((cat) => (
         <a
           href={cat.path}
-          class={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${cat.active ? "bg-brand-primary text-white shadow-sm" : "text-slate-600 hover:text-brand-primary hover:bg-slate-100"}`}
+          class={`px-4 py-2 rounded-md whitespace-nowrap transition-all inline-flex items-center gap-2 ${
+            cat.active
+              ? "bg-brand-primary text-white shadow-xs"
+              : "text-slate-600 hover:text-brand-primary hover:bg-slate-100"
+          }`}
         >
-          {cat.name}
+          {cat.icon && <IndustrialIcon name={cat.icon} class="w-4 h-4 text-brand-accent" />}
+          <span>{cat.name}</span>
         </a>
       ))}
     </div>
@@ -54,39 +93,38 @@ const categories = [
 
       <!-- Categories Links Cards -->
       <div class="mt-20 pt-12 border-t border-slate-200">
-        <h3 class="text-xl font-heading font-bold text-slate-900 mb-6">
-          Dedykowane strony kategorii uprawnień
-        </h3>
+        <div class="mb-8">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-brand-accent block mb-1.5">
+            Specjalizacje tematyczne
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900">
+            Dedykowane strony kategorii uprawnień
+          </h2>
+        </div>
+
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <a
-            href="/szkolenia/udt"
-            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
-          >
-            <span class="text-2xl mb-2 block">🚜</span>
-            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Szkolenia UDT</h4>
-            <p class="text-xs text-slate-500 mt-1">Wózki widłowe, podesty ruchome (zwyżki), ładowarki teleskopowe, suwnice i żurawie HDS.</p>
-            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty UDT →</span>
-          </a>
-
-          <a
-            href="/szkolenia/imbigs"
-            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
-          >
-            <span class="text-2xl mb-2 block">🏗️</span>
-            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Maszyny Budowlane IMBiGS</h4>
-            <p class="text-xs text-slate-500 mt-1">Koparko-ładowarki, koparki jednonaczyniowe, ładowarki, walce drogowe i spycharki.</p>
-            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty IMBiGS →</span>
-          </a>
-
-          <a
-            href="/szkolenia/sep"
-            class="p-6 rounded-xl bg-white border border-slate-200 hover:border-brand-accent hover:shadow-lg transition-all group"
-          >
-            <span class="text-2xl mb-2 block">⚡</span>
-            <h4 class="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">Uprawnienia Elektryczne SEP</h4>
-            <p class="text-xs text-slate-500 mt-1">Grupa G1 (elektryczne), G2 (cieplne), G3 (gazowe) na stanowiskach Eksploatacji 'E' i Dozoru 'D'.</p>
-            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-4 inline-block group-hover:translate-x-1 transition-transform">Przejdź do oferty SEP →</span>
-          </a>
+          {categoryCards.map((card) => (
+            <a
+              href={card.path}
+              class="p-6 rounded-xl bg-white border border-slate-200/90 hover:border-brand-accent hover:shadow-lg transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <div class="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary group-hover:bg-brand-accent group-hover:text-white transition-colors flex items-center justify-center mb-4">
+                  <IndustrialIcon name={card.icon} class="w-6 h-6" />
+                </div>
+                <h3 class="text-lg font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors">
+                  {card.title}
+                </h3>
+                <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                  {card.desc}
+                </p>
+              </div>
+              <span class="text-xs font-bold text-brand-accent uppercase tracking-wider mt-5 pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                <span>Przejdź do pełnej oferty</span>
+                <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
+              </span>
+            </a>
+          ))}
         </div>
       </div>
     </div>

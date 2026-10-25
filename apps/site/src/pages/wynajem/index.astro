@@ -1,41 +1,72 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import IndustrialIcon, { type IconName } from "../../components/IndustrialIcon.astro";
 import { MACHINES } from "@multiserwis/shared";
 
-const rentalBenefits = [
+const rentalBenefits: { title: string; desc: string; icon: IconName }[] = [
   {
     title: "Aktualne badania UDT",
-    desc: "100% sprawności technicznej. Każda maszyna przechodzi regularne przeglądy i posiada ważną księgę rewizyjną UDT.",
-    icon: "🛡️",
+    desc: "Pełna sprawność techniczna. Każda maszyna przechodzi regularne przeglądy konserwatorskie i posiada ważną decyzję UDT.",
+    icon: "bhp",
   },
   {
     title: "Wynajem krótko- i długoterminowy",
-    desc: "Elastyczne stawki dobowe, tygodniowe oraz atrakcyjne rabaty przy kontraktach długoterminowych dla generalnych wykonawców.",
-    icon: "⏱️",
+    desc: "Elastyczne stawki dobowe, tygodniowe oraz korzystne warunki przy kontraktach miesięcznych dla wykonawców i zakładów.",
+    icon: "clock",
   },
   {
-    title: "Z operatorem lub 'na zimno'",
-    desc: "Oferujemy wynajem samego sprzętu lub z certyfikowanym, doświadczonym operatorem MultiSerwis.",
-    icon: "👷",
+    title: "Z operatorem lub bez obsługi",
+    desc: "Wynajmujemy sam sprzęt pod własnych pracowników lub zapewniamy obsługę doświadczonego operatora MultiSerwis.",
+    icon: "operator",
   },
   {
     title: "Własny transport niskopodwoziowy",
-    desc: "Dostarczamy maszyny bezpośrednio na plac budowy w Kutnie, Łodzi, Płocku, Gostyninie i w promieniu 100 km.",
-    icon: "🚛",
+    desc: "Dostarczamy maszyny lawetą bezpośrednio na plac budowy w Kutnie, Łodzi, Płocku, Kole, Łowiczu i w promieniu 100 km.",
+    icon: "truck",
   },
 ];
+
+const specLabelMap: Record<string, string> = {
+  height: "Wysokość robocza",
+  capacity: "Udźwig / pojemność",
+  weight: "Masa własna",
+};
+
+const rentalSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Wynajem maszyn budowlanych, podnośników koszowych i ładowarek teleskopowych w Kutnie",
+  provider: {
+    "@type": "LocalBusiness",
+    name: "MultiSerwis Kutno",
+    telephone: "+48730202000",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "ul. Henryka Siemiradzkiego 18",
+      addressLocality: "Kutno",
+      postalCode: "99-300",
+      addressCountry: "PL",
+    },
+  },
+  areaServed: ["Kutno", "Płock", "Łódź", "Łęczyca", "Łowicz", "Gostynin", "Koło"],
+  description:
+    "Wynajem ładowarek teleskopowych obrotowych Manitou, podestów ruchomych przegubowych i nożycowych Genie oraz koparko-ładowarek JCB w Kutnie z transportem na budowę.",
+};
 ---
 
 <BaseLayout
-  title="Wynajem Maszyn Budowlanych i Podnośników Kutno | MultiSerwis"
-  description="Wynajem nowoczesnych ładowarek teleskopowych Manitou, zwyżek przegubowych Genie i koparko-ładowarek JCB w Kutnie. Z operatorem lub bez. Zobacz flotę."
+  title="Wynajem maszyn budowlanych i podnośników Kutno | MultiSerwis"
+  description="Wynajem ładowarek teleskopowych Manitou, zwyżek przegubowych Genie i koparko-ładowarek JCB w Kutnie. Z operatorem lub bez, własny transport niskopodwoziowy."
+  schema={rentalSchema}
 >
   <!-- Hero Section -->
   <section class="relative bg-brand-dark text-white py-16 md:py-24 border-b border-slate-800 overflow-hidden">
     <div class="absolute inset-0 z-0">
       <img
         src="/wynajem-maszyn.webp"
-        alt="Wynajem maszyn budowlanych Kutno"
+        alt="Wynajem maszyn budowlanych i podnośników w Kutnie"
+        width="1600"
+        height="900"
         class="w-full h-full object-cover opacity-20 filter brightness-75 scale-105"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-primary/80"></div>
@@ -43,28 +74,30 @@ const rentalBenefits = [
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
       <div class="max-w-3xl space-y-5">
-        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
-          Flota Heavy Duty Kutno
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Flota maszyn Kutno
         </span>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-white leading-tight">
-          Wynajem Maszyn Budowlanych i Podestów Ruchomych
+          Wynajem maszyn budowlanych i podestów ruchomych
         </h1>
         <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
-          Nowoczesna, niezawodna flota ładowarek obrotowych, podnośników koszowych oraz koparek do Twojej dyspozycji. Zapewniamy transport lawetą bezpośrednio na plac budowy.
+          Sprawdzone ładowarki obrotowe Manitou, podnośniki koszowe Genie oraz koparko-ładowarki JCB gotowe do pracy na Twojej budowie. Zapewniamy własny transport niskopodwoziowy i pełny serwis mobilny.
         </p>
 
         <div class="pt-4 flex flex-wrap gap-4">
           <a
-            href="tel:+48730101000"
-            class="px-6 py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-lg shadow-orange-500/20"
+            href="tel:+48730202000"
+            class="inline-flex items-center gap-2.5 px-6 py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accentHover transition-all shadow-lg shadow-orange-500/20"
           >
-            📞 Zadzwoń po wycenę: +48 730 101 000
+            <IndustrialIcon name="phone" class="w-4 h-4" />
+            Dział wynajmu: +48 730 202 000
           </a>
           <a
             href="#katalog-maszyn"
-            class="px-6 py-3.5 border border-white/30 text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-white/10 transition-colors"
+            class="inline-flex items-center gap-2 px-6 py-3.5 border border-white/30 text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-white/10 transition-colors"
           >
-            Przeglądaj flotę maszyn ↓
+            Przeglądaj flotę maszyn
+            <IndustrialIcon name="arrow-down" class="w-4 h-4" />
           </a>
         </div>
       </div>
@@ -72,14 +105,16 @@ const rentalBenefits = [
   </section>
 
   <!-- Benefits Section -->
-  <section class="py-12 bg-white border-b border-slate-200">
+  <section class="py-14 bg-white border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {rentalBenefits.map((item) => (
-          <div class="p-5 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
-            <span class="text-2xl block mb-1">{item.icon}</span>
-            <h3 class="font-heading font-bold text-slate-900 text-sm">{item.title}</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
+          <div class="p-6 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div class="w-11 h-11 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center">
+              <IndustrialIcon name={item.icon} class="w-5 h-5" />
+            </div>
+            <h2 class="font-heading font-bold text-slate-900 text-base">{item.title}</h2>
+            <p class="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
@@ -91,13 +126,13 @@ const rentalBenefits = [
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Dostępne jednostki</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Dostępne jednostki sprzętowe</span>
           <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1">
-            Katalog Maszyn na Wynajem
+            Katalog maszyn na wynajem
           </h2>
         </div>
-        <p class="text-xs text-slate-600 max-w-md">
-          Potrzebujesz innej maszyny lub specjalistycznego osprzętu (widły, wciągarka, kosz osobowy)? Skontaktuj się z nami.
+        <p class="text-sm text-slate-600 max-w-md leading-relaxed">
+          Potrzebujesz dodatkowego osprzętu (widły do palet, wciągarka hydrauliczna, kosz roboczy, łyżka skarpowa)? Skonsultuj dobór z naszym dyspozytorem.
         </p>
       </div>
 
@@ -108,10 +143,13 @@ const rentalBenefits = [
               <div class="h-60 bg-slate-900 overflow-hidden relative">
                 <img
                   src={machine.image}
-                  alt={machine.name}
+                  alt={`${machine.name} – ${machine.type}`}
+                  width="600"
+                  height="400"
+                  loading="lazy"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div class="absolute top-3 left-3 bg-brand-dark/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm backdrop-blur-xs">
+                <div class="absolute top-3 left-3 bg-brand-dark/90 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-xs">
                   {machine.type}
                 </div>
               </div>
@@ -124,33 +162,35 @@ const rentalBenefits = [
                   {machine.type}
                 </p>
 
-                <div class="space-y-2 border-t border-slate-100 pt-4 mb-6">
+                <div class="space-y-2.5 border-t border-slate-100 pt-4 mb-6">
                   {Object.entries(machine.specs).map(([key, value]) => (
-                    <div class="flex justify-between items-center text-xs">
-                      <span class="text-slate-500 capitalize">{key}:</span>
+                    <div class="flex justify-between items-center text-sm">
+                      <span class="text-slate-500">{specLabelMap[key] || key}:</span>
                       <span class="font-bold text-slate-800">{value}</span>
                     </div>
                   ))}
-                  <div class="flex justify-between items-center text-xs">
-                    <span class="text-slate-500">Badania UDT:</span>
-                    <span class="font-bold text-emerald-600">Aktualne / Po przeglądzie</span>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-500">Stan techniczny / UDT:</span>
+                    <span class="font-bold text-emerald-600">Aktualny przegląd</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="p-6 pt-0 space-y-2 border-t border-slate-50">
+            <div class="p-6 pt-0 space-y-2.5 border-t border-slate-50">
               <a
                 href={`/kontakt?wynajem=${encodeURIComponent(machine.name)}`}
-                class="block w-full text-center py-2.5 bg-brand-primary text-white font-bold rounded-sm hover:bg-brand-dark transition-colors uppercase tracking-wider text-xs"
+                class="inline-flex items-center justify-center gap-2 w-full text-center py-3 bg-brand-primary text-white font-bold rounded-md hover:bg-brand-dark transition-colors uppercase tracking-wider text-xs"
               >
                 Zapytaj o dostępność i stawkę
+                <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
               </a>
               <a
-                href="tel:+48730101000"
-                class="block w-full text-center py-2 text-xs font-bold text-brand-accent hover:text-brand-accentHover uppercase tracking-wider transition-colors"
+                href="tel:+48730202000"
+                class="inline-flex items-center justify-center gap-1.5 w-full text-center py-2 text-xs font-bold text-brand-accent hover:text-brand-accentHover uppercase tracking-wider transition-colors"
               >
-                Rezerwacja telefoniczna: 730 101 000
+                <IndustrialIcon name="phone" class="w-3.5 h-3.5" />
+                Rezerwacja: +48 730 202 000
               </a>
             </div>
           </div>
@@ -162,29 +202,31 @@ const rentalBenefits = [
   <!-- Rental Procedure CTA -->
   <section class="py-16 bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
-      <div class="rounded-2xl bg-gradient-to-r from-brand-dark to-brand-primary text-white p-8 md:p-12 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div class="rounded-xl bg-gradient-to-r from-brand-dark to-brand-primary text-white p-8 md:p-12 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
         <div class="space-y-3 max-w-2xl">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Szybka procedura</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Szybka dyspozycja sprzętu</span>
           <h2 class="text-2xl sm:text-3xl font-heading font-black leading-tight">
-            Wynajmij maszynę nawet w 2 godziny od kontaktu
+            Podstawienie maszyny na budowę nawet tego samego dnia
           </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            Minimum formalności dla firm i klientów indywidualnych. Zadzwoń, podaj lokalizację budowy i termin, a nasz transport dostarczy maszynę prosto na plac robót.
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Ograniczamy formalności do niezbędnego minimum. Zadzwoń do naszego dyspozytora, podaj miejsce wykonywania prac oraz okres najmu, a przygotujemy maszynę wraz z transportem.
           </p>
         </div>
 
         <div class="shrink-0 flex flex-col sm:flex-row gap-4">
           <a
-            href="tel:+48730101000"
-            class="px-6 py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-md text-center"
+            href="tel:+48730202000"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accentHover transition-all shadow-md text-center"
           >
-            Zadzwoń teraz
+            <IndustrialIcon name="phone" class="w-4 h-4" />
+            Zadzwoń: +48 730 202 000
           </a>
           <a
-            href="/kontakt"
-            class="px-6 py-3.5 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-100 transition-colors text-center"
+            href="/kontakt?wynajem=Zapytanie%20og%C3%B3lne%20o%20wynajem"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-md hover:bg-slate-100 transition-colors text-center"
           >
-            Formularz zapytania →
+            Formularz zapytania
+            <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
           </a>
         </div>
       </div>

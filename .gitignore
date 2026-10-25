@@ -30,6 +30,7 @@ packages/*/dist
 # Local helper artifacts
 stitch_multiserwis/
 CHATGPT.MD
+.agents/
 
 # Archived/alternate backends (keep out of VCS)
 backend_legacy/
@@ -40,7 +41,10 @@ server/prisma/*.db
 server/prisma/*.db-journal
 server/prisma/*.db-wal
 server/prisma/*.db-shm
+**/*.sqlite
+**/*.db
 *.bak
 tsc_errors.txt
 audit_raw_results.json
 dist_staging.tar.gz
+dist_*.tar.gz

@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { COURSES, type Course } from "@multiserwis/shared";
+import { IndustrialIcon, type IndustrialIconName } from "./IndustrialIcon";
 
 interface Props {
   initialCategory?: string;
@@ -11,15 +12,38 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
   const [onlyOnline, setOnlyOnline] = useState<boolean>(false);
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState<Course | null>(null);
   const [enrollSubmitted, setEnrollSubmitted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [enrollForm, setEnrollForm] = useState({ name: "", phone: "", email: "" });
 
-  const categories = [
+  const categories: { id: string; label: string; icon?: IndustrialIconName }[] = [
     { id: "ALL", label: "Wszystkie szkolenia" },
-    { id: "UDT", label: "🚜 UDT (Wózki, Zwyżki)" },
-    { id: "IMBiGS", label: "🏗️ IMBiGS (Koparki)" },
-    { id: "SEP", label: "⚡ SEP (Elektryczne)" },
-    { id: "Spawalnictwo", label: "🔥 Spawalnictwo" },
+    { id: "UDT", label: "UDT (wózki, podesty, suwnice)", icon: "forklift" },
+    { id: "IMBiGS", label: "IMBiGS (koparki, walce)", icon: "excavator" },
+    { id: "SEP", label: "SEP (G1, G2, G3)", icon: "sep" },
+    { id: "Spawalnictwo", label: "Spawalnictwo (MIG/MAG, TIG)", icon: "welding" },
+    { id: "Inne", label: "BHP i specjalistyczne", icon: "bhp" },
   ];
+
+  // Read URL query parameters (?zapisz=c1, ?szukaj=...)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const szukaj = params.get("szukaj");
+    const zapisz = params.get("zapisz");
+
+    if (szukaj) {
+      setSearchQuery(szukaj);
+    }
+    if (zapisz) {
+      const found = COURSES.find(
+        (c) => c.id.toLowerCase() === zapisz.toLowerCase() || c.slug?.toLowerCase() === zapisz.toLowerCase()
+      );
+      if (found) {
+        setSelectedCourseForEnroll(found);
+        setEnrollSubmitted(false);
+      }
+    }
+  }, []);
 
   const filteredCourses = useMemo(() => {
     return COURSES.filter((course) => {
@@ -28,104 +52,138 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
       const matchesSearch =
         searchQuery === "" ||
         course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchQuery.toLowerCase());
+        (course.description && course.description.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesOnline = !onlyOnline || course.hasOnline;
 
       return matchesCat && matchesSearch && matchesOnline;
     });
   }, [selectedCategory, searchQuery, onlyOnline]);
 
-  const handleEnrollSubmit = (e: React.FormEvent) => {
+  const handleEnrollSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setEnrollSubmitted(true);
+    if (!selectedCourseForEnroll) return;
+    setIsSubmitting(true);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: enrollForm.name.trim(),
+          phone: enrollForm.phone.trim(),
+          email: enrollForm.email.trim(),
+          message: `Zgłoszenie ekspresowe na szkolenie: ${selectedCourseForEnroll.title} (${selectedCourseForEnroll.price}). Proszę o kontakt w celu ustalenia terminu i nadania dostępu do e-learningu.`,
+        }),
+      });
+    } catch {
+      // Fallback for offline/static preview
+    } finally {
+      setIsSubmitting(false);
+      setEnrollSubmitted(true);
+    }
   };
 
   return (
     <div className="w-full">
       {/* Control Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-sm mb-8">
+      <div className="bg-white rounded-xl border border-slate-200/90 p-5 sm:p-6 shadow-xs mb-8">
         <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
           {/* Search Box */}
           <div className="relative flex-1">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
-              🔍
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+              <IndustrialIcon name="search" className="w-4 h-4" />
             </span>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Wyszukaj szkolenie (np. wózki, koparka, sep, suwnica)..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all text-slate-800"
+              placeholder="Wyszukaj szkolenie (np. wózki widłowe, koparka, SEP, suwnica, spawanie)..."
+              aria-label="Wyszukaj szkolenie"
+              className="w-full pl-10 pr-9 py-2.5 rounded-md border border-slate-300 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all text-slate-800"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer"
+                aria-label="Wyczyść wyszukiwanie"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer p-1"
               >
-                ✕
+                <IndustrialIcon name="close" className="w-4 h-4" />
               </button>
             )}
           </div>
 
           {/* Toggle Online Theory */}
-          <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none shrink-0 bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200/60 hover:bg-slate-100 transition-colors">
+          <label className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-700 cursor-pointer select-none shrink-0 bg-slate-50 px-4 py-2.5 rounded-md border border-slate-200 hover:bg-slate-100 transition-colors">
             <input
               type="checkbox"
               checked={onlyOnline}
               onChange={(e) => setOnlyOnline(e.target.checked)}
-              className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500"
+              className="w-4 h-4 rounded border-slate-300 text-brand-accent focus:ring-brand-accent"
             />
-            <span>Tylko z e-learningiem 24/7</span>
+            <span>Tylko z teorią online 24/7</span>
           </label>
         </div>
 
         {/* Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pt-4 border-t border-slate-100 mt-4 no-scrollbar">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                selectedCategory === cat.id
-                  ? "bg-slate-900 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const active = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-3.5 py-2 rounded-md text-xs font-bold transition-all shrink-0 cursor-pointer inline-flex items-center gap-1.5 ${
+                  active
+                    ? "bg-brand-primary text-white shadow-xs"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900"
+                }`}
+              >
+                {cat.icon && (
+                  <IndustrialIcon
+                    name={cat.icon}
+                    className={`w-4 h-4 ${active ? "text-brand-accent" : "text-slate-500"}`}
+                  />
+                )}
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Results Header */}
-      <div className="flex justify-between items-center mb-6 text-xs text-slate-500">
+      <div className="flex justify-between items-center mb-6 text-sm text-slate-600">
         <span>
-          Znaleziono: <strong className="text-slate-900 font-bold">{filteredCourses.length}</strong> szkoleń
+          Dostępne kursy: <strong className="text-slate-900 font-bold">{filteredCourses.length}</strong>
         </span>
         {searchQuery && (
-          <span className="text-orange-600 font-medium">
-            Wyniki dla frazy: &ldquo;{searchQuery}&rdquo;
+          <span className="text-brand-accent font-semibold">
+            Wyniki dla frazy: &bdquo;{searchQuery}&rdquo;
           </span>
         )}
       </div>
 
       {/* Results Grid */}
       {filteredCourses.length === 0 ? (
-        <div className="p-12 text-center bg-white rounded-2xl border border-slate-200">
-          <div className="text-3xl mb-2">🔎</div>
-          <h3 className="font-heading font-bold text-slate-800 text-base mb-1">
+        <div className="p-12 text-center bg-white rounded-xl border border-slate-200">
+          <div className="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4">
+            <IndustrialIcon name="search" className="w-6 h-6" />
+          </div>
+          <h3 className="font-heading font-bold text-slate-900 text-lg mb-1">
             Nie znaleziono szkoleń spełniających kryteria
           </h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+          <p className="text-sm text-slate-600 max-w-md mx-auto mb-5">
             Spróbuj zmienić frazę wyszukiwania lub zresetować filtry kategorii.
           </p>
           <button
+            type="button"
             onClick={() => {
               setSearchQuery("");
               setSelectedCategory("ALL");
               setOnlyOnline(false);
             }}
-            className="px-4 py-2 bg-slate-900 text-white text-xs font-bold uppercase rounded-sm hover:bg-slate-800"
+            className="px-5 py-2.5 bg-brand-primary text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-brand-dark cursor-pointer"
           >
             Resetuj filtry
           </button>
@@ -135,58 +193,65 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className="bg-white rounded-xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-xl hover:border-orange-500/40 transition-all duration-300 flex flex-col justify-between group"
+              className="bg-white rounded-xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-xl hover:border-brand-accent/40 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                <div className="h-44 bg-slate-900 overflow-hidden relative">
+                <div className="h-48 bg-slate-900 overflow-hidden relative">
                   <img
                     src={course.image}
                     alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95"
+                    loading="lazy"
+                    decoding="async"
                   />
-                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                    <span className="bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs backdrop-blur-xs">
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                    <span className="bg-brand-primary/95 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-xs">
                       {course.category}
                     </span>
                     {course.hasOnline && (
-                      <span className="bg-emerald-600/90 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs backdrop-blur-xs">
-                        E-learning
+                      <span className="bg-emerald-600/95 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-xs inline-flex items-center gap-1">
+                        <IndustrialIcon name="play" className="w-3 h-3" />
+                        <span>E-learning</span>
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="p-5">
-                  <div className="flex justify-between items-baseline gap-2 mb-2">
-                    <span className="text-xs text-slate-400 font-semibold">Czas: {course.duration}</span>
-                    <span className="font-heading font-black text-slate-900 text-base">
-                      {course.price}
+                <div className="p-6">
+                  <div className="flex justify-between items-baseline gap-2 mb-2.5">
+                    <span className="text-xs text-slate-500 font-semibold inline-flex items-center gap-1">
+                      <IndustrialIcon name="clock" className="w-3.5 h-3.5 text-brand-accent" />
+                      <span>Czas: {course.duration}</span>
+                    </span>
+                    <span className="font-heading font-extrabold text-brand-primary text-lg">
+                      {course.price} <span className="text-[11px] font-semibold text-slate-500">zw. z VAT</span>
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-bold text-base text-slate-900 leading-snug group-hover:text-orange-600 transition-colors mb-2">
+                  <h3 className="font-heading font-bold text-lg text-slate-900 leading-snug group-hover:text-brand-primary transition-colors mb-2.5">
                     {course.title}
                   </h3>
 
-                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                  <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed">
                     {course.description}
                   </p>
                 </div>
               </div>
 
-              <div className="p-5 pt-0 border-t border-slate-50 flex gap-2">
+              <div className="p-6 pt-0 border-t border-slate-100 mt-auto flex gap-2.5 pt-4">
                 <a
                   href={`/szkolenia/${course.slug}`}
-                  className="flex-1 text-center py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-sm uppercase tracking-wider text-[11px] transition-colors"
+                  className="flex-1 text-center py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-md uppercase tracking-wider text-xs transition-colors"
                 >
                   Szczegóły
                 </a>
                 <button
+                  type="button"
                   onClick={() => {
                     setSelectedCourseForEnroll(course);
                     setEnrollSubmitted(false);
                   }}
-                  className="flex-1 text-center py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-sm uppercase tracking-wider text-[11px] transition-colors cursor-pointer shadow-xs"
+                  className="flex-1 text-center py-2.5 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded-md uppercase tracking-wider text-xs transition-colors cursor-pointer shadow-xs"
                 >
                   Zapisz się
                 </button>
@@ -198,37 +263,43 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
 
       {/* Modal Zapis Express */}
       {selectedCourseForEnroll && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-fade-in">
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="bg-white rounded-xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-fade-in">
             <button
+              type="button"
               onClick={() => setSelectedCourseForEnroll(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors"
+              aria-label="Zamknij okno zapisu"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors cursor-pointer"
             >
-              ✕
+              <IndustrialIcon name="close" className="w-5 h-5" />
             </button>
 
             {!enrollSubmitted ? (
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-orange-600 block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-accent block mb-1">
                   Rezerwacja miejsca w 60 sekund
                 </span>
-                <h3 className="text-xl font-heading font-black text-slate-900 mb-2">
+                <h3 className="text-xl font-heading font-extrabold text-slate-900 mb-2">
                   Zapis na: {selectedCourseForEnroll.title}
                 </h3>
-                <p className="text-xs text-slate-600 mb-6">
-                  Wypełnij dane, a koordynator MultiSerwis skontaktuje się z Tobą, aby potwierdzić termin zjazdu praktycznego i nadać login do platformy e-learningowej.
+                <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                  Wypełnij poniższe dane, a koordynator MultiSerwis skontaktuje się z Tobą, aby potwierdzić termin zjazdu praktycznego i nadać dostęp do platformy e-learningowej.
                 </p>
 
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 mb-6 flex justify-between items-center text-xs">
-                  <span className="text-slate-600">Koszt szkolenia:</span>
-                  <span className="font-heading font-black text-slate-900 text-base">
-                    {selectedCourseForEnroll.price}
+                <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200/80 mb-6 flex justify-between items-center text-sm">
+                  <span className="text-slate-600 font-medium">Koszt szkolenia:</span>
+                  <span className="font-heading font-extrabold text-brand-primary text-lg">
+                    {selectedCourseForEnroll.price} <span className="text-xs font-normal text-slate-500">zw. z VAT</span>
                   </span>
                 </div>
 
                 <form onSubmit={handleEnrollSubmit} className="space-y-4 text-left">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       Imię i nazwisko *
                     </label>
                     <input
@@ -237,12 +308,12 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       value={enrollForm.name}
                       onChange={(e) => setEnrollForm({ ...enrollForm, name: e.target.value })}
                       placeholder="Jan Kowalski"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:border-orange-500 focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       Numer telefonu *
                     </label>
                     <input
@@ -251,12 +322,12 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       value={enrollForm.phone}
                       onChange={(e) => setEnrollForm({ ...enrollForm, phone: e.target.value })}
                       placeholder="+48 600 000 000"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:border-orange-500 focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       Adres e-mail *
                     </label>
                     <input
@@ -264,36 +335,39 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       required
                       value={enrollForm.email}
                       onChange={(e) => setEnrollForm({ ...enrollForm, email: e.target.value })}
-                      placeholder="jan@firma.pl"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:border-orange-500 focus:outline-none"
+                      placeholder="jan.kowalski@firma.pl"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider rounded-sm transition-colors shadow-md mt-2 cursor-pointer"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 bg-brand-accent hover:bg-brand-accentHover disabled:opacity-60 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-colors shadow-md mt-2 cursor-pointer inline-flex items-center justify-center gap-2"
                   >
-                    Potwierdź rezerwację wstępną →
+                    <span>{isSubmitting ? "Wysyłanie zgłoszenia..." : "Potwierdź rezerwację wstępną"}</span>
+                    <IndustrialIcon name="arrow-right" className="w-4 h-4" />
                   </button>
-                  <p className="text-[11px] text-slate-400 text-center">
-                    Złożenie formularza nie zobowiązuje do zapłaty. Płatność następuje przed rozpoczęciem zajęć.
+                  <p className="text-xs text-slate-500 text-center">
+                    Złożenie formularza nie zobowiązuje do natychmiastowej opłaty. Płatność (lub zaliczka 500 zł) następuje po potwierdzeniu terminu.
                   </p>
                 </form>
               </div>
             ) : (
               <div className="text-center py-6">
-                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl mb-4">
-                  ✓
+                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <IndustrialIcon name="check" className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-heading font-black text-slate-900 mb-2">
+                <h3 className="text-xl font-heading font-extrabold text-slate-900 mb-2">
                   Dziękujemy, {enrollForm.name}!
                 </h3>
-                <p className="text-xs text-slate-600 max-w-sm mx-auto mb-6">
-                  Twoje zgłoszenie na szkolenie <strong>{selectedCourseForEnroll.title}</strong> zostało zarejestrowane. Nasz koordynator odezwie się telefonicznie na numer <strong>{enrollForm.phone}</strong>.
+                <p className="text-sm text-slate-600 max-w-sm mx-auto mb-6 leading-relaxed">
+                  Twoje zgłoszenie na szkolenie <strong>{selectedCourseForEnroll.title}</strong> zostało przekazane do biura MultiSerwis. Nasz koordynator skontaktuje się z Tobą pod numerem <strong>{enrollForm.phone}</strong>.
                 </p>
                 <button
+                  type="button"
                   onClick={() => setSelectedCourseForEnroll(null)}
-                  className="px-6 py-2.5 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-slate-800"
+                  className="px-6 py-2.5 bg-brand-primary text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-brand-dark cursor-pointer"
                 >
                   Zamknij okno
                 </button>

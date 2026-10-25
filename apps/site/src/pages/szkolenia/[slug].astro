@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import IndustrialIcon from "../../components/IndustrialIcon.astro";
 import { COURSES } from "@multiserwis/shared";
 import { slugify } from "../../utils/slug";
 
@@ -21,9 +22,18 @@ export async function getStaticPaths() {
 
 const { course } = Astro.props;
 
+const categorySlugMap: Record<string, string> = {
+  UDT: "/szkolenia/udt",
+  IMBiGS: "/szkolenia/imbigs",
+  SEP: "/szkolenia/sep",
+  Spawalnictwo: "/szkolenia/spawalnictwo",
+  Inne: "/szkolenia/pozostale",
+};
+const categoryUrl = categorySlugMap[course.category] || "/szkolenia";
+
 const syllabusMap: Record<string, string[]> = {
   UDT: [
-    "Wiadomości o dozorze technicznym i akty prawne",
+    "Wiadomości o dozorze technicznym i obowiązujące przepisy prawne",
     "Budowa i parametry techniczne urządzeń transportu bliskiego",
     "Czynności operatora przed rozpoczęciem, w trakcie i po zakończeniu pracy",
     "Stateczność urządzenia, diagramy udźwigu i środki ciężkości ładunku",
@@ -33,40 +43,120 @@ const syllabusMap: Record<string, string[]> = {
     "Symulacja egzaminu państwowego UDT pod okiem instruktora",
   ],
   IMBiGS: [
-    "Ogólna budowa i zasada działania maszyn robót ziemnych",
+    "Ogólna budowa i zasada działania maszyn do robót ziemnych i drogowych",
     "Technologia wykonywania wykopów, nasypów i plantowania terenu",
-    "Układy hydrauliczne wysokociśnieniowe i sterowanie joystickami",
-    "BHP przy eksploatacji maszyn budowlanych w pobliżu instalacji podziemnych",
-    "Obsługa codzienna (OTC), smarowanie, wymiana osprzętu roboczego",
-    "Jazdy praktyczne i manewrowanie maszyną na certyfikowanym poligonie",
-    "Przygotowanie do egzaminu praktycznego przed komisją IMBiGS",
+    "Układy hydrauliczne wysokociśnieniowe i sterowanie wieloczynnościowe",
+    "Bezpieczeństwo pracy przy eksploatacji maszyn w pobliżu instalacji podziemnych",
+    "Obsługa codzienna (OTC), smarowanie i bezpieczna wymiana osprzętu roboczego",
+    "Jazdy praktyczne i manewrowanie maszyną na poligonie przy ul. Przemysłowej 2",
+    "Przygotowanie do egzaminu państwowego przed komisją ŚBŁ-WIT (dawniej IMBiGS)",
   ],
   SEP: [
     "Podstawowe pojęcia elektrotechniki i przepisy prawa energetycznego",
     "Ochrona przeciwporażeniowa: środki ochrony podstawowej i przy uszkodzeniu",
     "Budowa, zasada działania i eksploatacja urządzeń do i powyżej 1 kV",
-    "Aparatura łączeniowa, zabezpieczająca i sterownicza",
-    "Zasady organizacji prac przy urządzeniach elektroenergetycznych pod napięciem",
-    "Postępowanie w przypadku porażenia prądem elektrycznym i pierwsza pomoc",
-    "Egzamin ustny przed Państwową Komisją Kwalifikacyjną",
+    "Aparatura łączeniowa, zabezpieczająca i pomiarowo-kontrolna",
+    "Zasady organizacji bezpiecznej pracy przy urządzeniach energetycznych",
+    "Postępowanie w razie porażenia prądem elektrycznym i zasady pierwszej pomocy",
+    "Egzamin kwalifikacyjny przed Państwową Komisją Kwalifikacyjną",
   ],
   Spawalnictwo: [
-    "Zasady BHP i ppoż. przy pracach spawalniczych",
-    "Dobór parametrów spawania, gazów osłonowych i spoiw",
-    "Przygotowanie krawędzi i złączy do spawania",
-    "Praktyczne spawanie w pozycjach podolnych, naściennych i pionowych",
-    "Niezgodności spawalnicze i ich zapobieganie",
-    "Badania wizualne (VT) wykonanych złączy próbnych",
-    "Egzamin końcowy i certyfikacja spawalnicza TÜV / Instytut Spawalnictwa",
+    "Zasady BHP i ochrony przeciwpożarowej przy pracach spawalniczych",
+    "Dobór parametrów spawania, gazów osłonowych oraz materiałów dodatkowych",
+    "Przygotowanie krawędzi blach i rur do spawania pachwinowego i doczołowego",
+    "Praktyczne spawanie w pozycjach podolnych, naściennych i pionowych (PA, PB, PC, PF)",
+    "Identyfikacja niezgodności spawalniczych i metody zapobiegania odkształceniom",
+    "Badania wizualne (VT) i łamanie wykonanych złączy próbnych",
+    "Egzamin końcowy i certyfikacja spawalnicza wg PN-EN ISO 9606-1 (SGS)",
+  ],
+  Inne: [
+    "Przepisy BHP i normy techniczne obowiązujące na stanowisku pracy",
+    "Budowa, zasada działania i kryteria bezpiecznej eksploatacji sprzętu",
+    "Identyfikacja zużycia eksploatacyjnego, uszkodzeń mechanicznych i kryteriów brakowania",
+    "Zasady bezpiecznego wykonywania czynności roboczych i stosowania środków ochrony indywidualnej",
+    "Czynności konserwacyjne i kontrolne przed rozpoczęciem oraz po zakończeniu pracy",
+    "Ćwiczenia praktyczne na stanowisku szkoleniowym pod nadzorem instruktora",
+    "Sprawdzenie wiedzy i wydanie imiennego zaświadczenia kwalifikacyjnego",
   ],
 };
 
 const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
+
+const numericPrice = course.price.replace(/[^\d]/g, "");
+
+const courseSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description: course.description,
+    provider: {
+      "@type": "EducationalOrganization",
+      name: "Ośrodek Szkolenia Kadr MultiSerwis",
+      sameAs: "https://multiserwis.edu.pl",
+    },
+    offers: numericPrice
+      ? {
+          "@type": "Offer",
+          price: numericPrice,
+          priceCurrency: "PLN",
+          availability: "https://schema.org/InStock",
+          url: `https://multiserwis.edu.pl/szkolenia/${course.slug || slugify(course.title)}`,
+        }
+      : undefined,
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: course.hasOnline ? ["Blended", "Online", "OnSite"] : ["OnSite"],
+      location: {
+        "@type": "Place",
+        name: "Poligon Szkoleniowy MultiSerwis Kutno",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "ul. Przemysłowa 2",
+          addressLocality: "Kutno",
+          postalCode: "99-300",
+          addressCountry: "PL",
+        },
+      },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Start",
+        item: "https://multiserwis.edu.pl/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Szkolenia",
+        item: "https://multiserwis.edu.pl/szkolenia",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: course.category,
+        item: `https://multiserwis.edu.pl${categoryUrl}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: course.title,
+        item: `https://multiserwis.edu.pl/szkolenia/${course.slug || slugify(course.title)}`,
+      },
+    ],
+  },
+];
 ---
 
 <BaseLayout
-  title={`${course.title} Kutno | MultiSerwis`}
-  description={`Zdobądź uprawnienia na ${course.title} w Kutnie. Teoria online 24/7, praktyka na placu manewrowym, egzamin państwowy. Sprawdź terminy i cenę.`}
+  title={`${course.title} Kutno – kurs i egzamin | MultiSerwis`}
+  description={`Zdobądź uprawnienia: ${course.title} w Kutnie. ${course.hasOnline ? "Teoria online 24/7, " : ""}praktyka na placu manewrowym przy ul. Przemysłowej 2, egzamin państwowy. Cena: ${course.price} (zw. z VAT).`}
+  schema={courseSchema}
 >
   <!-- Breadcrumbs & Category Bar -->
   <div class="bg-slate-900 border-b border-slate-800 text-xs py-3 px-4 md:px-8">
@@ -75,7 +165,7 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
       <span>/</span>
       <a href="/szkolenia" class="hover:text-white transition-colors">Szkolenia</a>
       <span>/</span>
-      <a href={`/szkolenia/${course.category.toLowerCase()}`} class="text-brand-accent hover:underline">
+      <a href={categoryUrl} class="text-brand-accent hover:underline">
         {course.category}
       </a>
       <span>/</span>
@@ -89,6 +179,8 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
       <img
         src={course.image}
         alt={course.title}
+        width="1400"
+        height="800"
         class="w-full h-full object-cover opacity-25 filter brightness-50"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-primary/80"></div>
@@ -97,17 +189,17 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
     <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-[1.3fr_0.7fr] gap-12 items-center">
       <div class="space-y-6">
         <div class="flex flex-wrap items-center gap-2.5">
-          <span class="px-3 py-1 bg-brand-accent/20 border border-brand-accent/50 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
+          <span class="px-3 py-1 bg-brand-accent/20 border border-brand-accent/50 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
             Kategoria: {course.category}
           </span>
           {course.hasOnline && (
-            <span class="px-3 py-1 bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-sm">
+            <span class="px-3 py-1 bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-md">
               E-learning 24/7
             </span>
           )}
           {course.isPopular && (
-            <span class="px-3 py-1 bg-blue-500/20 border border-blue-500/50 text-blue-300 text-xs font-bold uppercase tracking-wider rounded-sm">
-              Bestseller
+            <span class="px-3 py-1 bg-blue-500/20 border border-blue-500/50 text-blue-300 text-xs font-bold uppercase tracking-wider rounded-md">
+              Wysokie zapotrzebowanie
             </span>
           )}
         </div>
@@ -122,17 +214,17 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
 
         <!-- Quick Meta Badges -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 text-xs">
-          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10">
-            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Czas trwania</span>
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-lg border border-white/10">
+            <span class="text-slate-300 block uppercase font-semibold text-xs">Czas trwania</span>
             <span class="text-base font-bold text-white mt-0.5 block">{course.duration}</span>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10">
-            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Egzamin państwowy</span>
-            <span class="text-base font-bold text-emerald-400 mt-0.5 block">Na placu w Kutnie</span>
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-lg border border-white/10">
+            <span class="text-slate-300 block uppercase font-semibold text-xs">Egzamin i praktyka</span>
+            <span class="text-base font-bold text-emerald-400 mt-0.5 block">Poligon w Kutnie</span>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-sm border border-white/10 col-span-2 sm:col-span-1">
-            <span class="text-slate-400 block uppercase font-semibold text-[10px]">Format nauki</span>
-            <span class="text-base font-bold text-white mt-0.5 block">Online + Jazdy</span>
+          <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-lg border border-white/10 col-span-2 sm:col-span-1">
+            <span class="text-slate-300 block uppercase font-semibold text-xs">Tryb szkolenia</span>
+            <span class="text-base font-bold text-white mt-0.5 block">{course.hasOnline ? "Online + praktyka" : "Stacjonarny / praktyka"}</span>
           </div>
         </div>
       </div>
@@ -140,149 +232,167 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
       <!-- Conversion Checkout Box -->
       <div class="bg-white text-slate-900 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-200">
         <div class="border-b border-slate-100 pb-5 mb-5">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Inwestycja w szkolenie</span>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span class="text-4xl font-heading font-black text-brand-primary">{course.price}</span>
-            <span class="text-xs text-slate-500 font-medium">brutto / os.</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Koszt szkolenia</span>
+          <div class="flex items-baseline gap-2 mt-1 flex-wrap">
+            <span class="text-3xl sm:text-4xl font-heading font-black text-brand-primary">{course.price}</span>
+            <span class="text-xs text-slate-500 font-semibold">zw. z VAT / os.</span>
           </div>
-          <p class="text-xs text-slate-500 mt-2">Cena obejmuje teorię, praktykę, materiały oraz przygotowanie do egzaminu.</p>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Cena obejmuje wykłady, zajęcia praktyczne na maszynach, materiały dydaktyczne oraz obsługę wniosku egzaminacyjnego.
+          </p>
         </div>
 
-        <div class="space-y-3 mb-6 text-xs text-slate-700">
-          <div class="flex items-center gap-2">
-            <span class="text-green-600 font-bold text-sm">✓</span>
-            <span>Dostęp do panelu e-learningowego od ręki</span>
+        <div class="space-y-3 mb-6 text-sm text-slate-700">
+          <div class="flex items-center gap-2.5">
+            <span class="text-emerald-600 shrink-0"><IndustrialIcon name="check-circle" class="w-4 h-4" /></span>
+            <span>{course.hasOnline ? "Dostęp do panelu e-learningowego od ręki" : "Zajęcia pod okiem certyfikowanych instruktorów"}</span>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-green-600 font-bold text-sm">✓</span>
-            <span>Elastyczne godziny zajęć praktycznych</span>
+          <div class="flex items-center gap-2.5">
+            <span class="text-emerald-600 shrink-0"><IndustrialIcon name="check-circle" class="w-4 h-4" /></span>
+            <span>Indywidualnie dopasowane godziny jazd praktycznych</span>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-green-600 font-bold text-sm">✓</span>
-            <span>Możliwość dofinansowania z BUR / KFS (do 100%)</span>
+          <div class="flex items-center gap-2.5">
+            <span class="text-emerald-600 shrink-0"><IndustrialIcon name="check-circle" class="w-4 h-4" /></span>
+            <span>Możliwość dofinansowania z KFS / BUR (do 80–100%)</span>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-green-600 font-bold text-sm">✓</span>
-            <span>Zaświadczenie kwalifikacyjne ważne bezterminowo lub 5-10 lat</span>
+          <div class="flex items-center gap-2.5">
+            <span class="text-emerald-600 shrink-0"><IndustrialIcon name="check-circle" class="w-4 h-4" /></span>
+            <span>Państwowe zaświadczenie kwalifikacyjne honorowane w UE</span>
           </div>
         </div>
 
         <div class="space-y-3">
           <a
             href={`/kontakt?kurs=${encodeURIComponent(course.title)}`}
-            class="block w-full text-center py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-lg shadow-orange-500/20"
+            class="inline-flex items-center justify-center gap-2 w-full text-center py-3.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accentHover transition-all shadow-lg shadow-orange-500/20"
           >
-            Zapisz się na to szkolenie →
+            Zapisz się na to szkolenie
+            <IndustrialIcon name="arrow-right" class="w-4 h-4" />
           </a>
           <a
             href="tel:+48730101000"
-            class="block w-full text-center py-3 border border-slate-300 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-50 transition-colors"
+            class="inline-flex items-center justify-center gap-2 w-full text-center py-3 border border-slate-300 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-md hover:bg-slate-50 transition-colors"
           >
-            📞 Zadzwoń: +48 730 101 000
+            <IndustrialIcon name="phone" class="w-4 h-4 text-brand-primary" />
+            Zadzwoń: +48 730 101 000
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Detailed Course Information Tabs / Blocks -->
+  <!-- Detailed Course Information Blocks -->
   <section class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-[1.3fr_0.7fr] gap-12">
       <!-- Left Column: Syllabus & Details -->
       <div class="space-y-12">
         <!-- Syllabus Block -->
-        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Ramowy Plan Nauczania</span>
+        <div class="bg-white rounded-xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Ramowy plan nauczania</span>
           <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
-            Program Szkolenia i Zagadnienia
+            Program szkolenia i zagadnienia praktyczne
           </h2>
 
           <div class="space-y-3">
             {syllabus.map((item, idx) => (
-              <div class="flex items-start gap-3 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span class="w-6 h-6 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0">
+              <div class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                <span class="w-6 h-6 rounded-md bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                   {idx + 1}
                 </span>
-                <span class="text-sm text-slate-800 font-medium pt-0.5">{item}</span>
+                <span class="text-sm text-slate-800 font-medium leading-relaxed">{item}</span>
               </div>
             ))}
           </div>
         </div>
 
         <!-- Requirements Block -->
-        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Kto może wziąć udział?</span>
+        <div class="bg-white rounded-xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Warunki uczestnictwa</span>
           <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
-            Wymagania wstępne dla kursantów
+            Wymagania wstępne dla kandydatów
           </h2>
 
-          <div class="grid sm:grid-cols-2 gap-4 text-sm">
-            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
-              <span class="text-xl">🎂</span>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+                <IndustrialIcon name="user-age" class="w-5 h-5" />
+              </div>
               <div>
-                <strong class="text-slate-900 block font-bold">Wiek</strong>
-                <span class="text-xs text-slate-600">Ukończone 18 lat najpóźniej w dniu przystąpienia do egzaminu.</span>
+                <strong class="text-slate-900 block font-bold text-sm">Wiek</strong>
+                <span class="text-sm text-slate-600 leading-relaxed">Ukończone 18 lat najpóźniej w dniu przystąpienia do egzaminu.</span>
               </div>
             </div>
-            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
-              <span class="text-xl">🎓</span>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+                <IndustrialIcon name="graduation" class="w-5 h-5" />
+              </div>
               <div>
-                <strong class="text-slate-900 block font-bold">Wykształcenie</strong>
-                <span class="text-xs text-slate-600">Minimum podstawowe lub gimnazjalne.</span>
+                <strong class="text-slate-900 block font-bold text-sm">Wykształcenie</strong>
+                <span class="text-sm text-slate-600 leading-relaxed">Minimum podstawowe lub gimnazjalne.</span>
               </div>
             </div>
-            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
-              <span class="text-xl">🩺</span>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+                <IndustrialIcon name="medical" class="w-5 h-5" />
+              </div>
               <div>
-                <strong class="text-slate-900 block font-bold">Stan zdrowia</strong>
-                <span class="text-xs text-slate-600">Brak przeciwwskazań zdrowotnych do pracy na danym stanowisku.</span>
+                <strong class="text-slate-900 block font-bold text-sm">Stan zdrowia</strong>
+                <span class="text-sm text-slate-600 leading-relaxed">Brak przeciwwskazań zdrowotnych do pracy na danym stanowisku (pomagamy w organizacji badań).</span>
               </div>
             </div>
-            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3">
-              <span class="text-xl">🚗</span>
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-100 flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+                <IndustrialIcon name="id-card" class="w-5 h-5" />
+              </div>
               <div>
-                <strong class="text-slate-900 block font-bold">Prawo jazdy</strong>
-                <span class="text-xs text-slate-600">Niewymagane (prawo jazdy kat. B jest konieczne tylko przy poruszaniu się po drogach publicznych).</span>
+                <strong class="text-slate-900 block font-bold text-sm">Prawo jazdy</strong>
+                <span class="text-sm text-slate-600 leading-relaxed">Niewymagane do pracy na terenie zakładu lub placu budowy (konieczne tylko na drogach publicznych).</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- FAQ Block -->
-        <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Często zadawane pytania</span>
+        <div class="bg-white rounded-xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Najczęstsze pytania</span>
           <h2 class="text-2xl font-heading font-black text-slate-900 mt-1 mb-6">
-            Pytania o kurs i egzamin
+            Organizacja kursu i egzaminu
           </h2>
 
           <div class="space-y-4">
             <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
-              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
-                Czy teoria naprawdę odbywa się w 100% online?
-                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              <summary class="font-bold text-slate-900 text-sm sm:text-base flex justify-between items-center gap-4 list-none">
+                <span>Czy część teoretyczną można zrealizować zdalnie?</span>
+                <span class="text-brand-accent group-open:rotate-180 transition-transform shrink-0">
+                  <IndustrialIcon name="chevron-down" class="w-4 h-4" />
+                </span>
               </summary>
-              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
-                Tak! Otrzymujesz natychmiastowy dostęp do naszej platformy e-learningowej LMS. Oglądasz materiały wideo, rozwiązujesz interaktywne testy UDT/IMBiGS w dogodnym dla siebie tempie. Do ośrodka w Kutnie przyjeżdżasz wyłącznie na jazdy praktyczne i egzamin państwowy.
+              <p class="text-sm text-slate-600 mt-3 leading-relaxed border-t border-slate-100 pt-3">
+                Tak, dla kursów objętych systemem hybrydowym udostępniamy platformę e-learningową 24/7. Wykłady i testy przygotowawcze przechodzisz na komputerze lub telefonie, a do ośrodka w Kutnie przyjeżdżasz wyłącznie na praktykę i egzamin.
               </p>
             </details>
 
             <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
-              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
-                Gdzie odbywa się egzamin państwowy?
-                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              <summary class="font-bold text-slate-900 text-sm sm:text-base flex justify-between items-center gap-4 list-none">
+                <span>Gdzie odbywają się jazdy praktyczne oraz egzamin państwowy?</span>
+                <span class="text-brand-accent group-open:rotate-180 transition-transform shrink-0">
+                  <IndustrialIcon name="chevron-down" class="w-4 h-4" />
+                </span>
               </summary>
-              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
-                Egzamin państwowy przed komisją UDT lub IMBiGS organizujemy bezpośrednio na naszym certyfikowanym placu manewrowym w Kutnie, dokładnie na tym samym sprzęcie, na którym odbywały się jazdy szkoleniowe.
+              <p class="text-sm text-slate-600 mt-3 leading-relaxed border-t border-slate-100 pt-3">
+                Zajęcia praktyczne i egzaminy państwowe przed komisją UDT lub ŚBŁ-WIT (IMBiGS) organizujemy na naszym poligonie manewrowym przy ul. Przemysłowej 2 w Kutnie, dokładnie na tych samych maszynach, na których uczysz się podczas kursu.
               </p>
             </details>
 
             <details class="group border border-slate-200 rounded-lg p-4 cursor-pointer">
-              <summary class="font-bold text-slate-900 text-sm flex justify-between items-center">
-                Czy pomagacie w formalnościach z UDT / IMBiGS?
-                <span class="text-brand-accent font-bold group-open:rotate-180 transition-transform">▼</span>
+              <summary class="font-bold text-slate-900 text-sm sm:text-base flex justify-between items-center gap-4 list-none">
+                <span>Czy ośrodek załatwia formalności związane ze zgłoszeniem na egzamin?</span>
+                <span class="text-brand-accent group-open:rotate-180 transition-transform shrink-0">
+                  <IndustrialIcon name="chevron-down" class="w-4 h-4" />
+                </span>
               </summary>
-              <p class="text-xs text-slate-600 mt-3 leading-relaxed">
-                Tak, MultiSerwis przejmuje wszystkie formalności: składamy wnioski do Urzędu Dozoru Technicznego, ustalamy termin sesji egzaminacyjnej oraz kompletujemy niezbędną dokumentację.
+              <p class="text-sm text-slate-600 mt-3 leading-relaxed border-t border-slate-100 pt-3">
+                Tak, biuro MultiSerwis kompletuje pełną dokumentację, składa wnioski egzaminacyjne do właściwej komisji (UDT, ŚBŁ-WIT, SEP, SGS) oraz informuje kursanta SMS-em i telefonicznie o wyznaczonym terminie egzaminu.
               </p>
             </details>
           </div>
@@ -293,34 +403,48 @@ const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
       <div class="space-y-8">
         <!-- Location Card -->
         <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
-          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Baza Szkoleniowa MultiSerwis</h3>
-          <p class="text-xs text-slate-600 mb-4">
-            Zajęcia praktyczne oraz egzaminy państwowe prowadzimy w naszym ośrodku w Kutnie:
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Baza szkoleniowa MultiSerwis</h3>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Zajęcia praktyczne oraz egzaminy państwowe prowadzimy na certyfikowanym poligonie w Kutnie:
           </p>
-          <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 text-xs space-y-2 mb-4">
-            <div class="font-bold text-slate-900">📍 ul. Siemieradzkiego 18, 99-300 Kutno</div>
-            <div class="text-slate-600">Duży parking dla kursantów, plac manewrowy z rampami, hala z regałami wysokiego składowania.</div>
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm space-y-3 mb-5">
+            <div class="flex items-start gap-2.5">
+              <IndustrialIcon name="pin" class="w-4 h-4 text-brand-accent shrink-0 mt-0.5" />
+              <div>
+                <div class="font-bold text-slate-900">Poligon: ul. Przemysłowa 2, 99-300 Kutno</div>
+                <div class="text-xs text-slate-600 mt-0.5">Plac manewrowy z rampami, wykopami technologicznymi i halą wysokiego składowania.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 pt-2 border-t border-slate-200/70">
+              <IndustrialIcon name="building" class="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
+              <div>
+                <div class="font-bold text-slate-900">Biuro: ul. Henryka Siemiradzkiego 18</div>
+                <div class="text-xs text-slate-600 mt-0.5">Zapisy, dokumentacja, wnioski KFS/BUR (pon.–pt. 8:00–16:00).</div>
+              </div>
+            </div>
           </div>
           <a
             href="/kontakt"
-            class="block text-center py-2.5 bg-slate-900 text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-slate-800 transition-colors"
+            class="inline-flex items-center justify-center gap-2 w-full text-center py-3 bg-slate-900 text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-slate-800 transition-colors"
           >
-            Sprawdź dojazd i mapę →
+            Sprawdź dojazd i mapę
+            <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
           </a>
         </div>
 
         <!-- Corporate B2B Banner -->
-        <div class="bg-linear-to-br from-brand-primary to-brand-dark text-white rounded-xl p-6 shadow-lg">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-brand-accent block mb-1">Dla Firm i Zakładów</span>
-          <h3 class="font-heading font-bold text-xl mb-3">Szkolenia Grupowe na terenie Twojej firmy</h3>
-          <p class="text-xs text-slate-200 mb-5 leading-relaxed">
-            Przyjeżdżamy z instruktorem i mobilnym sprzętem do Twojego zakładu pracy na terenie całego województwa łódzkiego i mazowieckiego. Egzamin UDT u Ciebie w firmie.
+        <div class="bg-gradient-to-br from-brand-primary to-brand-dark text-white rounded-xl p-6 shadow-lg">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-accent block mb-1">Dla firm i zakładów</span>
+          <h3 class="font-heading font-bold text-xl mb-3">Szkolenia grupowe w Twojej firmie</h3>
+          <p class="text-sm text-slate-200 mb-5 leading-relaxed">
+            Przyjeżdżamy z instruktorem do Twojego zakładu pracy na terenie województwa łódzkiego, mazowieckiego i wielkopolskiego. Możliwość przeprowadzenia egzaminu UDT na sprzęcie pracodawcy.
           </p>
           <a
             href="/kontakt?typ=b2b"
-            class="inline-block px-5 py-2.5 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accent hover:text-white transition-all shadow-sm"
+            class="inline-flex items-center gap-2 px-5 py-3 bg-white text-brand-dark font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accent hover:text-white transition-all shadow-sm"
           >
-            Zamów wycenę B2B →
+            Zamów wycenę B2B
+            <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
           </a>
         </div>
       </div>

@@ -3,15 +3,85 @@ import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  preloadImage?: string | null;
+  schema?: Record<string, any> | Record<string, any>[];
+}
+
 const {
-  title = "MultiSerwis Kutno | Kursy i Szkolenia UDT, IMBiGS, SEP",
-  description = "Zdobądź uprawnienia operatora UDT, IMBiGS i SEP w Kutnie. Teoria online 24/7, praktyka na własnym placu manewrowym i egzamin państwowy. Zapisz się online!",
+  title = "MultiSerwis Kutno | Kursy i szkolenia UDT, IMBiGS, SEP • Wynajem maszyn",
+  description = "Zdobądź uprawnienia operatora UDT, IMBiGS i SEP w Kutnie. Teoria online 24/7, praktyka na własnym placu manewrowym przy ul. Przemysłowej 2 i egzamin państwowy. Zapisz się online!",
   image = "/og-image.jpg",
+  preloadImage = null,
+  schema,
 } = Astro.props;
 
-const siteOrigin = Astro.site ? Astro.site.origin : "https://multiserwis-szkolenia.webisko.pl";
+const siteOrigin = Astro.site ? Astro.site.origin : "https://multiserwis.edu.pl";
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
 const ogImageUrl = image.startsWith("http") ? image : new URL(image, siteOrigin).toString();
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": ["EducationalOrganization", "LocalBusiness"],
+  "@id": `${siteOrigin}/#organization`,
+  name: "MultiSerwis Kutno – Ośrodek Szkolenia Zawodowego i Wynajem Maszyn",
+  legalName: "MULTI-SERWIS Kamil Kapruziak",
+  url: siteOrigin,
+  logo: `${siteOrigin}/logo.svg`,
+  image: ogImageUrl,
+  description:
+    "Akredytowany ośrodek szkoleń operatorów UDT, IMBiGS (ŚBŁ-WIT), uprawnień energetycznych SEP (G1, G2, G3) i spawalnictwa oraz wypożyczalnia i serwis maszyn budowlanych w Kutnie.",
+  telephone: "+48 730 101 000",
+  email: "multiserwis.kutno@gmail.com",
+  taxID: "7752404382",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "ul. Henryka Siemiradzkiego 18",
+    addressLocality: "Kutno",
+    postalCode: "99-300",
+    addressRegion: "łódzkie",
+    addressCountry: "PL",
+  },
+  location: [
+    {
+      "@type": "Place",
+      name: "Biuro Obsługi Klienta MultiSerwis",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "ul. Henryka Siemiradzkiego 18",
+        addressLocality: "Kutno",
+        postalCode: "99-300",
+        addressCountry: "PL",
+      },
+    },
+    {
+      "@type": "Place",
+      name: "Baza Szkoleniowa i Plac Manewrowy MultiSerwis",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "ul. Przemysłowa 2",
+        addressLocality: "Kutno",
+        postalCode: "99-300",
+        addressCountry: "PL",
+      },
+    },
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "16:00",
+    },
+  ],
+  areaServed: ["Kutno", "Łódź", "Płock", "Łowicz", "Łęczyca", "Gostynin", "Koło", "Konin"],
+};
+
+const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const jsonLdGraph = [organizationSchema, ...extraSchemas];
 ---
 
 <!doctype html>
@@ -31,11 +101,10 @@ const ogImageUrl = image.startsWith("http") ? image : new URL(image, siteOrigin)
     <link rel="describedby" href="/llms.txt" />
     <link rel="alternate" type="application/json" href="/.well-known/ai-catalog.json" />
 
-    <!-- Preload Critical Assets (LCP Hero & Typography) -->
-    <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
+    <!-- Preload Critical Typography & Optional Hero LCP Image -->
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
     <link rel="preload" href="/fonts/montserrat-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/roboto-400-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
-
 
     <!-- Open Graph / Facebook / LinkedIn / Messenger -->
     <meta property="og:type" content="website" />
@@ -55,15 +124,17 @@ const ogImageUrl = image.startsWith("http") ? image : new URL(image, siteOrigin)
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />
   </head>
   <body>
-    <div class="min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div class="min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden flex flex-col">
       <SiteHeader />
-      <main class="relative">
+      <main class="relative grow">
         <slot />
       </main>
       <SiteFooter />
     </div>
   </body>
 </html>
-

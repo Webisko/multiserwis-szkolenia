@@ -109,12 +109,16 @@ export const StudentPanel: React.FC<StudentPanelProps> = ({
       userName={studentUser?.name || "Kursant"}
       userRole="Kursant"
       onLogoClick={() => {
-        window.location.href = "/";
+        window.location.href = window.location.hostname.endsWith("multiserwis.edu.pl")
+          ? "https://multiserwis.edu.pl/"
+          : "/";
       }}
       onLogout={() => {
         useAuthStore.getState().logout();
         setCurrentUser(null);
-        window.location.href = "/";
+        window.location.href = window.location.hostname.endsWith("multiserwis.edu.pl")
+          ? "https://multiserwis.edu.pl/"
+          : "/";
       }}
     >
       {activeSection === "dashboard" && studentUser && (

@@ -72,7 +72,9 @@ export const GuardianPanel: React.FC<GuardianPanelProps> = ({
       activeSection={activeSection}
       onSectionChange={setActiveSection}
       onLogoClick={() => {
-        window.location.href = "/";
+        window.location.href = window.location.hostname.endsWith("multiserwis.edu.pl")
+          ? "https://multiserwis.edu.pl/"
+          : "/";
       }}
       userName={currentUser?.name || "Opiekun firmy"}
       userRole={

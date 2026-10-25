@@ -2,7 +2,11 @@ import { Course, Order, OrderStatus, StudentUser } from "../types";
 
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ??
-  "http://localhost:3000";
+  (typeof window !== "undefined" &&
+  window.location.hostname !== "localhost" &&
+  window.location.hostname !== "127.0.0.1"
+    ? "/api"
+    : "http://localhost:3000");
 
 const getHeaders = () => {
   const token = localStorage.getItem("token");
@@ -43,7 +47,8 @@ const mapCourse = (c: any): Course => ({
 export const api = {
   auth: {
     login: async (email: string, password: string): Promise<StudentUser> => {
-      const res = await fetch(`${API_URL}/auth/login`, {
+      const endpoint = API_URL.startsWith("/api") ? "/auth/session" : "/auth/login";
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

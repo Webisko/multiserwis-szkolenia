@@ -1,0 +1,340 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import IndustrialIcon from "../components/IndustrialIcon.astro";
+---
+
+<BaseLayout
+  title="Załóż konto na platformie | MultiSerwis Szkolenia"
+  description="Zarejestruj konto kursanta indywidualnego lub konto opiekuna firmy B2B na platformie szkoleniowej MultiSerwis. Dostęp do materiałów e-learningowych, testów UDT/IMBiGS/SEP i certyfikatów."
+>
+  <div class="bg-brand-dark text-white py-12 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="max-w-2xl space-y-3">
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Platforma szkoleniowa e-learning
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-heading font-black leading-tight">
+          Załóż konto na platformie
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Wybierz typ konta dopasowany do Twoich potrzeb: indywidualne konto kursanta lub firmowe konto opiekuna B2B do zarządzania szkoleniami pracowników.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-12 md:py-16 bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 md:px-8">
+      <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-6 sm:p-10">
+        <!-- Wybór roli: Kursant vs Opiekun Firmy -->
+        <div class="mb-8">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-3">
+            1. Wybierz typ rejestrowanego konta
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="reg-role-selector">
+            <button
+              type="button"
+              data-role="STUDENT"
+              class="reg-role-card text-left p-5 rounded-xl border-2 border-brand-accent bg-orange-50/40 transition-all cursor-pointer relative"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-heading font-extrabold text-base text-slate-900">
+                  Kursant indywidualny
+                </span>
+                <span class="w-5 h-5 rounded-full border-2 border-brand-accent flex items-center justify-center">
+                  <span class="reg-role-dot w-2.5 h-2.5 rounded-full bg-brand-accent"></span>
+                </span>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Dla osób przystępujących do kursów UDT, ŚBŁ-WIT (IMBiGS), SEP lub spawalniczych. Dostęp do lekcji, testów i zaświadczeń.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              data-role="COMPANY_GUARDIAN"
+              class="reg-role-card text-left p-5 rounded-xl border-2 border-slate-200 hover:border-slate-300 bg-white transition-all cursor-pointer relative"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-heading font-extrabold text-base text-slate-900">
+                  Opiekun firmy (B2B)
+                </span>
+                <span class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                  <span class="reg-role-dot w-2.5 h-2.5 rounded-full bg-transparent"></span>
+                </span>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Dla właścicieli firm, działów HR i BHP. Pozwala zgłaszać pracowników na szkolenia i monitorować postępy.
+              </p>
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="reg-form-error"
+          class="hidden mb-6 p-4 rounded-lg bg-red-50 border-l-4 border-red-500 text-sm font-semibold text-red-700"
+        ></div>
+
+        <form id="ms-register-form" method="post" class="space-y-5">
+          <input type="hidden" id="reg-role-input" name="role" value="STUDENT" />
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label
+                for="reg-name"
+                class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+              >
+                Imię i nazwisko *
+              </label>
+              <input
+                id="reg-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                placeholder="np. Jan Kowalski"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              />
+            </div>
+
+            <div>
+              <label
+                for="reg-phone"
+                class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+              >
+                Numer telefonu *
+              </label>
+              <input
+                id="reg-phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                required
+                placeholder="np. +48 500 100 200"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              />
+            </div>
+          </div>
+
+          <!-- Pole nazwy firmy (widoczne i wymagane dla Opiekuna Firmy) -->
+          <div id="reg-company-wrapper" class="hidden">
+            <label
+              for="reg-company"
+              class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+            >
+              Nazwa firmy (lub NIP) *
+            </label>
+            <input
+              id="reg-company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              placeholder="np. ABC Transport Sp. z o.o."
+              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+            />
+          </div>
+
+          <div>
+            <label
+              for="reg-email"
+              class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+            >
+              Adres e-mail (login do platformy) *
+            </label>
+            <input
+              id="reg-email"
+              name="email"
+              type="email"
+              autocomplete="username"
+              required
+              placeholder="np. jan.kowalski@firma.pl"
+              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label
+                for="reg-password"
+                class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+              >
+                Hasło (min. 6 znaków) *
+              </label>
+              <input
+                id="reg-password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+                placeholder="••••••••••••"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              />
+            </div>
+
+            <div>
+              <label
+                for="reg-password-confirm"
+                class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+              >
+                Powtórz hasło *
+              </label>
+              <input
+                id="reg-password-confirm"
+                name="passwordConfirm"
+                type="password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+                placeholder="••••••••••••"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              />
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <label class="flex items-start gap-3 text-xs text-slate-600 cursor-pointer leading-relaxed">
+              <input
+                type="checkbox"
+                required
+                class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-accent focus:ring-brand-accent"
+              />
+              <span>
+                Akceptuję <a href="/regulamin" class="text-brand-accent underline hover:text-orange-700">Regulamin świadczenia usług</a> oraz zapoznałem(-am) się z <a href="/polityka-prywatnosci" class="text-brand-accent underline hover:text-orange-700">Polityką prywatności</a>. *
+              </span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            id="reg-submit-btn"
+            class="w-full py-4 px-6 bg-brand-accent hover:bg-brand-accentHover text-white font-bold uppercase tracking-wider text-xs sm:text-sm rounded-md shadow-lg shadow-orange-500/20 transition-all cursor-pointer"
+          >
+            Utwórz konto i przejdź do platformy
+          </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+          <span class="text-slate-600">Posiadasz już konto w systemie MultiSerwis?</span>
+          <button
+            type="button"
+            data-open-login-drawer
+            class="inline-flex items-center gap-1.5 font-bold text-brand-accent hover:text-orange-700 uppercase tracking-wider text-xs cursor-pointer"
+          >
+            <span>Otwórz panel logowania</span>
+            <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const roleCards = document.querySelectorAll(".reg-role-card");
+  const roleInput = document.getElementById("reg-role-input") as HTMLInputElement | null;
+  const companyWrapper = document.getElementById("reg-company-wrapper");
+  const companyInput = document.getElementById("reg-company") as HTMLInputElement | null;
+  const form = document.getElementById("ms-register-form") as HTMLFormElement | null;
+  const errorBox = document.getElementById("reg-form-error");
+  const submitBtn = document.getElementById("reg-submit-btn") as HTMLButtonElement | null;
+
+  roleCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const selectedRole = card.getAttribute("data-role") || "STUDENT";
+      if (roleInput) roleInput.value = selectedRole;
+
+      roleCards.forEach((c) => {
+        const isActive = c.getAttribute("data-role") === selectedRole;
+        c.classList.toggle("border-brand-accent", isActive);
+        c.classList.toggle("bg-orange-50/40", isActive);
+        c.classList.toggle("border-slate-200", !isActive);
+        c.classList.toggle("bg-white", !isActive);
+
+        const dot = c.querySelector(".reg-role-dot");
+        const ring = dot?.parentElement;
+        if (dot && ring) {
+          ring.classList.toggle("border-brand-accent", isActive);
+          ring.classList.toggle("border-slate-300", !isActive);
+          dot.classList.toggle("bg-brand-accent", isActive);
+          dot.classList.toggle("bg-transparent", !isActive);
+        }
+      });
+
+      if (companyWrapper && companyInput) {
+        if (selectedRole === "COMPANY_GUARDIAN") {
+          companyWrapper.classList.remove("hidden");
+          companyInput.required = true;
+        } else {
+          companyWrapper.classList.add("hidden");
+          companyInput.required = false;
+        }
+      }
+    });
+  });
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form || !submitBtn) return;
+
+    const formData = new FormData(form);
+    const role = String(formData.get("role") || "STUDENT");
+    const name = String(formData.get("name") || "").trim();
+    const phone = String(formData.get("phone") || "").trim();
+    const company = String(formData.get("company") || "").trim();
+    const email = String(formData.get("email") || "").trim().toLowerCase();
+    const password = String(formData.get("password") || "");
+    const passwordConfirm = String(formData.get("passwordConfirm") || "");
+
+    if (errorBox) {
+      errorBox.classList.add("hidden");
+      errorBox.textContent = "";
+    }
+
+    if (password !== passwordConfirm) {
+      if (errorBox) {
+        errorBox.textContent = "Podane hasła nie są identyczne.";
+        errorBox.classList.remove("hidden");
+      }
+      return;
+    }
+
+    const originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Tworzenie konta...";
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role, name, phone, company, email, password }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.token) {
+        throw new Error(data.message || "Nie udało się utworzyć konta.");
+      }
+
+      localStorage.setItem("token", data.token);
+      const isProd = window.location.hostname.endsWith("multiserwis.edu.pl");
+      const sso = `?sso_token=${encodeURIComponent(data.token)}`;
+
+      if (data.user?.role === "COMPANY_GUARDIAN") {
+        window.location.href = isProd
+          ? `https://szkolenia.multiserwis.edu.pl/panel/opiekun${sso}`
+          : `/panel/opiekun${sso}`;
+      } else {
+        window.location.href = isProd
+          ? `https://szkolenia.multiserwis.edu.pl/panel/kursant${sso}`
+          : `/panel/kursant${sso}`;
+      }
+    } catch (err: any) {
+      if (errorBox) {
+        errorBox.textContent = err?.message || "Wystąpił błąd podczas rejestracji.";
+        errorBox.classList.remove("hidden");
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  });
+</script>

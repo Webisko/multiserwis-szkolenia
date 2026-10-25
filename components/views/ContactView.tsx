@@ -49,7 +49,7 @@ const ContactView: React.FC<Props> = ({ setView }) => {
                     Biuro Obsługi Klienta
                   </span>
                   <span>
-                    ul. Siemieradzkiego 18<br />
+                    ul. Henryka Siemiradzkiego 18<br />
                     99-300 Kutno<br />
                     <span className="text-xs text-slate-400">Pn–Pt: 8:00 – 16:00</span>
                   </span>
@@ -70,7 +70,7 @@ const ContactView: React.FC<Props> = ({ setView }) => {
               <div className="w-full h-56 rounded-lg overflow-hidden border border-slate-700/60 shadow-inner">
                 <iframe
                   title="Multiserwis Kutno - Lokalizacja Ośrodka Szkoleniowego"
-                  src="https://maps.google.com/maps?q=ul.+Siemieradzkiego+18,+99-300+Kutno&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=ul.+Henryka+Siemiradzkiego+18,+99-300+Kutno&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

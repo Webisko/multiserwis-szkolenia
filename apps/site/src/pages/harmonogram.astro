@@ -1,13 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import IndustrialIcon from "../components/IndustrialIcon.astro";
 
 const scheduleItems = [
   {
     id: "s1",
-    title: "Wózki Widłowe (UDT) + Egzamin Państwowy",
+    title: "Wózki widłowe (UDT) + egzamin państwowy",
     category: "UDT",
-    date: "14-15 Kwietnia 2026",
-    time: "09:00 - 15:00",
+    date: "14–15 kwietnia 2026",
+    time: "09:00 – 15:00",
     location: "Kutno, ul. Przemysłowa 2 (plac manewrowy)",
     spotsLeft: 4,
     price: "1 000 zł",
@@ -16,11 +17,11 @@ const scheduleItems = [
   },
   {
     id: "s2",
-    title: "Uprawnienia Elektryczne SEP G1 (E + D)",
+    title: "Uprawnienia elektryczne SEP G1 (E + D)",
     category: "SEP",
-    date: "18 Kwietnia 2026",
-    time: "16:00 - 20:00",
-    location: "Kutno, ul. Siemieradzkiego 18 / Online",
+    date: "18 kwietnia 2026",
+    time: "16:00 – 20:00",
+    location: "Kutno, ul. Henryka Siemiradzkiego 18 / online",
     spotsLeft: 8,
     price: "860 zł",
     status: "Zapisy otwarte",
@@ -28,10 +29,10 @@ const scheduleItems = [
   },
   {
     id: "s3",
-    title: "Podesty Ruchome Przejezdne (Zwyżki UDT)",
+    title: "Podesty ruchome przejezdne (zwyżki UDT)",
     category: "UDT",
-    date: "22-23 Kwietnia 2026",
-    time: "09:00 - 16:00",
+    date: "22–23 kwietnia 2026",
+    time: "09:00 – 16:00",
     location: "Kutno, ul. Przemysłowa 2 (plac manewrowy)",
     spotsLeft: 5,
     price: "1 130 zł",
@@ -40,10 +41,10 @@ const scheduleItems = [
   },
   {
     id: "s4",
-    title: "Ładowarki Teleskopowe i Podnoszone (UDT)",
+    title: "Ładowarki teleskopowe i wózki podnoszone (UDT)",
     category: "UDT",
-    date: "25-26 Kwietnia 2026",
-    time: "08:30 - 15:30",
+    date: "25–26 kwietnia 2026",
+    time: "08:30 – 15:30",
     location: "Kutno, ul. Przemysłowa 2 (plac manewrowy)",
     spotsLeft: 3,
     price: "1 500 zł",
@@ -52,10 +53,10 @@ const scheduleItems = [
   },
   {
     id: "s5",
-    title: "Koparko-Ładowarki (Kl. III) - Egzamin ŚBŁ-WIT",
+    title: "Koparko-ładowarki (kl. III) – egzamin ŚBŁ-WIT",
     category: "IMBiGS",
-    date: "08-10 Maja 2026",
-    time: "08:00 - 16:00",
+    date: "8–10 maja 2026",
+    time: "08:00 – 16:00",
     location: "Kutno, ul. Przemysłowa 2 (poligon manewrowy)",
     spotsLeft: 6,
     price: "2 350 zł",
@@ -64,11 +65,11 @@ const scheduleItems = [
   },
   {
     id: "s6",
-    title: "Suwnice, Wciągniki i Wciągarki (UDT)",
+    title: "Suwnice, wciągniki i wciągarki (UDT)",
     category: "UDT",
-    date: "12-13 Maja 2026",
-    time: "09:00 - 15:00",
-    location: "Kutno, ul. Przemysłowa 2",
+    date: "12–13 maja 2026",
+    time: "09:00 – 15:00",
+    location: "Kutno, ul. Przemysłowa 2 (hala szkoleniowa)",
     spotsLeft: 5,
     price: "1 130 zł",
     status: "Zapisy otwarte",
@@ -76,23 +77,23 @@ const scheduleItems = [
   },
   {
     id: "s7",
-    title: "Uprawnienia Cieplne G2 / Gazowe G3 (E + D)",
+    title: "Uprawnienia cieplne G2 / gazowe G3 (E + D)",
     category: "SEP",
-    date: "16 Maja 2026",
-    time: "10:00 - 15:00",
-    location: "Kutno, ul. Siemieradzkiego 18 / Online",
+    date: "16 maja 2026",
+    time: "10:00 – 15:00",
+    location: "Kutno, ul. Henryka Siemiradzkiego 18 / online",
     spotsLeft: 10,
     price: "860 zł / upr.",
     status: "Zapisy otwarte",
-    courseSlug: "sep-g1",
+    courseSlug: "sep-g2",
   },
   {
     id: "s8",
-    title: "Kurs Spawania MIG/MAG (PN-EN ISO 9606-1)",
+    title: "Kurs spawania MIG/MAG (PN-EN ISO 9606-1)",
     category: "Spawalnictwo",
-    date: "18-22 Maja 2026",
-    time: "Popołudniowe (16:00 - 20:00)",
-    location: "Kutno, ul. Przemysłowa 2 (warsztat spawalniczy)",
+    date: "18–22 maja 2026",
+    time: "Popołudniowe (16:00 – 20:00)",
+    location: "Kutno, ul. Przemysłowa 2 (spawalnia)",
     spotsLeft: 2,
     price: "2 400 zł",
     status: "Ostatnie miejsca",
@@ -102,21 +103,21 @@ const scheduleItems = [
 ---
 
 <BaseLayout
-  title="Harmonogram Szkoleń i Egzaminów UDT Kutno 2026 | MultiSerwis"
-  description="Sprawdź najbliższe terminy kursów UDT, SEP, IMBiGS i spawalnictwa w Kutnie. Rezerwuj miejsce online i rozpocznij naukę teorii od razu po rejestracji."
+  title="Harmonogram szkoleń i egzaminów UDT Kutno 2026 | MultiSerwis"
+  description="Sprawdź najbliższe terminy kursów UDT, SEP, ŚBŁ-WIT (IMBiGS) i spawalnictwa w Kutnie. Rezerwuj miejsce online i rozpocznij naukę teorii od razu po rejestracji."
 >
   <!-- Hero Section -->
   <section class="bg-brand-dark text-white py-14 md:py-20 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="max-w-3xl space-y-4">
-        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
-          Kalendarz Zjazdów 2026
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Kalendarz zjazdów 2026
         </span>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight">
-          Harmonogram Szkoleń i Egzaminów Państwowych
+          Harmonogram szkoleń i egzaminów państwowych
         </h1>
         <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
-          Wybierz dogodny termin zajęć praktycznych i egzaminu w Kutnie. Pamiętaj: do części teoretycznej online w platformie LMS uzyskujesz dostęp od razu po rejestracji!
+          Wybierz dogodny termin zajęć praktycznych i egzaminu w Kutnie. Do części teoretycznej online na platformie e-learningowej uzyskujesz dostęp od razu po zapisie.
         </p>
       </div>
     </div>
@@ -126,57 +127,67 @@ const scheduleItems = [
   <section class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <!-- Notice Alert Banner -->
-      <div class="mb-8 p-5 rounded-xl bg-orange-50 border border-orange-200 flex items-start gap-3.5 text-xs sm:text-sm text-slate-800">
-        <span class="text-xl">⏱️</span>
-        <div>
+      <div class="mb-6 p-5 rounded-xl bg-orange-50 border border-orange-200 flex items-start gap-3.5 text-sm text-slate-800">
+        <div class="w-10 h-10 rounded-lg bg-brand-accent/15 text-brand-accent flex items-center justify-center shrink-0 mt-0.5">
+          <IndustrialIcon name="clock" class="w-5 h-5" />
+        </div>
+        <div class="leading-relaxed">
           <strong class="font-bold text-slate-900 block mb-1">Zasady planowania zjazdów praktycznych i egzaminów:</strong>
-          Harmonogram zajęć praktycznych i jazd ustalamy na bieżąco <strong>w każdy piątek na nadchodzący tydzień</strong>, dopasowując godziny do dyspozycyjności kursantów. Teorię online w e-learningu możesz rozpocząć od zaraz po rejestracji. Czas oczekiwania na egzamin państwowy UDT wynosi <strong>maksymalnie do 30 dni roboczych</strong>.
+          Harmonogram jazd praktycznych ustalamy na bieżąco <strong>w każdy piątek na nadchodzący tydzień</strong>, dopasowując godziny do dyspozycyjności kursantów. Teorię online w e-learningu możesz rozpocząć natychmiast po rejestracji. Czas oczekiwania na egzamin państwowy UDT wynosi <strong>maksymalnie do 30 dni roboczych</strong>.
         </div>
       </div>
 
       <!-- Info Callout -->
-      <div class="mb-10 p-5 rounded-xl bg-blue-50 border border-blue-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-blue-900">
-        <div class="flex items-center gap-3">
-          <span class="text-xl">💡</span>
+      <div class="mb-10 p-5 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm text-slate-800">
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+            <IndustrialIcon name="info" class="w-5 h-5" />
+          </div>
           <div>
-            <strong>Potrzebujesz innego terminu dla swojej firmy?</strong>
-            <p class="text-blue-700 mt-0.5">Dla grup zorganizowanych (od 3 osób) organizujemy szkolenia w dowolnym terminie – także w weekendy lub bezpośrednio w Twoim zakładzie.</p>
+            <strong class="text-slate-900">Potrzebujesz innego terminu dla swojej firmy?</strong>
+            <p class="text-slate-600 mt-0.5">Dla grup zorganizowanych (od 3 osób) uruchamiamy szkolenia w dowolnym terminie – także w weekendy lub bezpośrednio w Twoim zakładzie pracy.</p>
           </div>
         </div>
         <a
           href="/kontakt?typ=termin_indywidualny"
-          class="shrink-0 px-4 py-2 bg-blue-900 text-white font-bold rounded-sm hover:bg-blue-800 transition-colors uppercase tracking-wider"
+          class="inline-flex items-center gap-2 shrink-0 px-5 py-3 bg-brand-primary text-white font-bold text-xs rounded-md hover:bg-brand-dark transition-colors uppercase tracking-wider"
         >
-          Zapytaj o termin firmowy →
+          Zapytaj o termin firmowy
+          <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
         </a>
       </div>
 
-      <!-- Schedule Table / Cards -->
+      <!-- Schedule Cards -->
       <div class="space-y-4">
         {scheduleItems.map((item) => (
           <div class="bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm hover:shadow-md transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <!-- Left Info -->
-            <div class="space-y-2 lg:max-w-xl">
+            <div class="space-y-2.5 lg:max-w-2xl">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-bold uppercase tracking-wider rounded-xs">
+                <span class="px-2.5 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider rounded-md">
                   {item.category}
                 </span>
-                <span class={`px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-xs ${item.spotsLeft <= 3 ? "bg-amber-100 text-amber-800 border border-amber-200" : "bg-emerald-100 text-emerald-800 border border-emerald-200"}`}>
-                  {item.status} ({item.spotsLeft} wolne miejsca)
+                <span class={`px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider rounded-md ${item.spotsLeft <= 4 ? "bg-amber-100 text-amber-800 border border-amber-200" : "bg-emerald-100 text-emerald-800 border border-emerald-200"}`}>
+                  {item.status} ({item.spotsLeft} {item.spotsLeft === 1 ? "wolne miejsce" : item.spotsLeft < 5 ? "wolne miejsca" : "wolnych miejsc"})
                 </span>
               </div>
-              <h3 class="text-xl font-heading font-bold text-slate-900">
-                {item.title}
-              </h3>
-              <div class="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-slate-500">
-                <span class="flex items-center gap-1.5 font-medium text-slate-700">
-                  📅 {item.date}
+              <h2 class="text-xl font-heading font-bold text-slate-900">
+                <a href={`/szkolenia/${item.courseSlug}`} class="hover:text-brand-primary transition-colors">
+                  {item.title}
+                </a>
+              </h2>
+              <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
+                <span class="inline-flex items-center gap-1.5 font-semibold text-slate-800">
+                  <IndustrialIcon name="calendar" class="w-4 h-4 text-brand-accent" />
+                  {item.date}
                 </span>
-                <span class="flex items-center gap-1.5">
-                  ⏰ {item.time}
+                <span class="inline-flex items-center gap-1.5">
+                  <IndustrialIcon name="clock" class="w-4 h-4 text-slate-400" />
+                  {item.time}
                 </span>
-                <span class="flex items-center gap-1.5">
-                  📍 {item.location}
+                <span class="inline-flex items-center gap-1.5">
+                  <IndustrialIcon name="pin" class="w-4 h-4 text-slate-400" />
+                  {item.location}
                 </span>
               </div>
             </div>
@@ -184,17 +195,26 @@ const scheduleItems = [
             <!-- Right Price & CTA -->
             <div class="flex flex-col sm:flex-row lg:flex-col sm:items-center lg:items-end justify-between border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100 gap-4 shrink-0">
               <div class="lg:text-right">
-                <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">Cena kursu</span>
+                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block">Koszt (zw. z VAT)</span>
                 <span class="text-2xl font-heading font-black text-brand-primary leading-none block mt-0.5">
                   {item.price}
                 </span>
               </div>
-              <a
-                href={`/kontakt?termin=${encodeURIComponent(item.title + " - " + item.date)}`}
-                class="px-6 py-2.5 bg-brand-primary text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-dark transition-all text-center"
-              >
-                Rezerwuj miejsce →
-              </a>
+              <div class="flex items-center gap-2.5">
+                <a
+                  href={`/szkolenia/${item.courseSlug}`}
+                  class="px-4 py-2.5 border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-md hover:border-brand-primary hover:text-brand-primary transition-colors"
+                >
+                  Program
+                </a>
+                <a
+                  href={`/kontakt?termin=${encodeURIComponent(item.title + " (" + item.date + ")")}`}
+                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accentHover transition-all text-center shadow-sm"
+                >
+                  Rezerwuj miejsce
+                  <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         ))}

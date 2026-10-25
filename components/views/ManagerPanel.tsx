@@ -102,7 +102,9 @@ export const ManagerPanel: React.FC<ManagerPanelProps> = ({
       activeSection={activeSection}
       onSectionChange={setActiveSection}
       onLogoClick={() => {
-        window.location.href = "/";
+        window.location.href = window.location.hostname.endsWith("multiserwis.edu.pl")
+          ? "https://multiserwis.edu.pl/"
+          : "/";
       }}
       userName={currentUser?.name || "Menedżer"}
       userRole="Menedżer platformy"

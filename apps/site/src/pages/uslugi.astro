@@ -1,50 +1,75 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import IndustrialIcon, { type IconName } from "../components/IndustrialIcon.astro";
 
-const servicesList = [
+const servicesList: { icon: IconName; title: string; desc: string }[] = [
   {
-    icon: "⚙️",
-    title: "Przeglądy Okresowe UDT",
-    desc: "Kompleksowe przeglądy konserwacyjne maszyn podlegających pod Urząd Dozoru Technicznego. Przygotowanie dokumentacji, ksiąg rewizyjnych i obecność podczas badań inspektora UDT.",
+    icon: "cog",
+    title: "Przeglądy okresowe i konserwacja UDT",
+    desc: "Kompleksowe przeglądy konserwatorskie maszyn podlegających pod Urząd Dozoru Technicznego. Prowadzenie dzienników konserwacji, ksiąg rewizyjnych oraz udział w badaniach inspektora UDT.",
   },
   {
-    icon: "🔧",
-    title: "Naprawy i Remonty Maszyn",
-    desc: "Diagnostyka komputerowa, usuwanie awarii układów hydrauliki siłowej, instalacji elektrycznych, silników spalinowych oraz regeneracja siłowników i pomp.",
+    icon: "wrench",
+    title: "Naprawy główne i remonty maszyn",
+    desc: "Diagnostyka komputerowa, usuwanie awarii układów hydrauliki siłowej, instalacji elektrycznych, silników spalinowych oraz regeneracja siłowników, rozdzielaczy i pomp.",
   },
   {
-    icon: "🚛",
-    title: "Mobilny Serwis z Dojazdem 24h",
-    desc: "Wyposażone busy serwisowe docierają na plac budowy lub do zakładu produkcyjnego w Kutnie i całym województwie łódzkim. Większość usterek usuwamy na miejscu.",
+    icon: "truck",
+    title: "Mobilny serwis z dojazdem 24h",
+    desc: "W pełni wyposażone samochody serwisowe docierają bezpośrednio na plac budowy lub do zakładu produkcyjnego w Kutnie i całym województwie łódzkim. Większość awarii usuwamy na miejscu.",
   },
   {
-    icon: "📊",
-    title: "Obliczanie Resursu (UTB)",
-    desc: "Wyznaczanie stopnia wykorzystania resursu maszyn zgodnie z Rozporządzeniem Ministra Przedsiębiorczości i Technologii. Pomiary, historia eksploatacji i ocena stanu technicznego.",
+    icon: "chart",
+    title: "Obliczanie resursu UTB",
+    desc: "Wyznaczanie stopnia wykorzystania resursu urządzeń transportu bliskiego zgodnie z obowiązującym rozporządzeniem. Pomiary, analiza historii eksploatacji i sporządzenie protokołu technicznego.",
   },
   {
-    icon: "🏗️",
-    title: "Relokacje Maszyn i Linii",
-    desc: "Demontaż, bezpieczny załadunek, transport ponadgabarytowy oraz precyzyjne ustawienie i kotwienie maszyn przemysłowych w nowej hali produkcyjnej.",
+    icon: "crane",
+    title: "Relokacje maszyn i linii produkcyjnych",
+    desc: "Demontaż, bezpieczny załadunek dźwigowy, transport niskopodwoziowy oraz precyzyjne ustawienie i poziomowanie maszyn przemysłowych w docelowej hali.",
   },
   {
-    icon: "🔥",
-    title: "Regeneracja Spawalnicza Osprzętu",
-    desc: "Naprawa pękniętych ram, regeneracja łyżek koparkowych, napawanie krawędzi tnących i lemieszy z wykorzystaniem stali trudnościeralnych Hardox.",
+    icon: "welding",
+    title: "Regeneracja spawalnicza osprzętu",
+    desc: "Naprawa pękniętych konstrukcji nośnych, tulejowanie wysięgników, regeneracja łyżek koparkowych oraz napawanie lemieszy z wykorzystaniem stali trudnościeralnych Hardox.",
   },
 ];
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Serwis maszyn budowlanych, konserwacja UDT i obliczanie resursu Kutno",
+  provider: {
+    "@type": "LocalBusiness",
+    name: "MultiSerwis Kutno",
+    telephone: "+48730101000",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "ul. Henryka Siemiradzkiego 18",
+      addressLocality: "Kutno",
+      postalCode: "99-300",
+      addressCountry: "PL",
+    },
+  },
+  areaServed: ["Kutno", "Łódź", "Płock", "Łowicz", "Łęczyca", "Koło", "Gostynin"],
+  description:
+    "Profesjonalny serwis maszyn budowlanych i urządzeń transportu bliskiego (UTB) w Kutnie: konserwacja UDT, obliczanie resursu, naprawy hydrauliki siłowej i relokacje maszyn.",
+};
 ---
 
 <BaseLayout
-  title="Usługi Serwisowe i Konserwacja UDT Maszyn Kutno | MultiSerwis"
-  description="Profesjonalny serwis maszyn budowlanych i urządzeń transportu bliskiego w Kutnie. Przeglądy UDT, obliczanie resursu, serwis mobilny i naprawy hydrauliki siłowej."
+  title="Serwis maszyn budowlanych i konserwacja UDT Kutno | MultiSerwis"
+  description="Profesjonalny serwis maszyn budowlanych i urządzeń transportu bliskiego w Kutnie. Przeglądy konserwatorskie UDT, obliczanie resursu, serwis mobilny i naprawy hydrauliki siłowej."
+  schema={serviceSchema}
 >
   <!-- Hero Section -->
   <section class="relative bg-brand-dark text-white py-16 md:py-24 border-b border-slate-800 overflow-hidden">
     <div class="absolute inset-0 z-0">
       <img
         src="/serwis-i-koserwacja.webp"
-        alt="Usługi serwisowe maszyn Kutno"
+        alt="Serwis i konserwacja maszyn budowlanych MultiSerwis Kutno"
+        width="1600"
+        height="900"
         class="w-full h-full object-cover opacity-25 filter brightness-75 scale-105"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-primary/85"></div>
@@ -52,29 +77,29 @@ const servicesList = [
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
       <div class="max-w-3xl space-y-5">
-        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-sm">
-          Dział Techniczny MultiSerwis
+        <span class="inline-block px-3.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent text-xs font-bold uppercase tracking-wider rounded-md">
+          Dział techniczny MultiSerwis
         </span>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-white leading-tight">
-          Serwis, Konserwacja UDT i Naprawa Maszyn Budowlanych
+          Serwis, konserwacja UDT i naprawa maszyn budowlanych
         </h1>
         <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
-          Zapewniamy pełną dyspozycyjność Twojego parku maszynowego. Od rutynowych przeglądów konserwacyjnych UDT po natychmiastowe usuwanie awarii na budowie przez mobilny serwis.
+          Dbamy o ciągłość pracy Twojego parku maszynowego. Od obowiązkowych przeglądów konserwatorskich UDT i wyznaczania resursu po szybkie usuwanie awarii na budowie przez zespół mobilny.
         </p>
 
         <!-- Stats Counter -->
         <div class="pt-6 grid grid-cols-3 gap-6 max-w-lg text-white">
           <div class="border-l-2 border-brand-accent pl-4">
             <span class="text-2xl sm:text-3xl font-heading font-black">15+</span>
-            <span class="text-xs text-slate-400 block mt-0.5 uppercase">lat doświadczenia</span>
+            <span class="text-xs text-slate-300 block mt-0.5 uppercase">lat w branży</span>
           </div>
           <div class="border-l-2 border-brand-accent pl-4">
-            <span class="text-2xl sm:text-3xl font-heading font-black">2000+</span>
-            <span class="text-xs text-slate-400 block mt-0.5 uppercase">napraw i przeglądów</span>
+            <span class="text-2xl sm:text-3xl font-heading font-black">2 000+</span>
+            <span class="text-xs text-slate-300 block mt-0.5 uppercase">przeglądów i napraw</span>
           </div>
           <div class="border-l-2 border-brand-accent pl-4">
             <span class="text-2xl sm:text-3xl font-heading font-black">24h</span>
-            <span class="text-xs text-slate-400 block mt-0.5 uppercase">czas reakcji</span>
+            <span class="text-xs text-slate-300 block mt-0.5 uppercase">reakcja serwisu</span>
           </div>
         </div>
       </div>
@@ -85,12 +110,12 @@ const servicesList = [
   <section class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="mb-12 text-center max-w-2xl mx-auto">
-        <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Kompleksowe wsparcie</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Zakres prac technicznych</span>
         <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1">
-          Czym zajmuje się nasz serwis?
+          Czym zajmuje się nasz dział serwisowy?
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mt-2">
-          Obsługujemy wózki widłowe, podesty ruchome, ładowarki teleskopowe, suwnice, żurawie HDS oraz ciężki sprzęt ziemny.
+        <p class="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+          Obsługujemy wózki widłowe, podesty ruchome (zwyżki), ładowarki teleskopowe, suwnice, żurawie HDS oraz maszyny do robót ziemnych.
         </p>
       </div>
 
@@ -98,13 +123,13 @@ const servicesList = [
         {servicesList.map((service) => (
           <div class="bg-white rounded-xl border border-slate-200/80 p-8 shadow-sm hover:shadow-xl hover:border-brand-accent/40 transition-all duration-300 flex flex-col justify-between group">
             <div>
-              <div class="w-12 h-12 rounded-lg bg-brand-primary/10 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
-                {service.icon}
+              <div class="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary group-hover:bg-brand-primary group-hover:text-white flex items-center justify-center mb-6 transition-colors">
+                <IndustrialIcon name={service.icon} class="w-6 h-6" />
               </div>
               <h3 class="text-xl font-heading font-bold text-slate-900 mb-3 group-hover:text-brand-primary transition-colors">
                 {service.title}
               </h3>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-sm text-slate-600 leading-relaxed">
                 {service.desc}
               </p>
             </div>
@@ -114,7 +139,8 @@ const servicesList = [
                 href={`/kontakt?usluga=${encodeURIComponent(service.title)}`}
                 class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary group-hover:text-brand-accent uppercase tracking-wider transition-colors"
               >
-                Zgłoś maszynę do serwisu →
+                Zgłoś maszynę do serwisu
+                <IndustrialIcon name="arrow-right" class="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
@@ -127,43 +153,43 @@ const servicesList = [
   <section class="py-16 bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 md:px-8">
       <div class="mb-12 text-center max-w-2xl mx-auto">
-        <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Standard realizacji</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Standard obsługi</span>
         <h2 class="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-1">
-          Jak przebiega proces serwisowy?
+          Jak przebiega realizacja zlecenia serwisowego?
         </h2>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 text-center">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white font-black text-sm flex items-center justify-center mx-auto mb-4">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200/80 text-center">
+          <span class="w-10 h-10 rounded-lg bg-brand-primary text-white font-heading font-black text-sm flex items-center justify-center mx-auto mb-4">
             01
           </span>
           <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Zgłoszenie</h3>
-          <p class="text-xs text-slate-600">Kontakt telefoniczny lub mailowy z opisem usterki i lokalizacją maszyny.</p>
+          <p class="text-sm text-slate-600 leading-relaxed">Kontakt telefoniczny lub formularz z opisem usterki, modelu maszyny i jej lokalizacji.</p>
         </div>
 
-        <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 text-center">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white font-black text-sm flex items-center justify-center mx-auto mb-4">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200/80 text-center">
+          <span class="w-10 h-10 rounded-lg bg-brand-primary text-white font-heading font-black text-sm flex items-center justify-center mx-auto mb-4">
             02
           </span>
-          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Dojazd i Diagnostyka</h3>
-          <p class="text-xs text-slate-600">Szybka interwencja serwisu mobilnego, podpięcie testerów i lokalizacja wady.</p>
+          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Dojazd i diagnostyka</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Przyjazd wozu serwisowego, diagnostyka układów hydraulicznych i elektronicznych na miejscu.</p>
         </div>
 
-        <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 text-center">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white font-black text-sm flex items-center justify-center mx-auto mb-4">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200/80 text-center">
+          <span class="w-10 h-10 rounded-lg bg-brand-primary text-white font-heading font-black text-sm flex items-center justify-center mx-auto mb-4">
             03
           </span>
-          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Wycena i Części</h3>
-          <p class="text-xs text-slate-600">Przedstawienie kosztorysu przed rozpoczęciem prac. Dostęp do części OEM i zamienników.</p>
+          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Kosztorys i części</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Przedstawienie wyceny do akceptacji przed rozpoczęciem prac. Szybki dobór części OEM lub zamienników.</p>
         </div>
 
-        <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 text-center">
-          <span class="w-10 h-10 rounded-full bg-brand-primary text-white font-black text-sm flex items-center justify-center mx-auto mb-4">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200/80 text-center">
+          <span class="w-10 h-10 rounded-lg bg-brand-primary text-white font-heading font-black text-sm flex items-center justify-center mx-auto mb-4">
             04
           </span>
-          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Naprawa i Protokół</h3>
-          <p class="text-xs text-slate-600">Wykonanie naprawy, próby obciążeniowe, wpis do księgi rewizyjnej i gwarancja.</p>
+          <h3 class="font-heading font-bold text-slate-900 text-base mb-2">Naprawa i wpis UDT</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Usunięcie usterki, próby ruchowe pod obciążeniem oraz odnotowanie prac w dzienniku konserwacji.</p>
         </div>
       </div>
     </div>
@@ -172,26 +198,28 @@ const servicesList = [
   <!-- Contact CTA -->
   <section class="py-16 bg-slate-900 text-white">
     <div class="max-w-4xl mx-auto px-4 md:px-8 text-center space-y-6">
-      <span class="text-xs font-bold uppercase tracking-wider text-brand-accent block">Potrzebujesz natychmiastowej pomocy?</span>
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-accent block">Wsparcie techniczne</span>
       <h2 class="text-3xl sm:text-4xl font-heading font-black">
-        Awaria maszyny na budowie? Skontaktuj się z dyżurnym serwisantem
+        Przestój maszyny na budowie lub w magazynie?
       </h2>
-      <p class="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed">
-        Nasz mobilny serwis dojeżdża do klientów w Kutnie, Płocku, Łęczycy, Gostyninie, Łowiczu i okolicach.
+      <p class="text-slate-300 text-base max-w-xl mx-auto leading-relaxed">
+        Skontaktuj się bezpośrednio z naszym koordynatorem serwisu. Dojeżdżamy do klientów w Kutnie, Płocku, Łęczycy, Gostyninie, Łowiczu i Łodzi.
       </p>
 
       <div class="pt-4 flex flex-wrap justify-center gap-4">
         <a
           href="tel:+48730101000"
-          class="px-8 py-4 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-brand-accentHover transition-all shadow-xl shadow-orange-500/20"
+          class="inline-flex items-center gap-2.5 px-8 py-4 bg-brand-accent text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-brand-accentHover transition-all shadow-xl shadow-orange-500/20"
         >
-          📞 Zadzwoń: +48 730 101 000
+          <IndustrialIcon name="phone" class="w-4 h-4" />
+          Zadzwoń: +48 730 101 000
         </a>
         <a
-          href="/kontakt"
-          class="px-8 py-4 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-sm hover:bg-white/20 transition-colors"
+          href="/kontakt?usluga=Zg%C5%82oszenie%20serwisowe"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-md hover:bg-white/20 transition-colors"
         >
           Wyślij formularz zgłoszeniowy
+          <IndustrialIcon name="arrow-right" class="w-4 h-4" />
         </a>
       </div>
     </div>

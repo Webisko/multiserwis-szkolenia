@@ -15,6 +15,7 @@ import {
   Shield,
   Building2,
   ShoppingBag,
+  MapPin,
 } from "lucide-react";
 import { TRANSLATIONS } from "../constants";
 import { BrandMark } from "./BrandMark";
@@ -253,7 +254,7 @@ export const Layout: React.FC<LayoutProps> = ({
 
             {/* Usługi External Link */}
             <a
-              href="https://multiserwis-kutno.pl"
+              href="https://multiserwis.tech"
               target="_blank"
               rel="noopener noreferrer"
               className="cursor-pointer text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-300 text-white hover:text-brand-accent flex items-center gap-1 whitespace-nowrap"
@@ -291,90 +292,23 @@ export const Layout: React.FC<LayoutProps> = ({
 
             {!isLoggedIn ? (
               <button
-                onClick={onShowLoginModal}
-                className="px-3 xl:px-5 py-2 rounded-sm font-bold text-xs xl:text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg whitespace-nowrap flex-shrink-0"
+                onClick={() => {
+                  onShowLoginModal?.();
+                }}
+                className="px-3 xl:px-5 py-2 rounded-sm font-bold text-xs xl:text-sm uppercase tracking-wide transition-all bg-brand-accent text-white hover:bg-brand-accentHover shadow-lg whitespace-nowrap flex-shrink-0 cursor-pointer"
               >
                 <User size={15} className="inline mr-1.5" />
-                Zaloguj
+                Zaloguj się
               </button>
             ) : (
               <div className="flex items-center gap-4 flex-shrink-0">
                 <span className="text-white text-sm font-bold whitespace-nowrap">{userName}</span>
                 <button
                   onClick={onLogout}
-                  className="px-4 py-2 rounded-sm font-bold text-xs uppercase tracking-wide bg-brand-accent text-white hover:bg-brand-accentHover transition-colors whitespace-nowrap"
+                  className="px-4 py-2 rounded-sm font-bold text-xs uppercase tracking-wide bg-brand-accent text-white hover:bg-brand-accentHover transition-colors whitespace-nowrap cursor-pointer"
                 >
                   Wyloguj
                 </button>
-              </div>
-            )}
-
-            {/* Nowe Panele Dropdown */}
-            {onShowNewPanel && (
-              <div
-                className="relative group flex-shrink-0"
-                onMouseEnter={() => setNewPanelsMenuOpen(true)}
-                onMouseLeave={() => setNewPanelsMenuOpen(false)}
-              >
-                <span
-                  className={`cursor-pointer text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
-                    currentView === "NEW_ADMIN_PANEL" ||
-                    currentView === "NEW_MANAGER_PANEL" ||
-                    currentView === "NEW_GUARDIAN_PANEL" ||
-                    currentView === "NEW_STUDENT_PANEL" ||
-                    newPanelsMenuOpen
-                      ? "text-brand-accent"
-                      : "text-white hover:text-brand-accent"
-                  } flex items-center gap-1`}
-                >
-                  Nowe panele{" "}
-                  <ChevronRight
-                    size={14}
-                    className={`transform transition-transform ${newPanelsMenuOpen ? "rotate-90" : ""}`}
-                  />
-                </span>
-                {newPanelsMenuOpen && (
-                  <div className="absolute right-0 top-full pt-2 w-72 z-50">
-                    <div className="bg-white rounded-sm shadow-xl border border-slate-200 overflow-hidden">
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("admin");
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-accent hover:text-white cursor-pointer transition-colors flex items-center gap-2"
-                      >
-                        <Shield size={16} /> Panel administratora (nowy)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("manager");
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-accent hover:text-white cursor-pointer transition-colors flex items-center gap-2 border-t border-slate-100"
-                      >
-                        <BarChart3 size={16} /> Panel managera (nowy)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("guardian");
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-accent hover:text-white cursor-pointer transition-colors flex items-center gap-2 border-t border-slate-100"
-                      >
-                        <Building2 size={16} /> Strefa opiekuna (nowa)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("student");
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-accent hover:text-white cursor-pointer transition-colors flex items-center gap-2 border-t border-slate-100"
-                      >
-                        <GraduationCap size={16} /> Strefa kursanta (nowa)
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
@@ -497,7 +431,7 @@ export const Layout: React.FC<LayoutProps> = ({
 
               {/* Usługi Mobile External */}
               <a
-                href="https://multiserwis-kutno.pl"
+                href="https://multiserwis.tech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white font-bold py-2 border-b border-brand-secondary/30 flex items-center justify-between cursor-pointer"
@@ -526,7 +460,7 @@ export const Layout: React.FC<LayoutProps> = ({
                   }}
                   className="text-white font-bold py-2 border-b border-brand-secondary/30 flex items-center gap-2 bg-brand-accent px-4 rounded"
                 >
-                  <User size={16} /> Zaloguj
+                  <User size={16} /> Zaloguj się
                 </button>
               ) : (
                 <div className="flex items-center justify-between border-b border-brand-secondary/30 pb-2">
@@ -542,68 +476,6 @@ export const Layout: React.FC<LayoutProps> = ({
                   >
                     Wyloguj
                   </button>
-                </div>
-              )}
-
-              {/* Nowe Panele Mobile */}
-              {onShowNewPanel && (
-                <div className="border-b border-brand-secondary/30">
-                  <div
-                    onClick={() => setNewPanelsMenuOpen(!newPanelsMenuOpen)}
-                    className="text-white font-bold py-2 flex items-center justify-between cursor-pointer"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Shield size={16} /> Nowe panele
-                    </span>
-                    <ChevronRight
-                      size={16}
-                      className={`transform transition-transform ${newPanelsMenuOpen ? "rotate-90" : ""}`}
-                    />
-                  </div>
-                  {newPanelsMenuOpen && (
-                    <div className="pl-6 py-2 space-y-2">
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("admin");
-                          setMobileMenuOpen(false);
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="text-slate-300 text-sm py-1 flex items-center gap-2"
-                      >
-                        <Shield size={14} /> Panel administratora (nowy)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("manager");
-                          setMobileMenuOpen(false);
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="text-slate-300 text-sm py-1 flex items-center gap-2"
-                      >
-                        <BarChart3 size={14} /> Panel managera (nowy)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("guardian");
-                          setMobileMenuOpen(false);
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="text-slate-300 text-sm py-1 flex items-center gap-2"
-                      >
-                        <Building2 size={14} /> Strefa opiekuna (nowa)
-                      </div>
-                      <div
-                        onClick={() => {
-                          onShowNewPanel("student");
-                          setMobileMenuOpen(false);
-                          setNewPanelsMenuOpen(false);
-                        }}
-                        className="text-slate-300 text-sm py-1 flex items-center gap-2"
-                      >
-                        <GraduationCap size={14} /> Strefa kursanta (nowa)
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -698,10 +570,12 @@ export const Layout: React.FC<LayoutProps> = ({
                 multiserwis.kutno@gmail.com
               </li>
               <li className="flex items-start gap-3">
-                <div className="mt-1">📍</div>
+                <div className="mt-1">
+                  <MapPin size={14} className="text-brand-accent" />
+                </div>
                 <div>
-                  <strong>Biuro:</strong> ul. Siemieradzkiego 18, Kutno<br />
-                  <strong>Baza & Plac:</strong> ul. Przemysłowa 2, Kutno
+                  <strong>Biuro:</strong> ul. Henryka Siemiradzkiego 18, Kutno<br />
+                  <strong>Baza i plac:</strong> ul. Przemysłowa 2, Kutno
                 </div>
               </li>
             </ul>
