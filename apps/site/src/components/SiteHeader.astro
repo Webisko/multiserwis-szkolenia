@@ -129,18 +129,15 @@ const isActive = (href: string) => {
       </a>
     </div>
 
-    <!-- Actions / Przycisk Szybkiego Logowania -->
+    <!-- Actions / Przycisk Zapisu na Szkolenie -->
     <div class="hidden sm:flex items-center gap-3">
-      <button
-        type="button"
-        data-open-login-drawer
+      <a
+        href="/rejestracja"
         class="inline-flex items-center gap-2 rounded-md bg-brand-accent px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/20 hover:bg-brand-accentHover transition-all cursor-pointer"
       >
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-        <span>Zaloguj się</span>
-      </button>
+        <IndustrialIcon name="id-card" class="w-4 h-4" />
+        <span>Zapisz się na kurs</span>
+      </a>
     </div>
 
     <!-- Mobile Burger Toggle Button -->
@@ -175,18 +172,17 @@ const isActive = (href: string) => {
     <a href="/kontakt" class="block py-2 text-slate-200 font-medium hover:text-brand-accent">Kontakt</a>
 
     <div class="pt-4 border-t border-slate-800 space-y-2">
-      <button
-        type="button"
-        data-open-login-drawer
-        class="w-full text-center py-3 px-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-md shadow-sm cursor-pointer"
-      >
-        Zaloguj się
-      </button>
       <a
         href="/rejestracja"
+        class="block w-full text-center py-3 px-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-md shadow-sm transition-colors"
+      >
+        Zapisz się na kurs
+      </a>
+      <a
+        href="/kontakt"
         class="block text-center py-2.5 px-4 border border-slate-700 hover:border-brand-accent text-slate-200 hover:text-white font-semibold text-xs uppercase tracking-wider rounded-md transition-colors"
       >
-        Załóż konto (kursant / firma)
+        Formularz kontaktowy
       </a>
       <a href="tel:+48730101000" class="block text-center py-2 text-xs text-slate-400">
         Infolinia: +48 730 101 000

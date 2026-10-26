@@ -9,7 +9,6 @@ interface Props {
 export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [onlyOnline, setOnlyOnline] = useState<boolean>(false);
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState<Course | null>(null);
   const [enrollSubmitted, setEnrollSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -53,11 +52,10 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
         searchQuery === "" ||
         course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (course.description && course.description.toLowerCase().includes(searchQuery.toLowerCase()));
-      const matchesOnline = !onlyOnline || course.hasOnline;
 
-      return matchesCat && matchesSearch && matchesOnline;
+      return matchesCat && matchesSearch;
     });
-  }, [selectedCategory, searchQuery, onlyOnline]);
+  }, [selectedCategory, searchQuery]);
 
   const handleEnrollSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +69,7 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
           name: enrollForm.name.trim(),
           phone: enrollForm.phone.trim(),
           email: enrollForm.email.trim(),
-          message: `Zgłoszenie ekspresowe na szkolenie: ${selectedCourseForEnroll.title} (${selectedCourseForEnroll.price}). Proszę o kontakt w celu ustalenia terminu i nadania dostępu do e-learningu.`,
+          message: `Zgłoszenie na kurs stacjonarny: ${selectedCourseForEnroll.title} (${selectedCourseForEnroll.price}). Proszę o kontakt w sprawie najbliższego terminu rozpoczęcia kursu.`,
         }),
       });
     } catch {
@@ -112,16 +110,14 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
             )}
           </div>
 
-          {/* Toggle Online Theory */}
-          <label className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-700 cursor-pointer select-none shrink-0 bg-slate-50 px-4 py-2.5 rounded-md border border-slate-200 hover:bg-slate-100 transition-colors">
-            <input
-              type="checkbox"
-              checked={onlyOnline}
-              onChange={(e) => setOnlyOnline(e.target.checked)}
-              className="w-4 h-4 rounded border-slate-300 text-brand-accent focus:ring-brand-accent"
-            />
-            <span>Tylko z teorią online 24/7</span>
-          </label>
+          {/* Infolinia / Pomoc doradcy */}
+          <a
+            href="tel:+48730101000"
+            className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 select-none shrink-0 bg-slate-50 px-4 py-2.5 rounded-md border border-slate-200 hover:bg-slate-100 hover:text-brand-accent transition-colors"
+          >
+            <IndustrialIcon name="phone" className="w-4 h-4 text-brand-accent" />
+            <span>Infolinia: +48 730 101 000</span>
+          </a>
         </div>
 
         {/* Category Pills */}
@@ -181,7 +177,6 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
             onClick={() => {
               setSearchQuery("");
               setSelectedCategory("ALL");
-              setOnlyOnline(false);
             }}
             className="px-5 py-2.5 bg-brand-primary text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-brand-dark cursor-pointer"
           >
@@ -208,12 +203,9 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                     <span className="bg-brand-primary/95 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-xs">
                       {course.category}
                     </span>
-                    {course.hasOnline && (
-                      <span className="bg-emerald-600/95 text-white text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-xs inline-flex items-center gap-1">
-                        <IndustrialIcon name="play" className="w-3 h-3" />
-                        <span>E-learning</span>
-                      </span>
-                    )}
+                    <span className="bg-slate-900/90 text-white text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-md backdrop-blur-xs">
+                      Stacjonarne Kutno
+                    </span>
                   </div>
                 </div>
 

@@ -148,6 +148,16 @@ function initDatabase(PDO $pdo): void {
             isInternal INTEGER NOT NULL DEFAULT 0,
             createdAt TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS inquiries (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            subject TEXT,
+            message TEXT,
+            status TEXT NOT NULL DEFAULT 'NEW',
+            createdAt TEXT NOT NULL
+        );
     ");
 
     $hasProdAccounts = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE email = 'kursant@multiserwis.edu.pl'")->fetchColumn();
@@ -701,20 +711,37 @@ if ($path === '/tickets') {
     }
 }
 
-// Contact / Lead endpoint (sends email via biuro@multiserwis.edu.pl)
+// Contact / Lead endpoint (saves to SQLite inquiries + sends email via biuro@multiserwis.edu.pl)
 if ($path === '/contact' && $method === 'POST') {
     $name = trim((string)($body['name'] ?? 'Klient'));
     $email = trim((string)($body['email'] ?? ''));
     $phone = trim((string)($body['phone'] ?? ''));
     $message = trim((string)($body['message'] ?? ''));
     $subject = "Zapytanie ze strony multiserwis.edu.pl od: {$name}";
+
+    // 1. Save lead into SQLite database so no submission is ever lost
+    $inqId = 'inq_' . substr(uuid4(), 0, 8);
+    $now = gmdate('c');
+    try {
+        $stmtInq = $pdo->prepare("INSERT INTO inquiries (id, name, email, phone, subject, message, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, 'NEW', ?)");
+        $stmtInq->execute([$inqId, $name, $email, $phone, $subject, $message, $now]);
+    } catch (Throwable) {
+        // Silently continue if DB write fails
+    }
+
+    // 2. Send email notification via SMTP
     $html = "<h3>Nowe zapytanie ze strony MultiSerwis Szkolenia</h3>"
           . "<p><b>Imię i nazwisko / Firma:</b> " . htmlspecialchars($name) . "</p>"
           . "<p><b>Telefon:</b> " . htmlspecialchars($phone) . "</p>"
           . "<p><b>E-mail:</b> " . htmlspecialchars($email) . "</p>"
           . "<p><b>Treść wiadomości:</b><br>" . nl2br(htmlspecialchars($message)) . "</p>";
     $sent = @sendSmtpMail($env, 'biuro@multiserwis.edu.pl', $subject, $html);
-    jsonResponse(['ok' => true, 'sent' => $sent]);
+    jsonResponse(['ok' => true, 'id' => $inqId, 'sent' => $sent]);
+}
+
+if ($path === '/inquiries' && $method === 'GET') {
+    $rows = $pdo->query("SELECT * FROM inquiries ORDER BY createdAt DESC")->fetchAll();
+    jsonResponse($rows);
 }
 
 jsonResponse(['error' => 'Not found', 'path' => $path], 404);

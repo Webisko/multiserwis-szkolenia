@@ -10,10 +10,10 @@ export const COURSES: Course[] = [
     price: "1 000 zł",
     image: "/operator-wozki-widlowe.webp",
     isPopular: true,
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Kompleksowy kurs na wózki jezdniowe podnośnikowe z napędem silnikowym. Teoria online 24/7 i praktyka na placu manewrowym w Kutnie. Uprawnienia UDT ważne 10 lat.",
+      "Kompleksowy kurs na wózki jezdniowe podnośnikowe z napędem silnikowym. Wykłady w sali szkoleniowej oraz intensywna praktyka na placu manewrowym w Kutnie. Egzamin państwowy przed komisją UDT, uprawnienia ważne 10 lat.",
   },
   {
     id: "c2",
@@ -24,10 +24,10 @@ export const COURSES: Course[] = [
     price: "1 500 zł",
     image: "/ladowarki-teleskopowe.webp",
     isPopular: true,
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Uprawnienia na wózki jezdniowe ze zmiennym wysięgiem oraz z osobą obsługującą podnoszoną wraz z ładunkiem. Najwyższa kategoria UDT (dawniej I WJO). Ważność: 5 lat.",
+      "Uprawnienia na wózki jezdniowe ze zmiennym wysięgiem oraz z osobą obsługującą podnoszoną wraz z ładunkiem. Najwyższa kategoria UDT. Szkolenie praktyczne na maszynie Manitou w Kutnie. Ważność uprawnień: 5 lat.",
   },
   {
     id: "c3",
@@ -38,10 +38,10 @@ export const COURSES: Course[] = [
     price: "2 350 zł",
     image: "/koparki.webp",
     isPopular: true,
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Obsługa maszyn do robót ziemnych wszystkich typów. Państwowa certyfikacja Sieci Badawczej Łukasiewicz – WIT (dawniej IMBiGS) i bezterminowa książka operatora.",
+      "Obsługa maszyn do robót ziemnych wszystkich typów. Zajęcia praktyczne na poligonie ziemnym przy ul. Przemysłowej 2 w Kutnie. Państwowa certyfikacja Sieci Badawczej Łukasiewicz – WIT (dawniej IMBiGS) i bezterminowa książka operatora.",
   },
   {
     id: "c4",
@@ -51,10 +51,10 @@ export const COURSES: Course[] = [
     duration: "24 godz.",
     price: "1 130 zł",
     image: "/suwnice-wciagniki.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Obsługa suwnic sterowanych z poziomu roboczego (radiowo/przewodowo) oraz z kabiny. Uprawnienia ogólnego przeznaczenia (1 130 zł, 10 lat) lub specjalnego (1 380 zł, 5 lat).",
+      "Obsługa suwnic sterowanych z poziomu roboczego (radiowo/przewodowo) oraz z kabiny. Uprawnienia ogólnego przeznaczenia (1 130 zł, 10 lat) lub specjalnego (1 380 zł, 5 lat). Praktyka na hali w Kutnie i egzamin państwowy UDT.",
   },
   {
     id: "c5",
@@ -65,10 +65,10 @@ export const COURSES: Course[] = [
     price: "1 130 zł",
     image: "/genie-z-4525j.webp",
     isPopular: true,
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Szkolenie na podesty nożycowe, przegubowe i teleskopowe do bezpiecznych prac na wysokościach. Egzamin państwowy UDT na naszym sprzęcie. Ważność uprawnień: 5 lat.",
+      "Szkolenie na podesty nożycowe, przegubowe i teleskopowe do bezpiecznych prac na wysokościach. Zajęcia praktyczne na podnośnikach Genie w Kutnie. Egzamin państwowy UDT na miejscu. Ważność uprawnień: 5 lat.",
   },
   {
     id: "c6",
@@ -78,10 +78,10 @@ export const COURSES: Course[] = [
     duration: "35 godz.",
     price: "1 130 zł",
     image: "/manitou-mrt-2150.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Uprawnienia UDT na żurawie przewoźne i przenośne HDS (1 130 zł, 10 lat), stacjonarne (1 080 zł, 10 lat) oraz samojezdne i wieżowe (2 480 zł, 5 lat).",
+      "Uprawnienia UDT na żurawie przewoźne i przenośne HDS (1 130 zł, 10 lat), stacjonarne (1 080 zł, 10 lat) oraz samojezdne i wieżowe (2 480 zł, 5 lat). Zajęcia praktyczne z operowania wysięgnikiem i osprzętem.",
   },
   {
     id: "c7",
@@ -92,10 +92,10 @@ export const COURSES: Course[] = [
     price: "860 zł",
     image: "/uprawnienia-energetyczne-g1.webp",
     isPopular: true,
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Szkolenie i egzamin przed komisją kwalifikacyjną w grupie G1 (Eksploatacja 860 zł / Dozór 860 zł). Urządzenia, instalacje i sieci do i powyżej 1 kV. Ważność: 5 lat.",
+      "Szkolenie stacjonarne i egzamin przed Państwową Komisją Kwalifikacyjną w grupie G1 (Eksploatacja 860 zł / Dozór 860 zł). Urządzenia, instalacje i sieci do i powyżej 1 kV oraz pomiary ochronne. Ważność: 5 lat.",
   },
   {
     id: "c8",
@@ -107,7 +107,7 @@ export const COURSES: Course[] = [
     image: "/serwis-i-koserwacja.webp",
     hasStationary: true,
     description:
-      "Praktyczny kurs spawalniczy w 3 modułach (spoiny pachwinowe, doczołowe blach, rury). Stal czarna od 2 400 zł, nierdzewna 2 700 zł, aluminium 2 900 zł. Certyfikat PN-EN ISO 9606-1 (SGS) i Książeczka Spawacza.",
+      "Praktyczny kurs spawalniczy w atestowanej spawalni w Kutnie. Moduły: spoiny pachwinowe, doczołowe blach i rury. Stal czarna od 2 400 zł, nierdzewna 2 700 zł, aluminium 2 900 zł. Certyfikat SGS wg PN-EN ISO 9606-1 i Książeczka Spawacza.",
   },
   {
     id: "c9",
@@ -117,10 +117,10 @@ export const COURSES: Course[] = [
     duration: "60 godz.",
     price: "2 350 zł",
     image: "/jcb-3cx.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Uprawnienia operatora koparek jednonaczyniowych do 25 ton masy całkowitej. Praktyka na poligonie ziemnym w Kutnie, egzamin państwowy ŚBŁ-WIT (IMBiGS) i wydanie książki operatora.",
+      "Uprawnienia operatora koparek jednonaczyniowych do 25 ton masy całkowitej. Praktyka na poligonie ziemnym w Kutnie, egzamin państwowy ŚBŁ-WIT (IMBiGS) i wydanie państwowej książki operatora.",
   },
   {
     id: "c10",
@@ -130,10 +130,10 @@ export const COURSES: Course[] = [
     duration: "50 godz.",
     price: "2 500 zł",
     image: "/koparki.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Obsługa wszystkich typów walców drogowych do zagęszczania gruntu i mieszanek bitumicznych. Zajęcia praktyczne w Kutnie i egzamin państwowy ŚBŁ-WIT (IMBiGS).",
+      "Obsługa wszystkich typów walców drogowych do zagęszczania gruntu i nawierzchni bitumicznych. Zajęcia praktyczne w Kutnie i egzamin państwowy ŚBŁ-WIT (IMBiGS).",
   },
   {
     id: "c11",
@@ -143,10 +143,10 @@ export const COURSES: Course[] = [
     duration: "50 godz.",
     price: "2 500 zł",
     image: "/koparki.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Szkolenie na spycharki gąsienicowe i kołowe do 110 kW mocy silnika. Niwelacja terenu, skarpowanie i roboty ziemne. Egzamin państwowy ŚBŁ-WIT (IMBiGS).",
+      "Szkolenie na spycharki gąsienicowe i kołowe do 110 kW mocy silnika. Niwelacja terenu, skarpowanie i roboty ziemne na poligonie w Kutnie. Egzamin państwowy ŚBŁ-WIT (IMBiGS).",
   },
   {
     id: "c12",
@@ -156,10 +156,10 @@ export const COURSES: Course[] = [
     duration: "1 dzień",
     price: "860 zł",
     image: "/uprawnienia-energetyczne-g1.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Eksploatacja (860 zł) i dozór (860 zł) urządzeń wytwarzających, przetwarzających i zużywających ciepło: kotłów, turbin, wymienników, pomp ciepła i sieci ciepłowniczych. Ważność: 5 lat.",
+      "Eksploatacja (860 zł) i dozór (860 zł) urządzeń wytwarzających, przetwarzających i zużywających ciepło: kotłów parowych i wodnych, turbin, wymienników, pomp ciepła i sieci cieplnych. Ważność: 5 lat.",
   },
   {
     id: "c13",
@@ -169,10 +169,10 @@ export const COURSES: Course[] = [
     duration: "1 dzień",
     price: "860 zł",
     image: "/uprawnienia-energetyczne-g1.webp",
-    hasOnline: true,
+    hasOnline: false,
     hasStationary: true,
     description:
-      "Obsługa, konserwacja, montaż i dozór urządzeń, instalacji oraz sieci gazowych. Eksploatacja (860 zł) / Dozór (860 zł). Świadectwo kwalifikacyjne ważne 5 lat.",
+      "Obsługa, konserwacja, montaż i dozór urządzeń, instalacji oraz sieci gazowych przemysłowych i domowych. Eksploatacja (860 zł) / Dozór (860 zł). Państwowe świadectwo kwalifikacyjne ważne 5 lat.",
   },
   {
     id: "c14",
@@ -184,19 +184,145 @@ export const COURSES: Course[] = [
     image: "/suwnice-wciagniki.webp",
     hasStationary: true,
     description:
-      "Szkolenie z zakresu bieżącej i okresowej kontroli stanu technicznego zawiesi linowych, pasowych i łańcuchowych, kryteriów brakowania oraz prowadzenia ewidencji.",
+      "Szkolenie z zakresu bieżącej i okresowej kontroli stanu technicznego zawiesi linowych, pasowych i łańcuchowych, kryteriów brakowania oraz prowadzenia ewidencji zgodnie z przepisami BHP.",
   },
   {
     id: "c15",
     slug: "pilarki-mechaniczne",
-    title: "Operator pilarek mechanicznych i kos spalinowych",
+    title: "Operator pilarek mechanicznych",
     category: "Inne",
     duration: "1 dzień",
     price: "550 zł",
     image: "/operator-wozki-widlowe.webp",
     hasStationary: true,
     description:
-      "Bezpieczna obsługa pilarek łańcuchowych spalinowych i elektrycznych, techniki ścinki i okrzesywania drzew oraz konserwacja układu tnącego.",
+      "Bezpieczna obsługa pilarek łańcuchowych spalinowych i elektrycznych, techniki ścinki i okrzesywania drzew, wymiana łańcucha oraz konserwacja układu tnącego.",
+  },
+  {
+    id: "c16",
+    slug: "ladowarki-jednonaczyniowe",
+    title: "Ładowarki jednonaczyniowe (kl. III – do 20 ton)",
+    category: "IMBiGS",
+    duration: "60 godz.",
+    price: "2 350 zł",
+    image: "/jcb-3cx.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Obsługa ładowarek jednonaczyniowych kołowych do 20 ton masy całkowitej przy załadunku urobku, kruszyw i pracach ziemnych. Poligon manewrowy w Kutnie, państwowy egzamin ŚBŁ-WIT (IMBiGS).",
+  },
+  {
+    id: "c17",
+    slug: "rowniarki-drogowe",
+    title: "Równiarki drogowe (wszystkie typy)",
+    category: "IMBiGS",
+    duration: "50 godz.",
+    price: "2 500 zł",
+    image: "/koparki.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Szkolenie na równiarki drogowe wykorzystywane do precyzyjnego profilowania podłoża, skarp, nasypów i dróg. Egzamin państwowy ŚBŁ-WIT i bezterminowa książka operatora.",
+  },
+  {
+    id: "c18",
+    slug: "frezarki-do-nawierzchni",
+    title: "Frezarki do nawierzchni dróg",
+    category: "IMBiGS",
+    duration: "50 godz.",
+    price: "2 500 zł",
+    image: "/koparki.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Obsługa samojezdnych frezarek do nawierzchni drogowej przy remontach dróg, usuwaniu warstw ścieralnych asfaltu i frezowaniu pasowym. Egzamin państwowy ŚBŁ-WIT.",
+  },
+  {
+    id: "c19",
+    slug: "rozkladarki-mas-bitumicznych",
+    title: "Rozkładarki mas bitumicznych (asfaltu)",
+    category: "IMBiGS",
+    duration: "50 godz.",
+    price: "2 600 zł",
+    image: "/koparki.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Układanie mieszanek mineralno-asfaltowych przy budowie dróg, placów manewrowych i autostrad. Technologia rozściełania, kontrola grubości warstwy i egzamin ŚBŁ-WIT.",
+  },
+  {
+    id: "c20",
+    slug: "pompy-do-betonu",
+    title: "Pompy do mieszanki betonowej",
+    category: "IMBiGS",
+    duration: "50 godz.",
+    price: "2 600 zł",
+    image: "/koparki.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Obsługa stacjonarnych oraz samochodowych pomp wysięgnikowych do podawania mieszanki betonowej na placach budów. Zasady BHP, mycie rurociągów i egzamin ŚBŁ-WIT.",
+  },
+  {
+    id: "c21",
+    slug: "wciagarki-i-wciagniki",
+    title: "Wciągarki i wciągniki mechaniczne (UDT)",
+    category: "UDT",
+    duration: "20 godz.",
+    price: "930 zł",
+    image: "/suwnice-wciagniki.webp",
+    hasOnline: false,
+    hasStationary: true,
+    description:
+      "Uprawnienia UDT na wciągniki i wciągarki mechaniczne z napędem silnikowym ogólnego oraz specjalnego przeznaczenia. Budowa lin, hamulców i bezpieczna obsługa poddozorowa.",
+  },
+  {
+    id: "c22",
+    slug: "podesty-zaladowcze",
+    title: "Podesty ruchome załadowcze (windy samochodowe)",
+    category: "Inne",
+    duration: "1 dzień",
+    price: "500 zł",
+    image: "/operator-wozki-widlowe.webp",
+    hasStationary: true,
+    description:
+      "Obsługa hydraulicznych burt załadowczych i wind montowanych na pojazdach ciężarowych i dostawczych. Kluczowe szkolenie dla kierowców, kurierów i zaopatrzeniowców.",
+  },
+  {
+    id: "c23",
+    slug: "urzadzenia-hakowe",
+    title: "Urządzenia załadowcze hakowe i bramowe",
+    category: "Inne",
+    duration: "1 dzień",
+    price: "550 zł",
+    image: "/operator-wozki-widlowe.webp",
+    hasStationary: true,
+    description:
+      "Szkolenie z obsługi systemów załadunku kontenerów hakowych i bramowych na pojazdach ciężarowych w gospodarce komunalnej, odpadach i budownictwie.",
+  },
+  {
+    id: "c24",
+    slug: "hakowy-sygnalista",
+    title: "Hakowy – sygnalista przy urządzeniach UTB",
+    category: "Inne",
+    duration: "1 dzień",
+    price: "600 zł",
+    image: "/suwnice-wciagniki.webp",
+    hasStationary: true,
+    description:
+      "Uprawnienia hakowego-sygnalisty współpracującego z operatorami żurawi, suwnic i dźwigów. Dobór zawiesi, mocowanie ładunku oraz sygnalizacja ręczna i radiowa.",
+  },
+  {
+    id: "c25",
+    slug: "kosy-spalinowe",
+    title: "Operator kos spalinowych i wykaszarek",
+    category: "Inne",
+    duration: "1 dzień",
+    price: "600 zł",
+    image: "/operator-wozki-widlowe.webp",
+    hasStationary: true,
+    description:
+      "Bezpieczna obsługa, dobór głowic żyłkowych i tarcz tnących, konserwacja oraz przepisy BHP przy pracy kosami mechanicznymi w pracach drogowych i komunalnych.",
   },
 ];
 

@@ -261,13 +261,129 @@ export const COURSES: Course[] = [
   {
     id: 'c15',
     slug: 'pilarki-mechaniczne',
-    title: 'Operator pilarek mechanicznych i kos spalinowych',
+    title: 'Operator pilarek mechanicznych',
     category: 'Inne',
     duration: '1 dzień',
     price: '550 zł',
     image: getImagePath('operator-wozki-widlowe.webp'),
     hasStationary: true,
     description: "Bezpieczna obsługa pilarek spalinowych i elektrycznych, techniki ścinki drzew oraz konserwacja łańcucha tnącego."
+  },
+  {
+    id: 'c16',
+    slug: 'ladowarki-jednonaczyniowe',
+    title: 'Ładowarki jednonaczyniowe (kl. III – do 20 ton)',
+    category: 'IMBiGS',
+    duration: '60 godz.',
+    price: '2 350 zł',
+    image: getImagePath('jcb-3cx.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Obsługa ładowarek jednonaczyniowych kołowych do 20 ton masy całkowitej przy załadunku urobku i kruszyw. Egzamin państwowy ŚBŁ-WIT (IMBiGS).'
+  },
+  {
+    id: 'c17',
+    slug: 'rowniarki-drogowe',
+    title: 'Równiarki drogowe (wszystkie typy)',
+    category: 'IMBiGS',
+    duration: '50 godz.',
+    price: '2 500 zł',
+    image: getImagePath('koparki.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Szkolenie na równiarki drogowe wykorzystywane do profilowania podłoża, skarp, nasypów i dróg. Egzamin państwowy ŚBŁ-WIT.'
+  },
+  {
+    id: 'c18',
+    slug: 'frezarki-do-nawierzchni',
+    title: 'Frezarki do nawierzchni dróg',
+    category: 'IMBiGS',
+    duration: '50 godz.',
+    price: '2 500 zł',
+    image: getImagePath('koparki.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Obsługa samojezdnych frezarek do nawierzchni drogowej przy remontach dróg i usuwaniu warstw asfaltu. Egzamin państwowy ŚBŁ-WIT.'
+  },
+  {
+    id: 'c19',
+    slug: 'rozkladarki-mas-bitumicznych',
+    title: 'Rozkładarki mas bitumicznych (asfaltu)',
+    category: 'IMBiGS',
+    duration: '50 godz.',
+    price: '2 600 zł',
+    image: getImagePath('koparki.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Układanie mieszanek mineralno-asfaltowych przy budowie dróg, placów manewrowych i autostrad. Egzamin państwowy ŚBŁ-WIT.'
+  },
+  {
+    id: 'c20',
+    slug: 'pompy-do-betonu',
+    title: 'Pompy do mieszanki betonowej',
+    category: 'IMBiGS',
+    duration: '50 godz.',
+    price: '2 600 zł',
+    image: getImagePath('koparki.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Obsługa stacjonarnych oraz samochodowych pomp wysięgnikowych do podawania mieszanki betonowej. Egzamin państwowy ŚBŁ-WIT.'
+  },
+  {
+    id: 'c21',
+    slug: 'wciagarki-i-wciagniki',
+    title: 'Wciągarki i wciągniki mechaniczne (UDT)',
+    category: 'UDT',
+    duration: '20 godz.',
+    price: '930 zł',
+    image: getImagePath('suwnice-wciagniki.webp'),
+    hasOnline: false,
+    hasStationary: true,
+    description: 'Uprawnienia UDT na wciągniki i wciągarki mechaniczne z napędem silnikowym ogólnego oraz specjalnego przeznaczenia.'
+  },
+  {
+    id: 'c22',
+    slug: 'podesty-zaladowcze',
+    title: 'Podesty ruchome załadowcze (windy samochodowe)',
+    category: 'Inne',
+    duration: '1 dzień',
+    price: '500 zł',
+    image: getImagePath('operator-wozki-widlowe.webp'),
+    hasStationary: true,
+    description: 'Obsługa hydraulicznych burt załadowczych i wind montowanych na pojazdach ciężarowych i dostawczych.'
+  },
+  {
+    id: 'c23',
+    slug: 'urzadzenia-hakowe',
+    title: 'Urządzenia załadowcze hakowe i bramowe',
+    category: 'Inne',
+    duration: '1 dzień',
+    price: '550 zł',
+    image: getImagePath('operator-wozki-widlowe.webp'),
+    hasStationary: true,
+    description: 'Szkolenie z obsługi systemów załadunku kontenerów hakowych i bramowych na pojazdach ciężarowych.'
+  },
+  {
+    id: 'c24',
+    slug: 'hakowy-sygnalista',
+    title: 'Hakowy – sygnalista przy urządzeniach UTB',
+    category: 'Inne',
+    duration: '1 dzień',
+    price: '600 zł',
+    image: getImagePath('suwnice-wciagniki.webp'),
+    hasStationary: true,
+    description: 'Uprawnienia hakowego-sygnalisty współpracującego z operatorami żurawi, suwnic i dźwigów.'
+  },
+  {
+    id: 'c25',
+    slug: 'kosy-spalinowe',
+    title: 'Operator kos spalinowych i wykaszarek',
+    category: 'Inne',
+    duration: '1 dzień',
+    price: '600 zł',
+    image: getImagePath('operator-wozki-widlowe.webp'),
+    hasStationary: true,
+    description: 'Bezpieczna obsługa, dobór głowic żyłkowych i tarcz tnących oraz konserwacja kos mechanicznych.'
   }
 ];
 
