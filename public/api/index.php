@@ -729,13 +729,17 @@ if ($path === '/contact' && $method === 'POST') {
         // Silently continue if DB write fails
     }
 
-    // 2. Send email notification via SMTP
+    // 2. Send email notification via SMTP to client's primary inbox & domain mailbox
     $html = "<h3>Nowe zapytanie ze strony MultiSerwis Szkolenia</h3>"
           . "<p><b>Imię i nazwisko / Firma:</b> " . htmlspecialchars($name) . "</p>"
           . "<p><b>Telefon:</b> " . htmlspecialchars($phone) . "</p>"
           . "<p><b>E-mail:</b> " . htmlspecialchars($email) . "</p>"
           . "<p><b>Treść wiadomości:</b><br>" . nl2br(htmlspecialchars($message)) . "</p>";
-    $sent = @sendSmtpMail($env, 'biuro@multiserwis.edu.pl', $subject, $html);
+    $targetEmail = $env['NOTIFICATION_EMAIL'] ?? 'multiserwis.kutno@gmail.com';
+    $sent = @sendSmtpMail($env, $targetEmail, $subject, $html);
+    if ($targetEmail !== 'biuro@multiserwis.edu.pl') {
+        @sendSmtpMail($env, 'biuro@multiserwis.edu.pl', $subject, $html);
+    }
     jsonResponse(['ok' => true, 'id' => $inqId, 'sent' => $sent]);
 }
 

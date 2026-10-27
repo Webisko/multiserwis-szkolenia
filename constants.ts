@@ -369,7 +369,7 @@ export const COURSES: Course[] = [
     title: 'Hakowy – sygnalista przy urządzeniach UTB',
     category: 'Inne',
     duration: '1 dzień',
-    price: '600 zł',
+    price: '400 zł',
     image: getImagePath('suwnice-wciagniki.webp'),
     hasStationary: true,
     description: 'Uprawnienia hakowego-sygnalisty współpracującego z operatorami żurawi, suwnic i dźwigów.'
