@@ -292,3 +292,11 @@ Zadanie automatycznie wykonuje komendę `orders:release-expired` (`->everyFiveMi
   - Uelastyczniono hasła w `DatabaseSeeder.php` poprzez pobieranie z `.env` (`ADMIN_INITIAL_PASSWORD` itp.) z bezpiecznym fallbackiem.
 - **Zgodność RODO:**
   - Dodano uśpiony komponent `CookieBanner.astro` w `BaseLayout.astro` (1:1 Zero Dark Patterns).
+- **Separacja baz danych i wdrożenie produkcyjne MariaDB 11.4:**
+  - Utworzono i podpięto dedykowaną, izolowaną bazę produkcyjną `srv127364_szkolenia` na serwerze SEOHost (`h108.seohost.pl`), rozdzielając odnogę szkoleniową od odnogi usługowej (`multiserwis.tech`).
+  - Przeprowadzono migrację schematu tabel, seeding użytkowników oraz import 25 kursów zawodowych do silnika InnoDB (MariaDB 11.4.13).
+  - Skonfigurowano automatyczny harmonogram Cron (`* * * * * artisan schedule:run`).
+- **Frontend & Uśpienie platformy LMS:**
+  - Ukryto przycisk *Strefa kursanta* w nawigacji desktopowej i mobilnej (`SiteHeader.astro`) do czasu uruchomienia pierwszego pełnego kursu online – serwis skupia się obecnie w 100% na zapisach na kursy stacjonarne.
+  - Zaktualizowano komunikację na podstronie `/harmonogram` (publikacja cotygodniowego planu zjazdów w każdy piątek na profilu Facebook `@szkoleniaKutno` i infolinii).
+  - Zaktualizowano formułę badań lekarskich w formularzu `/rejestracja` oraz na kartach szkoleń (bezpłatne skierowanie wystawiane w dniu zapisu z opłatą pobieraną w przychodni medycyny pracy, bez podawania sztywnej kwoty 60 zł).
