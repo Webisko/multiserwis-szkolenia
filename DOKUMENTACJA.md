@@ -312,6 +312,12 @@ Zadanie automatycznie wykonuje komendę `orders:release-expired` (`->everyFiveMi
   - Utworzono i podpięto dedykowaną, izolowaną bazę produkcyjną `srv127364_szkolenia` na serwerze SEOHost (`h108.seohost.pl`), rozdzielając odnogę szkoleniową od odnogi usługowej (`multiserwis.tech`).
   - Przeprowadzono migrację schematu tabel, seeding użytkowników oraz import 25 kursów zawodowych do silnika InnoDB (MariaDB 11.4.13).
   - Skonfigurowano automatyczny harmonogram Cron (`* * * * * artisan schedule:run`).
+- **Wdrożenie autentycznych zdjęć bazy szkoleniowej (`/images/baza/`):**
+  - Wyekstrahowano i zoptymalizowano do formatu WebP 25 autentycznych zdjęć ze starej strony ośrodka (`multiserwis.kutno.pl/realizacje.html`), dokumentujących realną infrastrukturę dydaktyczną MultiSerwis.
+  - Wyselekcjonowano kluczowe zdjęcia do dedykowanego katalogu `public/images/baza/` (plac manewrowy przy ul. Przemysłowej 2 z wózkami widłowymi Yale oznaczonymi tabliczką „L”, poligon robót ziemnych IMBiGS/ŚBŁ-WIT z ciężką koparką i ładowarką kołową Hyundai, sala wykładowa przy ul. Siemiradzkiego 18 z fantomem do resuscytacji i rzutnikiem, ładowarki teleskopowe obrotowe Genie, podesty nożycowe JLG, żuraw przenośny Fassi HDS oraz spawalnia).
+  - Zaktualizowano podstronę `/o-nas` (`apps/site/src/pages/o-nas.astro`), zastępując grafiki renderowane autentycznym zdjęciem placu manewrowego oraz dodając 4-kolumnową galerię obiektów ośrodka w Kutnie.
+  - Wzbogacono sekcję dlaczego warto wybrać MultiSerwis na stronie głównej `/` (`apps/site/src/pages/index.astro`), osadzając autentyczne ujęcie placu manewrowego przy ul. Przemysłowej 2 z bezpośrednim linkiem do prezentacji bazy.
+  - Wszystkie zdjęcia posiadają zoptymalizowane wymiary, atrybuty `loading="lazy"`, czytelne opisy `alt` i nazwy plików zgodne z wytycznymi SEO.
 - **Frontend & Uśpienie platformy LMS:**
   - Ukryto przycisk *Strefa kursanta* w nawigacji desktopowej i mobilnej (`SiteHeader.astro`) do czasu uruchomienia pierwszego pełnego kursu online – serwis skupia się obecnie w 100% na zapisach na kursy stacjonarne.
   - Zaktualizowano komunikację na podstronie `/harmonogram` (publikacja cotygodniowego planu zjazdów w każdy piątek na profilu Facebook `@szkoleniaKutno` i infolinii).
