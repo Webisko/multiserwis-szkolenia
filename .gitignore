@@ -48,3 +48,6 @@ tsc_errors.txt
 audit_raw_results.json
 dist_staging.tar.gz
 dist_*.tar.gz
+backend_*.tar.gz
+test-results/
+playwright-report/

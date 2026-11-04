@@ -161,6 +161,10 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
           </p>
 
           <form id="contact-form" class="space-y-5">
+            <div class="hidden" aria-hidden="true">
+              <label for="contact-website-url">Strona internetowa</label>
+              <input type="text" id="contact-website-url" name="website_url" tabindex="-1" autocomplete="off" />
+            </div>
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
                 <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
@@ -172,8 +176,9 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                   name="name"
                   required
                   placeholder="Jan Kowalski"
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
+                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 />
+                <p id="contact-err-name" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
               </div>
 
               <div>
@@ -186,8 +191,9 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                   name="phone"
                   required
                   placeholder="+48 600 000 000"
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
+                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 />
+                <p id="contact-err-phone" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
               </div>
             </div>
 
@@ -202,8 +208,9 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                   name="email"
                   required
                   placeholder="twoj@email.pl"
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
+                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 />
+                <p id="contact-err-email" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
               </div>
 
               <div>
@@ -213,7 +220,7 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                 <select
                   id="subject"
                   name="subject"
-                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 bg-white transition-all"
+                  class="w-full px-4 py-3 rounded-lg border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 bg-white transition-all"
                 >
                   <option value="Szkolenia UDT">Szkolenia UDT (wózki, podesty, suwnice, żurawie)</option>
                   <option value="Maszyny IMBiGS">Maszyny budowlane ŚBŁ-WIT / IMBiGS (koparki, walce)</option>
@@ -237,8 +244,9 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                 name="message"
                 rows="4"
                 placeholder="Podaj szczegóły: jaki kurs Cię interesuje, ilu uczestników chcesz zgłosić lub jakiej maszyny potrzebujesz..."
-                class="w-full px-4 py-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all"
               ></textarea>
+              <p id="contact-err-message" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
             </div>
 
             <div class="flex items-start gap-2.5 pt-1">
@@ -253,6 +261,13 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
                 Wyrażam zgodę na przetwarzanie moich danych osobowych przez MultiSerwis Kutno w celu odpowiedzi na przesłane zapytanie zgodnie z <a href="/polityka-prywatnosci" class="text-brand-primary underline">Polityką prywatności</a>.
               </label>
             </div>
+
+            <!-- Zbiorczy boks błędów nad przyciskiem CTA -->
+            <div
+              id="contact-error-box"
+              class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm font-medium"
+              role="alert"
+            ></div>
 
             <button
               type="submit"
@@ -326,40 +341,131 @@ import IndustrialIcon from "../components/IndustrialIcon.astro";
     }
   }
 
+  const contactErrorBox = document.getElementById("contact-error-box");
+  const contactErrorMap: Record<string, string> = {
+    name: "contact-err-name",
+    phone: "contact-err-phone",
+    email: "contact-err-email",
+    message: "contact-err-message",
+  };
+
+  function clearContactErrors() {
+    if (contactErrorBox) {
+      contactErrorBox.classList.add("hidden");
+      contactErrorBox.textContent = "";
+    }
+    Object.entries(contactErrorMap).forEach(([field, errId]) => {
+      const p = document.getElementById(errId);
+      if (p) {
+        p.classList.add("hidden");
+        p.textContent = "";
+      }
+      const input = document.getElementById(field);
+      if (input) {
+        input.classList.remove("border-red-500", "focus:border-red-500");
+      }
+    });
+  }
+
+  function setContactFieldError(field: string, msg: string) {
+    const errId = contactErrorMap[field];
+    const p = errId ? document.getElementById(errId) : null;
+    if (p) {
+      p.textContent = msg;
+      p.classList.remove("hidden");
+    }
+    const input = document.getElementById(field);
+    if (input) {
+      input.classList.add("border-red-500", "focus:border-red-500");
+    }
+  }
+
   if (form && feedback) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      clearContactErrors();
+
       const formData = new FormData(form);
       const name = String(formData.get("name") || "").trim();
       const phone = String(formData.get("phone") || "").trim();
       const email = String(formData.get("email") || "").trim();
+      const websiteUrl = String(formData.get("website_url") || "").trim();
       const subject = String(formData.get("subject") || "Zapytanie ze strony");
       const rawMessage = String(formData.get("message") || "").trim();
 
+      const originalBtnText = submitBtn ? submitBtn.textContent : "";
       if (submitBtn) {
         submitBtn.disabled = true;
+        submitBtn.textContent = "Wysyłanie wiadomości...";
       }
 
       try {
-        await fetch("/api/contact", {
+        const res = await fetch("/api/contact", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
             name,
             phone,
             email,
+            website_url: websiteUrl,
+            subject,
+            courseTitle: kurs || wynajem || usluga || null,
             message: `[Kategoria: ${subject}] ${rawMessage}`,
           }),
         });
+
+        if (res.ok) {
+          feedback.classList.remove("hidden");
+          form.reset();
+          feedback.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+
+        const data = await res.json().catch(() => ({}));
+        let firstErrorElement: HTMLElement | null = null;
+
+        if (res.status === 422 && data.errors) {
+          Object.keys(data.errors).forEach((key) => {
+            const firstMsg = Array.isArray(data.errors[key]) ? data.errors[key][0] : data.errors[key];
+            setContactFieldError(key, firstMsg);
+            if (!firstErrorElement) {
+              firstErrorElement = document.getElementById(key);
+            }
+          });
+
+          if (contactErrorBox) {
+            contactErrorBox.textContent = "Proszę poprawić zaznaczone pola formularza.";
+            contactErrorBox.classList.remove("hidden");
+          }
+        } else if (res.status === 429) {
+          if (contactErrorBox) {
+            contactErrorBox.textContent = "Zbyt wiele prób wysłania formularza. Odczekaj chwilę przed kolejną próbą.";
+            contactErrorBox.classList.remove("hidden");
+          }
+        } else {
+          if (contactErrorBox) {
+            contactErrorBox.textContent = data.message || "Wystąpił błąd serwera. Skontaktuj się z nami bezpośrednio: +48 730 101 000.";
+            contactErrorBox.classList.remove("hidden");
+          }
+        }
+
+        if (firstErrorElement) {
+          (firstErrorElement as HTMLElement).focus();
+          (firstErrorElement as HTMLElement).scrollIntoView({ behavior: "smooth", block: "center" });
+        } else if (contactErrorBox) {
+          contactErrorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       } catch {
-        // Fallback: even if offline/dev without PHP backend, show confirmation
+        if (contactErrorBox) {
+          contactErrorBox.textContent = "Wystąpił problem z połączeniem internetowym. Sprawdź sieć i spróbuj ponownie.";
+          contactErrorBox.classList.remove("hidden");
+          contactErrorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
         }
-        feedback.classList.remove("hidden");
-        form.reset();
-        window.scrollTo({ top: feedback.offsetTop - 120, behavior: "smooth" });
       }
     });
   }

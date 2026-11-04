@@ -1,0 +1,73 @@
+---
+// Dormant Cookie Banner Component (Zero Dark Patterns 1:1)
+// Prepared according to web-compliance-seo-and-payments standard.
+// Stays dormant by default (Cookieless-First architecture) and activates only when enabled.
+interface Props {
+  enabled?: boolean;
+}
+
+const { enabled = false } = Astro.props;
+---
+
+<div
+  id="ms-cookie-banner"
+  class="fixed bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-md z-50 bg-white text-slate-900 rounded-xl shadow-2xl border border-slate-200 p-5 hidden transition-all duration-300"
+  role="region"
+  aria-label="Prywatność i pliki cookies"
+  data-enabled={enabled ? "true" : "false"}
+>
+  <div class="flex items-start justify-between gap-3 mb-3">
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+      <h3 class="font-heading font-bold text-sm text-slate-900">
+        Prywatność i pliki cookies
+      </h3>
+    </div>
+  </div>
+
+  <p class="text-xs text-slate-600 leading-relaxed mb-4">
+    Nasz serwis działa w standardzie Cookieless – szanujemy Twoją prywatność i nie profilujemy Twoich działań bez zgody. Pliki cookies służą wyłącznie do utrzymania sesji oraz anonimowych statystyk. Szczegóły znajdziesz w naszej <a href="/polityka-prywatnosci" class="text-brand-primary underline hover:text-brand-accent">Polityce prywatności</a>.
+  </p>
+
+  <!-- 1:1 Visual Parity (Zero Dark Patterns: identical style, size, and weight) -->
+  <div class="grid grid-cols-2 gap-3 pt-1">
+    <button
+      type="button"
+      id="ms-cookie-reject"
+      class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-md transition-colors cursor-pointer text-center border border-slate-200"
+    >
+      Tylko niezbędne
+    </button>
+    <button
+      type="button"
+      id="ms-cookie-accept"
+      class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-md transition-colors cursor-pointer text-center border border-slate-200"
+    >
+      Zezwól na wszystkie
+    </button>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById("ms-cookie-banner");
+  if (banner) {
+    const isEnabled = banner.getAttribute("data-enabled") === "true";
+    const consent = localStorage.getItem("ms_cookie_consent");
+
+    if (isEnabled && !consent) {
+      banner.classList.remove("hidden");
+    }
+
+    const acceptBtn = document.getElementById("ms-cookie-accept");
+    const rejectBtn = document.getElementById("ms-cookie-reject");
+
+    const saveChoice = (choice: "all" | "necessary") => {
+      localStorage.setItem("ms_cookie_consent", choice);
+      localStorage.setItem("ms_cookie_consent_date", new Date().toISOString());
+      banner.classList.add("hidden");
+    };
+
+    acceptBtn?.addEventListener("click", () => saveChoice("all"));
+    rejectBtn?.addEventListener("click", () => saveChoice("necessary"));
+  }
+</script>

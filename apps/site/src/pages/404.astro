@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import IndustrialIcon from "../components/IndustrialIcon.astro";
+---
+
+<BaseLayout
+  title="404 – Nie znaleziono strony | MultiSerwis Kutno"
+  description="Szukana strona nie istnieje lub została przeniesiona. Sprawdź aktualny katalog szkoleń UDT, IMBiGS (ŚBŁ-WIT), SEP i spawalniczych w ośrodku MultiSerwis w Kutnie."
+  noindex={true}
+>
+  <section class="py-20 md:py-28 bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 md:px-8 text-center">
+      <div class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-12 shadow-sm space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-orange-50 border border-brand-accent/30 text-brand-accent text-xs font-bold uppercase tracking-wider">
+          <span>Kod błędu: 404</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-slate-900 leading-tight">
+          Nie znaleziono szukanej strony
+        </h1>
+
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+          Adres, pod który próbujesz wejść, mógł ulec zmianie lub strona została wyłączona. Skorzystaj z poniższych skrótów, aby przejść do oferty szkoleń operatorów i wynajmu maszyn w Kutnie.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <a
+            href="/szkolenia"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all shadow-md"
+          >
+            <span>Przeglądaj katalog szkoleń</span>
+            <IndustrialIcon name="arrow-right" class="w-4 h-4" />
+          </a>
+          <a
+            href="/"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all"
+          >
+            <span>Wróć na stronę główną</span>
+          </a>
+          <a
+            href="/kontakt"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-slate-300 hover:bg-slate-100 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-md transition-all"
+          >
+            <span>Kontakt z biurem</span>
+          </a>
+        </div>
+
+        <div class="pt-6 border-t border-slate-100 text-xs text-slate-500">
+          Potrzebujesz szybkiej informacji o najbliższym terminie kursu? Zadzwoń do nas:{" "}
+          <a href="tel:+48730101000" class="font-bold text-brand-primary hover:text-brand-accent">
+            +48 730 101 000
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

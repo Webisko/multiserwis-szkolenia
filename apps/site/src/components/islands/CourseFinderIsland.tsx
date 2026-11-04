@@ -7,12 +7,14 @@ interface Props {
 }
 
 export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" }) => {
+  const [courses, setCourses] = useState<Course[]>(COURSES);
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCourseForEnroll, setSelectedCourseForEnroll] = useState<Course | null>(null);
   const [enrollSubmitted, setEnrollSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [enrollForm, setEnrollForm] = useState({ name: "", phone: "", email: "" });
+  const [enrollError, setEnrollError] = useState<string | null>(null);
+  const [enrollForm, setEnrollForm] = useState({ name: "", phone: "", email: "", website_url: "", consent: false });
 
   const categories: { id: string; label: string; icon?: IndustrialIconName }[] = [
     { id: "ALL", label: "Wszystkie szkolenia" },
@@ -23,7 +25,7 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
     { id: "Inne", label: "BHP i specjalistyczne", icon: "bhp" },
   ];
 
-  // Read URL query parameters (?zapisz=c1, ?szukaj=...)
+  // Read URL query parameters (?zapisz=c1, ?szukaj=...) and fetch live courses from Laravel API
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
@@ -33,6 +35,28 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
     if (szukaj) {
       setSearchQuery(szukaj);
     }
+
+    fetch("/api/courses", { headers: { Accept: "application/json" } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((payload) => {
+        const list = Array.isArray(payload) ? payload : Array.isArray(payload?.data) ? payload.data : null;
+        if (list !== null) {
+          setCourses(list);
+          if (zapisz) {
+            const found = list.find(
+              (c: Course) => c.id.toLowerCase() === zapisz.toLowerCase() || c.slug?.toLowerCase() === zapisz.toLowerCase()
+            );
+            if (found) {
+              setSelectedCourseForEnroll(found);
+              setEnrollSubmitted(false);
+            }
+          }
+        }
+      })
+      .catch(() => {
+        // Fallback to static COURSES
+      });
+
     if (zapisz) {
       const found = COURSES.find(
         (c) => c.id.toLowerCase() === zapisz.toLowerCase() || c.slug?.toLowerCase() === zapisz.toLowerCase()
@@ -45,7 +69,8 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
   }, []);
 
   const filteredCourses = useMemo(() => {
-    return COURSES.filter((course) => {
+    const safeCourses = Array.isArray(courses) ? courses : [];
+    return safeCourses.filter((course) => {
       const matchesCat =
         selectedCategory === "ALL" || course.category.toLowerCase() === selectedCategory.toLowerCase();
       const matchesSearch =
@@ -55,28 +80,47 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
 
       return matchesCat && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [courses, selectedCategory, searchQuery]);
 
   const handleEnrollSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCourseForEnroll) return;
     setIsSubmitting(true);
+    setEnrollError(null);
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: enrollForm.name.trim(),
           phone: enrollForm.phone.trim(),
           email: enrollForm.email.trim(),
+          website_url: enrollForm.website_url,
+          subject: "Zapis na kurs",
+          courseTitle: `${selectedCourseForEnroll.title} (${selectedCourseForEnroll.price})`,
           message: `Zgłoszenie na kurs stacjonarny: ${selectedCourseForEnroll.title} (${selectedCourseForEnroll.price}). Proszę o kontakt w sprawie najbliższego terminu rozpoczęcia kursu.`,
         }),
       });
+
+      if (res.ok) {
+        setEnrollSubmitted(true);
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 422 && data.errors) {
+        const firstField = Object.keys(data.errors)[0];
+        const firstMsg = Array.isArray(data.errors[firstField]) ? data.errors[firstField][0] : data.errors[firstField];
+        setEnrollError(firstMsg || "Proszę poprawić dane w formularzu.");
+      } else if (res.status === 429) {
+        setEnrollError("Zbyt wiele prób. Odczekaj chwilę przed kolejnym zgłoszeniem.");
+      } else {
+        setEnrollError(data.message || "Wystąpił błąd podczas wysyłania zgłoszenia. Zadzwoń do nas: +48 730 101 000.");
+      }
     } catch {
-      // Fallback for offline/static preview
+      setEnrollError("Błąd połączenia z internetem. Sprawdź połączenie i spróbuj ponownie.");
     } finally {
       setIsSubmitting(false);
-      setEnrollSubmitted(true);
     }
   };
 
@@ -96,7 +140,7 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Wyszukaj szkolenie (np. wózki widłowe, koparka, SEP, suwnica, spawanie)..."
               aria-label="Wyszukaj szkolenie"
-              className="w-full pl-10 pr-9 py-2.5 rounded-md border border-slate-300 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all text-slate-800"
+              className="w-full pl-10 pr-9 py-2.5 rounded-md border border-slate-300 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all text-slate-800"
             />
             {searchQuery && (
               <button
@@ -290,6 +334,18 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                 </div>
 
                 <form onSubmit={handleEnrollSubmit} className="space-y-4 text-left">
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="express-website-url">Strona internetowa</label>
+                    <input
+                      id="express-website-url"
+                      type="text"
+                      name="website_url"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={enrollForm.website_url}
+                      onChange={(e) => setEnrollForm({ ...enrollForm, website_url: e.target.value })}
+                    />
+                  </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       Imię i nazwisko *
@@ -300,7 +356,7 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       value={enrollForm.name}
                       onChange={(e) => setEnrollForm({ ...enrollForm, name: e.target.value })}
                       placeholder="Jan Kowalski"
-                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-base md:text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
 
@@ -314,7 +370,7 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       value={enrollForm.phone}
                       onChange={(e) => setEnrollForm({ ...enrollForm, phone: e.target.value })}
                       placeholder="+48 600 000 000"
-                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-base md:text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
 
@@ -328,9 +384,38 @@ export const CourseFinderIsland: React.FC<Props> = ({ initialCategory = "ALL" })
                       value={enrollForm.email}
                       onChange={(e) => setEnrollForm({ ...enrollForm, email: e.target.value })}
                       placeholder="jan.kowalski@firma.pl"
-                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-sm focus:border-brand-accent focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-md border border-slate-300 text-base md:text-sm focus:border-brand-accent focus:outline-none"
                     />
                   </div>
+
+                  <div className="pt-1">
+                    <label className="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer leading-relaxed">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={enrollForm.consent}
+                        onChange={(e) => setEnrollForm({ ...enrollForm, consent: e.target.checked })}
+                        className="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-accent focus:ring-brand-accent"
+                      />
+                      <span>
+                        Akceptuję{" "}
+                        <a href="/regulamin" className="text-brand-accent underline hover:text-orange-700">
+                          Regulamin
+                        </a>{" "}
+                        oraz wyrażam zgodę na przetwarzanie danych osobowych w celu obsługi zapisu zgodnie z{" "}
+                        <a href="/polityka-prywatnosci" className="text-brand-accent underline hover:text-orange-700">
+                          Polityką prywatności
+                        </a>
+                        . *
+                      </span>
+                    </label>
+                  </div>
+
+                  {enrollError && (
+                    <div className="p-3 rounded-md bg-red-50 border border-red-200 text-red-800 text-xs font-medium" role="alert">
+                      {enrollError}
+                    </div>
+                  )}
 
                   <button
                     type="submit"

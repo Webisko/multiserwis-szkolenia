@@ -22,6 +22,14 @@ export interface Course {
   priceStationary?: string;
   location?: string;
   nextSession?: string;
+  syllabus?: string[];
+  examBody?: string;
+  validityPeriod?: string;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: string | null;
+  };
 }
 
 export interface Machine {

@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import IndustrialIcon, { type IconName } from "../../components/IndustrialIcon.astro";
-import { MACHINES } from "@multiserwis/shared";
+import { fetchMachines } from "../../utils/api";
+
+const rawMachines = await fetchMachines();
+const MACHINES = Array.isArray(rawMachines) ? rawMachines : [];
 
 const rentalBenefits: { title: string; desc: string; icon: IconName }[] = [
   {

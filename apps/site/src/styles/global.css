@@ -90,7 +90,18 @@
 }
 
 @import "tailwindcss";
-@config "../../../../tailwind.config.js";
+
+@theme {
+  --color-brand-dark: #002a36;
+  --color-brand-primary: #003d4d;
+  --color-brand-secondary: #005c73;
+  --color-brand-accent: #ff6600;
+  --color-brand-accentHover: #e65c00;
+  --color-brand-surface: #f8fafc;
+  --color-brand-border: #e2e8f0;
+  --font-heading: "Montserrat", sans-serif;
+  --font-body: "Roboto", sans-serif;
+}
 
 :root {
   color-scheme: light;

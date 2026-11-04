@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LmsPortalIsland } from "../../components/islands/LmsPortalIsland";
+---
+
+<BaseLayout
+  title="Strefa kursanta – platforma e-learningowa | MultiSerwis Kutno"
+  description="Panel kursanta MultiSerwis Kutno. Dostęp 24/7 do wykładów, konspektów technicznych i oficjalnych testów egzaminacyjnych UDT, ŚBŁ-WIT (IMBiGS) oraz SEP."
+>
+  <div class="bg-slate-50 min-h-[75vh]">
+    <LmsPortalIsland client:load initialMode="student" />
+  </div>
+</BaseLayout>

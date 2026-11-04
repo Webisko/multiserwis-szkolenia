@@ -2,12 +2,14 @@
 import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   preloadImage?: string | null;
+  noindex?: boolean;
   schema?: Record<string, any> | Record<string, any>[];
 }
 
@@ -16,6 +18,7 @@ const {
   description = "Zdobądź uprawnienia operatora UDT, IMBiGS i SEP w Kutnie. Teoria online 24/7, praktyka na własnym placu manewrowym przy ul. Przemysłowej 2 i egzamin państwowy. Zapisz się online!",
   image = "/og-image.jpg",
   preloadImage = null,
+  noindex = false,
   schema,
 } = Astro.props;
 
@@ -91,6 +94,7 @@ const jsonLdGraph = [organizationSchema, ...extraSchemas];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260924" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico?v=20260924" />
@@ -99,6 +103,7 @@ const jsonLdGraph = [organizationSchema, ...extraSchemas];
 
     <!-- AI Agentic Browsing (ARD & LLMs) -->
     <link rel="describedby" href="/llms.txt" />
+    <link rel="alternate" type="text/markdown" href="/llms.txt" />
     <link rel="alternate" type="application/json" href="/.well-known/ai-catalog.json" />
 
     <!-- Preload Critical Typography & Optional Hero LCP Image -->
@@ -135,6 +140,7 @@ const jsonLdGraph = [organizationSchema, ...extraSchemas];
         <slot />
       </main>
       <SiteFooter />
+      <CookieBanner />
     </div>
   </body>
 </html>

@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import IndustrialIcon from "../components/IndustrialIcon.astro";
-import { COURSES } from "@multiserwis/shared";
+import { fetchCourses } from "../utils/api";
+
+const rawCourses = await fetchCourses();
+const COURSES = Array.isArray(rawCourses) ? rawCourses : [];
 ---
 
 <BaseLayout
@@ -89,6 +92,10 @@ import { COURSES } from "@multiserwis/shared";
 
         <form id="ms-enrollment-form" method="post" class="space-y-5">
           <input type="hidden" id="reg-role-input" name="role" value="INDYWIDUALNY" />
+          <div class="hidden" aria-hidden="true">
+            <label for="reg-website-url">Strona internetowa</label>
+            <input type="text" id="reg-website-url" name="website_url" tabindex="-1" autocomplete="off" />
+          </div>
 
           <!-- Wybór kursu -->
           <div>
@@ -102,7 +109,7 @@ import { COURSES } from "@multiserwis/shared";
               id="reg-course"
               name="course"
               required
-              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 bg-white"
+              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 bg-white transition-colors"
             >
               <option value="">-- Wybierz kurs z listy --</option>
               <optgroup label="Szkolenia UDT (Transport bliski)">
@@ -158,8 +165,9 @@ import { COURSES } from "@multiserwis/shared";
                 autocomplete="name"
                 required
                 placeholder="np. Jan Kowalski"
-                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
               />
+              <p id="err-name" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
             </div>
 
             <div>
@@ -176,8 +184,9 @@ import { COURSES } from "@multiserwis/shared";
                 autocomplete="tel"
                 required
                 placeholder="np. +48 600 000 000"
-                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
               />
+              <p id="err-phone" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
             </div>
           </div>
 
@@ -196,8 +205,9 @@ import { COURSES } from "@multiserwis/shared";
                 type="text"
                 autocomplete="organization"
                 placeholder="np. ABC Sp. z o.o."
-                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
               />
+              <p id="err-company" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
             </div>
             <div>
               <label
@@ -211,8 +221,9 @@ import { COURSES } from "@multiserwis/shared";
                 name="nip"
                 type="text"
                 placeholder="np. 7751234567"
-                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+                class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
               />
+              <p id="err-nip" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
             </div>
           </div>
 
@@ -230,8 +241,9 @@ import { COURSES } from "@multiserwis/shared";
               autocomplete="email"
               required
               placeholder="np. twoj@email.pl"
-              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
             />
+            <p id="err-email" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
           </div>
 
           <div>
@@ -246,8 +258,9 @@ import { COURSES } from "@multiserwis/shared";
               name="notes"
               rows="3"
               placeholder="np. preferuję zajęcia w godzinach popołudniowych lub w weekendy; potrzebuję szkolenia dla 3 pracowników..."
-              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20"
+              class="w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-colors"
             ></textarea>
+            <p id="err-notes" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
           </div>
 
           <div class="pt-2">
@@ -262,6 +275,13 @@ import { COURSES } from "@multiserwis/shared";
               </span>
             </label>
           </div>
+
+          <!-- Zbiorczy boks błędów nad przyciskiem CTA -->
+          <div
+            id="reg-error-box"
+            class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm font-medium"
+            role="alert"
+          ></div>
 
           <button
             type="submit"
@@ -346,9 +366,52 @@ import { COURSES } from "@multiserwis/shared";
     });
   });
 
+  const errorBox = document.getElementById("reg-error-box");
+  const fieldErrorMap: Record<string, string> = {
+    name: "err-name",
+    phone: "err-phone",
+    company: "err-company",
+    nip: "err-nip",
+    email: "err-email",
+    notes: "err-notes",
+  };
+
+  function clearErrors() {
+    if (errorBox) {
+      errorBox.classList.add("hidden");
+      errorBox.textContent = "";
+    }
+    Object.entries(fieldErrorMap).forEach(([field, errId]) => {
+      const p = document.getElementById(errId);
+      if (p) {
+        p.classList.add("hidden");
+        p.textContent = "";
+      }
+      const input = document.getElementById(`reg-${field}`);
+      if (input) {
+        input.classList.remove("border-red-500", "focus:border-red-500");
+      }
+    });
+  }
+
+  function setFieldError(field: string, msg: string) {
+    const errId = fieldErrorMap[field];
+    const p = errId ? document.getElementById(errId) : null;
+    if (p) {
+      p.textContent = msg;
+      p.classList.remove("hidden");
+    }
+    const input = document.getElementById(`reg-${field}`);
+    if (input) {
+      input.classList.add("border-red-500", "focus:border-red-500");
+    }
+  }
+
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!form || !submitBtn) return;
+
+    clearErrors();
 
     const formData = new FormData(form);
     const role = String(formData.get("role") || "INDYWIDUALNY");
@@ -359,6 +422,7 @@ import { COURSES } from "@multiserwis/shared";
     const company = String(formData.get("company") || "").trim();
     const nip = String(formData.get("nip") || "").trim();
     const notes = String(formData.get("notes") || "").trim();
+    const websiteUrl = String(formData.get("website_url") || "").trim();
 
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
@@ -373,24 +437,77 @@ import { COURSES } from "@multiserwis/shared";
     ].filter(Boolean).join("\n");
 
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: company ? `${name} (${company})` : name,
           phone,
           email,
+          company: company || null,
+          nip: nip || null,
+          role,
+          website_url: websiteUrl,
+          subject: role === "B2B" ? "Zapis firmowy B2B" : "Zapis na kurs stacjonarny",
+          courseTitle: course,
           message: messageLines,
         }),
       });
-    } catch {
-      // Fallback
-    } finally {
-      if (successBox) {
-        successBox.classList.remove("hidden");
-        form.classList.add("hidden");
-        successBox.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      if (res.ok) {
+        if (successBox) {
+          successBox.classList.remove("hidden");
+          form.classList.add("hidden");
+          successBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
       }
+
+      // Handle HTTP errors
+      const data = await res.json().catch(() => ({}));
+      let firstErrorElement: HTMLElement | null = null;
+
+      if (res.status === 422 && data.errors) {
+        const errorKeys = Object.keys(data.errors);
+        errorKeys.forEach((key) => {
+          const firstMsg = Array.isArray(data.errors[key]) ? data.errors[key][0] : data.errors[key];
+          setFieldError(key, firstMsg);
+          if (!firstErrorElement) {
+            firstErrorElement = document.getElementById(`reg-${key}`);
+          }
+        });
+
+        if (errorBox) {
+          errorBox.textContent = "Proszę poprawić zaznaczone pola formularza przed wysłaniem.";
+          errorBox.classList.remove("hidden");
+        }
+      } else if (res.status === 429) {
+        if (errorBox) {
+          errorBox.textContent = "Zbyt wiele prób wysłania formularza. Odczekaj chwilę przed kolejną próbą.";
+          errorBox.classList.remove("hidden");
+        }
+      } else {
+        if (errorBox) {
+          errorBox.textContent = data.message || "Nie udało się przesłać zgłoszenia. Skontaktuj się z nami telefonicznie: +48 730 101 000.";
+          errorBox.classList.remove("hidden");
+        }
+      }
+
+      if (firstErrorElement) {
+        (firstErrorElement as HTMLElement).focus();
+        (firstErrorElement as HTMLElement).scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (errorBox) {
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } catch {
+      if (errorBox) {
+        errorBox.textContent = "Wystąpił problem z połączeniem internetowym. Sprawdź sieć i spróbuj ponownie.";
+        errorBox.classList.remove("hidden");
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
   });
 </script>

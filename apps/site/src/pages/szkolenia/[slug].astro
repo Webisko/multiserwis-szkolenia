@@ -1,18 +1,24 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import IndustrialIcon from "../../components/IndustrialIcon.astro";
-import { COURSES } from "@multiserwis/shared";
+import { type Course } from "@multiserwis/shared";
+import { fetchCourses } from "../../utils/api";
 import { slugify } from "../../utils/slug";
 
 export async function getStaticPaths() {
-  const paths: { params: { slug: string }; props: { course: typeof COURSES[0] } }[] = [];
+  const courses = await fetchCourses();
+  const safeCourses = Array.isArray(courses) ? courses : [];
+  const paths: { params: { slug: string }; props: { course: Course } }[] = [];
+  const seenSlugs = new Set<string>();
   
-  for (const course of COURSES) {
-    if (course.slug) {
+  for (const course of safeCourses) {
+    if (course.slug && !seenSlugs.has(course.slug)) {
+      seenSlugs.add(course.slug);
       paths.push({ params: { slug: course.slug }, props: { course } });
     }
     const titleSlug = slugify(course.title);
-    if (titleSlug && titleSlug !== course.slug) {
+    if (titleSlug && !seenSlugs.has(titleSlug)) {
+      seenSlugs.add(titleSlug);
       paths.push({ params: { slug: titleSlug }, props: { course } });
     }
   }
@@ -80,7 +86,20 @@ const syllabusMap: Record<string, string[]> = {
   ],
 };
 
-const syllabus = syllabusMap[course.category] || syllabusMap["UDT"];
+const syllabus =
+  Array.isArray(course.syllabus) && course.syllabus.length > 0
+    ? course.syllabus
+    : syllabusMap[course.category] || syllabusMap["UDT"];
+
+const pageTitle =
+  course.seo?.metaTitle ||
+  course.seoTitle ||
+  `${course.title} Kutno – kurs i egzamin | MultiSerwis`;
+const pageDescription =
+  course.seo?.metaDescription ||
+  course.seoDescription ||
+  `Zdobądź uprawnienia: ${course.title} w Kutnie. ${course.hasOnline ? "Teoria online 24/7, " : ""}praktyka na placu manewrowym przy ul. Przemysłowej 2, egzamin państwowy. Cena: ${course.price} (zw. z VAT).`;
+const pageOgImage = course.seo?.ogImage || course.seoImage || course.image || "/og-image.jpg";
 
 const numericPrice = course.price.replace(/[^\d]/g, "");
 
@@ -154,8 +173,9 @@ const courseSchema = [
 ---
 
 <BaseLayout
-  title={`${course.title} Kutno – kurs i egzamin | MultiSerwis`}
-  description={`Zdobądź uprawnienia: ${course.title} w Kutnie. ${course.hasOnline ? "Teoria online 24/7, " : ""}praktyka na placu manewrowym przy ul. Przemysłowej 2, egzamin państwowy. Cena: ${course.price} (zw. z VAT).`}
+  title={pageTitle}
+  description={pageDescription}
+  image={pageOgImage}
   schema={courseSchema}
 >
   <!-- Breadcrumbs & Category Bar -->

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LmsPortalIsland } from "../../components/islands/LmsPortalIsland";
+---
+
+<BaseLayout
+  title="Platforma szkoleniowa e-learning i panel B2B | MultiSerwis Kutno"
+  description="Strefa kursanta i opiekuna firmy MultiSerwis Kutno. Wykłady online 24/7, symulator testów egzaminacyjnych UDT, ŚBŁ-WIT (IMBiGS) i SEP oraz monitoring postępów pracowników."
+>
+  <div class="bg-slate-50 min-h-[75vh]">
+    <LmsPortalIsland client:load initialMode="auto" />
+  </div>
+</BaseLayout>

@@ -129,8 +129,16 @@ const isActive = (href: string) => {
       </a>
     </div>
 
-    <!-- Actions / Przycisk Zapisu na Szkolenie -->
-    <div class="hidden sm:flex items-center gap-3">
+    <!-- Actions / Przycisk Zapisu na Szkolenie & Strefa Kursanta -->
+    <div class="hidden sm:flex items-center gap-2.5">
+      <button
+        type="button"
+        data-open-login-drawer
+        class="inline-flex items-center gap-2 rounded-md border border-slate-700 hover:border-brand-accent bg-slate-900/80 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-200 hover:text-white transition-all cursor-pointer"
+      >
+        <IndustrialIcon name="operator" class="w-4 h-4 text-brand-accent" />
+        <span>Strefa kursanta</span>
+      </button>
       <a
         href="/rejestracja"
         class="inline-flex items-center gap-2 rounded-md bg-brand-accent px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/20 hover:bg-brand-accentHover transition-all cursor-pointer"
@@ -172,6 +180,13 @@ const isActive = (href: string) => {
     <a href="/kontakt" class="block py-2 text-slate-200 font-medium hover:text-brand-accent">Kontakt</a>
 
     <div class="pt-4 border-t border-slate-800 space-y-2">
+      <button
+        type="button"
+        data-open-login-drawer
+        class="block w-full text-center py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-colors cursor-pointer"
+      >
+        Strefa kursanta / Logowanie
+      </button>
       <a
         href="/rejestracja"
         class="block w-full text-center py-3 px-4 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs uppercase tracking-wider rounded-md shadow-sm transition-colors"
@@ -261,7 +276,7 @@ const isActive = (href: string) => {
               autocomplete="username"
               required
               placeholder="np. imie.nazwisko@firma.pl"
-              class="w-full px-4 py-3 border border-slate-300 rounded-md text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
+              class="w-full px-4 py-3 border border-slate-300 rounded-md text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
             />
           </div>
 
@@ -279,7 +294,7 @@ const isActive = (href: string) => {
               autocomplete="current-password"
               required
               placeholder="••••••••••••"
-              class="w-full px-4 py-3 border border-slate-300 rounded-md text-slate-900 text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
+              class="w-full px-4 py-3 border border-slate-300 rounded-md text-slate-900 text-base md:text-sm focus:outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
             />
           </div>
 
@@ -414,14 +429,10 @@ const isActive = (href: string) => {
       const isProd = window.location.hostname.endsWith("multiserwis.edu.pl");
       const sso = `?sso_token=${encodeURIComponent(data.token)}`;
 
-      if (role === "ADMIN") {
+      if (role === "ADMIN" || role === "MANAGER") {
         window.location.href = isProd
-          ? `https://panel.multiserwis.edu.pl/panel/administrator${sso}`
-          : `/panel/administrator${sso}`;
-      } else if (role === "MANAGER") {
-        window.location.href = isProd
-          ? `https://panel.multiserwis.edu.pl/panel/menedzer${sso}`
-          : `/panel/menedzer${sso}`;
+          ? `https://panel.multiserwis.edu.pl/admin/sso${sso}`
+          : `http://localhost:8000/admin/sso${sso}`;
       } else if (role === "COMPANY_GUARDIAN") {
         window.location.href = isProd
           ? `https://szkolenia.multiserwis.edu.pl/panel/opiekun${sso}`

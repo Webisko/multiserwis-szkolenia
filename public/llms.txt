@@ -1,37 +1,39 @@
-# MultiSerwis Kutno - Szkolenia Zawodowe i Wynajem Maszyn
+# MultiSerwis Kutno – Szkolenia zawodowe i wynajem maszyn
 
-> MultiSerwis Kutno to certyfikowany ośrodek szkoleniowy i wypożyczalnia maszyn budowlanych oraz podnośników koszowych w Kutnie (woj. łódzkie). Oferujemy kursy operatorów UDT, IMBiGS (ŚBŁ-WIT) oraz uprawnienia elektroenergetyczne SEP (G1, G2, G3) z teorią online 24/7, własnym placem manewrowym i egzaminami państwowymi na naszym sprzęcie.
+> MultiSerwis Kutno Sp. z o.o. to certyfikowany ośrodek szkoleniowy i wypożyczalnia maszyn budowlanych oraz podnośników koszowych w Kutnie (woj. łódzkie). Oferujemy kursy operatorów UDT, IMBiGS (ŚBŁ-WIT) oraz uprawnienia elektroenergetyczne SEP (G1, G2, G3) z teorią online 24/7, własnym placem manewrowym przy ul. Przemysłowej 2 i egzaminami państwowymi na naszym sprzęcie.
 
-## Oferta Szkoleń Zawodowych
+## Oferta szkoleń zawodowych
 
-- [Szkolenia UDT](https://multiserwis.edu.pl/szkolenia/udt): Kursy na wózki widłowe (jezdniowe podnośnikowe), ładowarki teleskopowe ze zmiennym wysięgiem, podesty ruchome (zwyżki) oraz suwnice i żurawie HDS.
-- [Maszyny Budowlane IMBiGS](https://multiserwis.edu.pl/szkolenia/imbigs): Uprawnienia operatora koparek jednonaczyniowych, koparko-ładowarek, walców drogowych i spycharek (egzaminy państwowe Sieci Badawczej Łukasiewicz - WIT).
-- [Uprawnienia Elektroenergetyczne SEP](https://multiserwis.edu.pl/szkolenia/sep): Grupy G1 (elektryczne), G2 (cieplne) i G3 (gazowe) w zakresie Eksploatacji (E) oraz Dozoru (D).
-- [Kursy Spawalnicze](https://multiserwis.edu.pl/szkolenia/spawalnictwo): Szkolenia spawacza metodami MIG/MAG (131/135/136), TIG (141) i MMA (111) wraz z Książeczką Spawacza i certyfikatem wg normy PN-EN ISO 9606-1 (SGS).
-- [Szkolenia Specjalistyczne i BHP](https://multiserwis.edu.pl/szkolenia/pozostale): Kontrola zawiesi, pilarki mechaniczne, kosy spalinowe, hakowy-sygnalista oraz podesty załadowcze.
-- [Harmonogram Zjazdów](https://multiserwis.edu.pl/harmonogram): Aktualny terminarz szkoleń stacjonarnych, jazd próbnych oraz sesji egzaminacyjnych w Kutnie.
+- [Szkolenia UDT](https://multiserwis.edu.pl/szkolenia/udt): Kursy na wózki widłowe (jezdniowe podnośnikowe – 1 000 zł), ładowarki teleskopowe ze zmiennym wysięgiem (1 500 zł), podesty ruchome – zwyżki (1 130 zł) oraz suwnice i żurawie HDS (1 130 zł).
+- [Maszyny budowlane IMBiGS](https://multiserwis.edu.pl/szkolenia/imbigs): Uprawnienia operatora koparek jednonaczyniowych (2 350 zł), koparko-ładowarek (2 350 zł), walców drogowych (2 500 zł) i spycharek (2 500 zł) – egzaminy państwowe Sieci Badawczej Łukasiewicz – WIT.
+- [Uprawnienia elektroenergetyczne SEP](https://multiserwis.edu.pl/szkolenia/sep): Grupy G1 (elektryczne), G2 (cieplne) i G3 (gazowe) w zakresie eksploatacji (E – 860 zł) oraz dozoru (D – 860 zł).
+- [Kursy spawalnicze](https://multiserwis.edu.pl/szkolenia/spawalnictwo): Szkolenia spawacza metodami MIG/MAG (131/135/136), TIG (141) i MMA (111) od 2 400 zł wraz z książeczką spawacza i certyfikatem wg normy PN-EN ISO 9606-1 (SGS).
+- [Szkolenia specjalistyczne i BHP](https://multiserwis.edu.pl/szkolenia/pozostale): Kontrola zawiesi (600 zł), pilarki mechaniczne (550 zł), kosy spalinowe (600 zł), hakowy-sygnalista (400 zł) oraz podesty załadowcze (500 zł).
+- [Harmonogram zjazdów](https://multiserwis.edu.pl/harmonogram): Aktualny terminarz szkoleń stacjonarnych, jazd próbnych oraz sesji egzaminacyjnych w Kutnie.
 
-## Wynajem Maszyn i Usługi Przemysłowe
+## Wynajem maszyn i usługi przemysłowe
 
-- [Wynajem Maszyn Budowlanych](https://multiserwis.edu.pl/wynajem): Wynajem krótko- i długoterminowy ładowarek teleskopowych Manitou oraz podnośników koszowych Genie z dowozem do klienta.
-- [Serwis i Konserwacja UDT](https://multiserwis.edu.pl/uslugi): Przeglądy okresowe i konserwacyjne maszyn UDT, obliczanie resursu (UTB), rejestracja urządzeń w dozorze oraz serwis mobilny.
+- [Wynajem maszyn budowlanych](https://multiserwis.edu.pl/wynajem): Wynajem krótko- i długoterminowy ładowarek teleskopowych Manitou oraz podnośników koszowych Genie i koparko-ładowarek JCB z dowozem do klienta.
+- [Serwis i konserwacja UDT](https://multiserwis.edu.pl/uslugi): Przeglądy okresowe i konserwacyjne maszyn UDT, obliczanie resursu (UTB), rejestracja urządzeń w dozorze oraz serwis mobilny.
 
-## Dostęp do Systemu i E-learningu
+## Dostęp do systemu i e-learningu
 
-- [Strona Główna](https://multiserwis.edu.pl/): Portal główny firmy MultiSerwis z informacjami o zapisach i ofercie.
-- [Panel Kursanta LMS](https://szkolenia.multiserwis.edu.pl/panel/kursant): Dostęp do platformy e-learningowej, bazy pytań testowych UDT, materiałów wideo i symulatorów egzaminacyjnych 24/7.
-- [Strefa Klienta B2B i Opiekuna Firmy](https://szkolenia.multiserwis.edu.pl/panel/opiekun): Portal dla firm partnerskich, zgłaszanie pracowników na kursy i podgląd postępów.
+- [Strona główna](https://multiserwis.edu.pl/): Portal główny firmy MultiSerwis z informacjami o zapisach i ofercie.
+- [Panel kursanta LMS](https://szkolenia.multiserwis.edu.pl/panel/kursant): Dostęp do platformy e-learningowej, bazy pytań testowych UDT, materiałów wideo i symulatorów egzaminacyjnych 24/7.
+- [Strefa klienta B2B i opiekuna firmy](https://szkolenia.multiserwis.edu.pl/panel/opiekun): Portal dla firm partnerskich, zgłaszanie pracowników na kursy i podgląd postępów.
 
-## Kontakt i Lokalizacja
+## Kontakt i lokalizacja
 
-- [Kontakt i Dojazd](https://multiserwis.edu.pl/kontakt): Dane teleadresowe, formularz zapytań i mapa dojazdu do placu manewrowego.
+- [Kontakt i dojazd](https://multiserwis.edu.pl/kontakt): Dane teleadresowe, formularz zapytań i mapa dojazdu do placu manewrowego.
+- **Podmiot:** MULTISERWIS KUTNO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ
 - **Biuro:** ul. Henryka Siemiradzkiego 18, 99-300 Kutno
 - **Poligon szkoleniowy:** ul. Przemysłowa 2, 99-300 Kutno
-- **Telefon:** +48 730 101 000 / +48 570 403 806
-- **Email:** multiserwis.kutno@gmail.com
-- **NIP:** 7752404382, **REGON:** 100587019
+- **Telefon (szkolenia):** +48 730 101 000 / +48 570 403 806
+- **Telefon (wynajem i dźwigi):** +48 730 202 000
+- **E-mail:** multiserwis.kutno@gmail.com / biuro@multiserwis.edu.pl
+- **NIP:** 7752676330, **KRS:** 0001160280, **REGON:** 541108550
 
-## Informacje Prawne
+## Informacje prawne
 
-- [Polityka Prywatności](https://multiserwis.edu.pl/polityka-prywatnosci): Zasady przetwarzania danych osobowych RODO.
-- [Regulamin Świadczenia Usług](https://multiserwis.edu.pl/regulamin): Regulamin szkoleń i wynajmu maszyn.
+- [Polityka prywatności](https://multiserwis.edu.pl/polityka-prywatnosci): Zasady przetwarzania danych osobowych RODO (architektura cookieless).
+- [Regulamin świadczenia usług](https://multiserwis.edu.pl/regulamin): Regulamin szkoleń stacjonarnych, e-learningu i wynajmu maszyn.

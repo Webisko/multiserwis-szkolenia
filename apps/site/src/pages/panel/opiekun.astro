@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LmsPortalIsland } from "../../components/islands/LmsPortalIsland";
+---
+
+<BaseLayout
+  title="Strefa opiekuna firmy B2B | MultiSerwis Kutno"
+  description="Panel opiekuna firmy B2B MultiSerwis Kutno. Zgłaszaj pracowników na szkolenia UDT, IMBiGS i SEP, monitoruj postępy nauki oraz pobieraj zaświadczenia."
+>
+  <div class="bg-slate-50 min-h-[75vh]">
+    <LmsPortalIsland client:load initialMode="guardian" />
+  </div>
+</BaseLayout>
