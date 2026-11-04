@@ -23,6 +23,7 @@ Projekt został zunifikowany do pełnego standardu **Astro + React Islands + Lar
 1. **`https://multiserwis.edu.pl`** — Portal ofertowy i katalog SEO (Astro 7.4 SSG + wyspa wyszukiwarki kursów `CourseFinderIsland`).
 2. **`https://szkolenia.multiserwis.edu.pl`** — Platforma e-learningowa Kursanta (`STUDENT`) oraz Strefa Opiekuna Firmy B2B (`COMPANY_GUARDIAN`) oparta na wyspie `LmsPortalIsland`.
 3. **`https://panel.multiserwis.edu.pl`** — Natywny panel zarządzania **Filament 5.11 CMS** (`/admin/kokpit`) dla ról `ADMIN` i `MANAGER` oraz centralny punkt końcowy REST API.
+4. **`https://stats.multiserwis.edu.pl`** — Self-hosted instancja analityki **Umami v2** (CloudLinux Node.js 20 Passenger + MariaDB `srv127364_szkolenia`), w 100% cookieless i prywatna (RODO Zero-Consent), zliczająca statystyki ruchu bez profilowania.
 
 ---
 
@@ -273,12 +274,20 @@ Zadanie automatycznie wykonuje komendę `orders:release-expired` (`->everyFiveMi
    - Pole `is_active` w formularzu `CourseResource` w Filament CMS ma ustawioną wartość domyślną `false`, zapobiegając przypadkowej publikacji nieukończonego kursu w katalogu SEO.
 8. **Optymalizacja mediów i limit uploadu:**
    - `backend/config/livewire.php` posiada limit `max:51200` (50 MB), a klasa `MediaOptimizer` automatycznie konwertuje przesyłane w Filament CMS obrazy JPG/PNG do formatu `.webp`.
-9. **Polityka Cookieless & Uśpiony Baner RODO (Zero Dark Patterns):**
-   - Portal publiczny `multiserwis.edu.pl` działa w standardzie Cookieless (lokalne fonty WOFF2, brak zewnętrznych skryptów śledzących). W `BaseLayout.astro` zaimplementowano uśpiony komponent `CookieBanner.astro` z symetryczną wagą wizualną przycisków 1:1 (*„Tylko niezbędne”* / *„Zezwól na wszystkie”*), gotowy do natychmiastowej aktywacji w razie potrzeby.
+9. **Polityka Cookieless & Self-Hosted Umami Analytics (RODO Privacy-First):**
+   - Portal publiczny `multiserwis.edu.pl` działa w standardzie Cookieless (lokalne fonty WOFF2, brak zewnętrznych trackerów firm trzecich jak GA4 czy Meta Pixel).
+   - Analityka ruchu jest w 100% self-hosted na subdomenie `https://stats.multiserwis.edu.pl` za pomocą oprogramowania **Umami v2** (website ID: `fffb3ad4-dc24-48dc-b99f-6263eb60a221`). Tracker nie zapisuje ciasteczek, anonimizuje adresy IP haszowane solą i nie wymaga wyświetlania inwazyjnych bannerów zgód (zgodność z wytycznymi UODO i ePrivacy).
+   - W `BaseLayout.astro` zaimplementowano uśpiony komponent `CookieBanner.astro` z symetryczną wagą wizualną przycisków 1:1 (*„Tylko niezbędne”* / *„Zezwól na wszystkie”*), gotowy do natychmiastowej aktywacji w razie potrzeby.
 
 ---
 
 ## 11. Changelog audytu produkcyjnego (Listopad 2026)
+
+- **Self-Hosted Umami Analytics (`stats.multiserwis.edu.pl`):**
+  - Uruchomiono produkcyjną aplikację Umami v2 w środowisku CloudLinux Node.js 20 Passenger na SEOHost.
+  - Skonfigurowano pełną izolację bazy danych – Umami korzysta z dedykowanych tabel w bazie `srv127364_szkolenia`.
+  - Zarejestrowano witrynę `MultiSerwis Szkolenia` (`multiserwis.edu.pl`) z identyfikatorem `fffb3ad4-dc24-48dc-b99f-6263eb60a221`.
+  - Wpięto skrypt `script.js` do szablonu bazowego `BaseLayout.astro` i zweryfikowano poprawność rejestracji zdarzeń przez endpoint `/api/send`.
 
 - **Formularze & Bezpieczeństwo leadów:**
   - Naprawiono obsługę `fetch('/api/contact')` w `rejestracja.astro`, `kontakt.astro` i `CourseFinderIsland.tsx` – wyeliminowano fałszywe komunikaty sukcesu przy błędach 422/429/500, dodano mapowanie błędów pod polami i zbiorcze alerty nad przyciskami submit.
