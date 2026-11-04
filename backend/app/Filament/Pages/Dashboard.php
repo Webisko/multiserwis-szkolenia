@@ -8,6 +8,8 @@ use App\Filament\Resources\Inquiries\InquiryResource;
 use App\Filament\Resources\Machines\MachineResource;
 use App\Filament\Resources\Orders\OrderResource;
 use App\Filament\Resources\SiteSettings\SiteSettingResource;
+use App\Filament\Pages\AnalyticsPage;
+use App\Services\AnalyticsService;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Inquiry;
@@ -62,6 +64,8 @@ class Dashboard extends BaseDashboard
             ->limit(8)
             ->get();
 
+        $analytics = app(AnalyticsService::class)->getSummaryMetrics();
+
         return [
             'newInquiriesCount' => $newInquiriesCount,
             'totalInquiriesCount' => $totalInquiriesCount,
@@ -76,6 +80,7 @@ class Dashboard extends BaseDashboard
             'settings' => SiteSetting::current(),
             'latestInquiries' => $latestInquiries,
             'popularCourses' => $popularCourses,
+            'analytics' => $analytics,
             'urls' => [
                 'createCourse' => CourseResource::getUrl('create'),
                 'listCourses' => CourseResource::getUrl('index'),
@@ -84,6 +89,7 @@ class Dashboard extends BaseDashboard
                 'listOrders' => OrderResource::getUrl('index'),
                 'listMachines' => MachineResource::getUrl('index'),
                 'editSettings' => SiteSettingResource::getNavigationUrl(),
+                'viewAnalytics' => AnalyticsPage::getUrl(),
             ],
         ];
     }

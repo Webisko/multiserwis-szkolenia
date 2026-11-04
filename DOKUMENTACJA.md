@@ -47,11 +47,12 @@ multiserwis-szkolenia/
 ├── backend/                                 # Aplikacja Laravel 13.39 + Filament 5.11 + Sanctum 4.3
 │   ├── app/
 │   │   ├── Console/Commands/                # Komendy Artisan (orders:release-expired, multiserwis:import-legacy)
-│   │   ├── Filament/                        # Kokpit i 10 polskich zasobów Filament 5.11
+│   │   ├── Filament/                        # Kokpit, strona Analityka i ruch oraz 10 polskich zasobów Filament 5.11
 │   │   ├── Http/Controllers/Api/            # Kontrolery REST API (Catalog, Auth, Contact, Order, Lms)
 │   │   ├── Http/Resources/                  # Transformatory JSON (CourseJsonResource, MachineJsonResource, OrderStatusJsonResource)
 │   │   ├── Mail/                            # Powiadomienia e-mail (InquiryReceivedMail z nagłówkiem Reply-To)
 │   │   ├── Models/                          # 13 modeli Eloquent z automatyczną konwersją obrazów do WebP
+│   │   ├── Services/AnalyticsService.php    # Serwis agregacji statystyk odwiedzin z tabel Umami MariaDB
 │   │   └── Support/MediaOptimizer.php       # Serwis optymalizacji i konwersji uploadów JPG/PNG -> WebP
 │   ├── config/                              # Konfiguracja Laravel 13 (Europe/Warsaw, pl, mysql InnoDB, cors, livewire)
 │   ├── database/migrations/                 # Migracje tabel systemu LMS, zamówień i katalogu
@@ -288,6 +289,12 @@ Zadanie automatycznie wykonuje komendę `orders:release-expired` (`->everyFiveMi
   - Skonfigurowano pełną izolację bazy danych – Umami korzysta z dedykowanych tabel w bazie `srv127364_szkolenia`.
   - Zarejestrowano witrynę `MultiSerwis Szkolenia` (`multiserwis.edu.pl`) z identyfikatorem `fffb3ad4-dc24-48dc-b99f-6263eb60a221`.
   - Wpięto skrypt `script.js` do szablonu bazowego `BaseLayout.astro` i zweryfikowano poprawność rejestracji zdarzeń przez endpoint `/api/send`.
+
+- **Natywna analityka i statystyki w Filament CMS (`/admin/analityka`):**
+  - Utworzono dedykowaną stronę w CMS `AnalyticsPage.php` oraz serwis agregujący `AnalyticsService.php` czytający bezpośrednio z tabel Umami w bazie MariaDB `srv127364_szkolenia`.
+  - Wdrożono kafelki KPI na głównym Kokpicie (odwiedzający dzisiaj, w tygodniu, odsłony).
+  - Wdrożono podstronę z wykresem dynamiki wizyt z ostatnich 14 dni, rankingiem najpopularniejszych kursów z bezpośrednim linkiem do edycji, podziałem źródeł ruchu (Google, Facebook, bezpośrednie) oraz urządzeń (desktop vs mobile).
+  - Dodano test integracyjny `test_analytics_service_and_filament_page_integration` (13 testów, 84 asercje PASS).
 
 - **Formularze & Bezpieczeństwo leadów:**
   - Naprawiono obsługę `fetch('/api/contact')` w `rejestracja.astro`, `kontakt.astro` i `CourseFinderIsland.tsx` – wyeliminowano fałszywe komunikaty sukcesu przy błędach 422/429/500, dodano mapowanie błędów pod polami i zbiorcze alerty nad przyciskami submit.

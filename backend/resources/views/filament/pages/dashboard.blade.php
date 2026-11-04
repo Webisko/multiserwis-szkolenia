@@ -25,6 +25,12 @@
                 <div style="font-size:30px;font-weight:900;color:#0f172a;margin-top:6px;">{{ $machinesCount }} <span style="font-size:14px;font-weight:600;color:#64748b;">maszyny</span></div>
                 <div style="font-size:12px;color:#475569;margin-top:4px;font-weight:600;">Zamówienia w systemie: {{ $ordersCount }}</div>
             </a>
+
+            <a href="{{ $urls['viewAnalytics'] }}" style="text-decoration:none;background:var(--ms-surface,#ffffff);border:1px solid rgba(148,163,184,0.22);border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(15,23,42,0.04);">
+                <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Ruch i odwiedziny www</div>
+                <div style="font-size:30px;font-weight:900;color:#0f172a;margin-top:6px;">{{ $analytics['visitsToday'] }} <span style="font-size:14px;font-weight:600;color:#64748b;">dziś</span></div>
+                <div style="font-size:12px;color:#0d9488;margin-top:4px;font-weight:600;">7 dni: {{ $analytics['visitsWeek'] }} wizyt • {{ $analytics['pageviewsWeek'] }} odsłon &rarr;</div>
+            </a>
         </div>
 
         {{-- Szybkie akcje --}}
@@ -34,6 +40,9 @@
             </a>
             <a href="{{ $urls['listEnrollments'] }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#0f172a;color:#ffffff;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;">
                 Zarządzaj zapisami kursantów
+            </a>
+            <a href="{{ $urls['viewAnalytics'] }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#0d9488;color:#ffffff;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;">
+                Statystyki i ruch www
             </a>
             @if(strtoupper((string) auth()->user()?->role) === 'ADMIN')
                 <a href="{{ $urls['editSettings'] }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;">

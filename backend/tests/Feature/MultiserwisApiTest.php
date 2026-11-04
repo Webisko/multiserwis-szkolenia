@@ -285,4 +285,38 @@ class MultiserwisApiTest extends TestCase
         $response2 = $this->get('/admin/sso?sso_token='.urlencode($token));
         $response2->assertRedirect('/admin/logowanie');
     }
+
+    public function test_analytics_service_and_filament_page_integration(): void
+    {
+        $service = app(\App\Services\AnalyticsService::class);
+        $this->assertNotNull($service);
+
+        $metrics = $service->getSummaryMetrics();
+        $this->assertArrayHasKey('visitsToday', $metrics);
+        $this->assertArrayHasKey('visitsWeek', $metrics);
+        $this->assertArrayHasKey('pageviewsWeek', $metrics);
+        $this->assertArrayHasKey('conversionRate', $metrics);
+
+        $admin = User::query()->where('email', 'admin@webisko.pl')->firstOrFail();
+        $this->actingAs($admin, 'web')
+            ->get('/admin/analityka')
+            ->assertOk()
+            ->assertSee('Analityka i ruch na stronie')
+            ->assertSee('Odwiedzający dzisiaj')
+            ->assertSee('Otwórz pełny panel Umami');
+
+        $this->flushSession();
+        $manager = User::query()->where('email', 'menedzer@multiserwis.edu.pl')->firstOrFail();
+        $this->actingAs($manager, 'web')
+            ->get('/admin/analityka')
+            ->assertOk();
+
+        // Kursant nie ma uprawnień do panelu zarządzania CMS -> canAccessPanel = false
+        $this->flushSession();
+        $student = User::query()->where('email', 'kursant@multiserwis.edu.pl')->firstOrFail();
+        $this->assertFalse($student->canAccessPanel(new \Filament\Panel()));
+        $this->actingAs($student, 'web');
+        $this->assertFalse(\App\Filament\Pages\AnalyticsPage::canAccess());
+        $this->get('/admin/analityka')->assertStatus(403);
+    }
 }
