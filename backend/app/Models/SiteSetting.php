@@ -59,7 +59,7 @@ class SiteSetting extends Model
                 'phone_training_secondary' => '+48 570 403 806',
                 'phone_rental' => '+48 730 202 000',
                 'email_office' => 'biuro@multiserwis.edu.pl',
-                'email_notifications' => 'multiserwis.kutno@gmail.com',
+                'email_notifications' => 'szkolenia@multiserwis.tech',
                 'office_address' => 'ul. Henryka Siemiradzkiego 18, 99-300 Kutno',
                 'training_ground_address' => 'ul. Przemysłowa 2, 99-300 Kutno',
                 'opening_hours' => 'Pon.–Pt.: 8:00 – 16:00',

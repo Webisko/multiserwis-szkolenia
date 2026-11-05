@@ -68,10 +68,14 @@ class ContactController extends Controller
         $sent = false;
         try {
             $settings = SiteSetting::current();
-            $recipients = array_unique(array_filter([
-                $settings->email_notifications,
-                $settings->email_office,
-            ]));
+            $notificationTarget = $settings->email_notifications ?: config('services.multiserwis.mail_notification_to', 'szkolenia@multiserwis.tech');
+
+            // Zgłoszenia i zapytania szkoleniowe trafiają bezpośrednio na dedykowaną skrzynkę szkoleniową
+            if ($type === 'INDYWIDUALNY' || $type === 'B2B' || !empty($courseName)) {
+                $recipients = [$notificationTarget];
+            } else {
+                $recipients = array_unique(array_filter([$notificationTarget, $settings->email_office]));
+            }
 
             foreach ($recipients as $to) {
                 Mail::to($to)->send(new InquiryReceivedMail($inquiry));

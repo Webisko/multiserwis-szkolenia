@@ -780,7 +780,7 @@ Cennik uwzględnia aktualne kategorie uprawnień zgodnie z:
  Kutno, ul. Siemieradzkiego 18
 
 **E-mail:**  
- multiserwis.kutno@gmail.com
+ szkolenia@multiserwis.tech
 
 **Telefon \- Szkolenia:**  
  📞 730 101 000 / 570403806

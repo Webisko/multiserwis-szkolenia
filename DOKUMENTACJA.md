@@ -180,14 +180,15 @@ DB_PASSWORD="<haslo_bazy_mysql>"
 
 # Konfiguracja SMTP (SEOHost)
 MAIL_MAILER=smtp
+MAIL_SCHEME=smtps
 MAIL_HOST=h108.seohost.pl
 MAIL_PORT=465
-MAIL_USERNAME=kontakt@multiserwis.edu.pl
+MAIL_USERNAME=szkolenia@multiserwis.tech
 MAIL_PASSWORD="<haslo_smtp>"
 MAIL_ENCRYPTION=ssl
-MAIL_FROM_ADDRESS="kontakt@multiserwis.edu.pl"
+MAIL_FROM_ADDRESS="szkolenia@multiserwis.tech"
 MAIL_FROM_NAME="MultiSerwis Kutno - Szkolenia"
-MAIL_NOTIFICATION_TO="multiserwis.kutno@gmail.com"
+MAIL_NOTIFICATION_TO="szkolenia@multiserwis.tech"
 ```
 
 ---

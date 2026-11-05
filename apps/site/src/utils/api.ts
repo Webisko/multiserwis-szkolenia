@@ -25,7 +25,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   phoneTraining: "+48 730 101 000",
   phoneTrainingAlt: "+48 570 403 806",
   phoneRental: "+48 730 202 000",
-  email: "multiserwis.kutno@gmail.com",
+  email: "szkolenia@multiserwis.tech",
   facebookUrl: "https://www.facebook.com/szkoleniaKutno/",
   openingHours: "Pon.–Pt. 8:00–16:00",
 };

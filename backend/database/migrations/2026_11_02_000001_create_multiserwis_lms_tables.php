@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone_training_secondary', 64)->default('+48 570 403 806');
             $table->string('phone_rental', 64)->default('+48 730 202 000');
             $table->string('email_office')->default('biuro@multiserwis.edu.pl');
-            $table->string('email_notifications')->default('multiserwis.kutno@gmail.com');
+            $table->string('email_notifications')->default('szkolenia@multiserwis.tech');
             $table->string('office_address')->default('ul. Henryka Siemiradzkiego 18, 99-300 Kutno');
             $table->string('training_ground_address')->default('ul. Przemysłowa 2, 99-300 Kutno');
             $table->string('opening_hours')->default('Pon.–Pt.: 8:00 – 16:00');

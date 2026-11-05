@@ -44,7 +44,7 @@ Singleton (`id = 1`) przechowujący globalne dane teleadresowe i konfigurację S
 | `phone_training_secondary` | `VARCHAR(64)` | `+48 570 403 806` |
 | `phone_rental` | `VARCHAR(64)` | `+48 730 202 000` |
 | `email_office` | `VARCHAR(255)` | `biuro@multiserwis.edu.pl` |
-| `email_notifications` | `VARCHAR(255)` | `multiserwis.kutno@gmail.com` |
+| `email_notifications` | `VARCHAR(255)` | `szkolenia@multiserwis.tech` |
 | `office_address` | `VARCHAR(255)` | `ul. Henryka Siemiradzkiego 18, 99-300 Kutno` |
 | `training_ground_address` | `VARCHAR(255)` | `ul. Przemysłowa 2, 99-300 Kutno` |
 | `opening_hours` | `VARCHAR(120)` | `Pon.–Pt.: 8:00 – 16:00` |

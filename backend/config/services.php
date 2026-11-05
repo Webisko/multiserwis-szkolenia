@@ -39,7 +39,7 @@ return [
         'frontend_url' => env('FRONTEND_URL', 'https://multiserwis.edu.pl'),
         'lms_url' => env('LMS_URL', 'https://szkolenia.multiserwis.edu.pl'),
         'payment_webhook_secret' => env('PAYMENT_WEBHOOK_SECRET'),
-        'mail_notification_to' => env('MAIL_NOTIFICATION_TO', 'multiserwis.kutno@gmail.com'),
+        'mail_notification_to' => env('MAIL_NOTIFICATION_TO', 'szkolenia@multiserwis.tech'),
     ],
 
 ];

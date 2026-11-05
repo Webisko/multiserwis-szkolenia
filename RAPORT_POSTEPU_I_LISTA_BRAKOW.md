@@ -114,7 +114,7 @@ Listę braków podzielono na 4 logiczne kategorie:
    - **Zasady ratalności:** 500 zł zaliczki przy zapisie, reszta na 3 dni przed egzaminem.
 
 2. ✅ **Dedykowany numer telefonu, adres e-mail i godziny pracy – ZREALIZOWANE:**
-   - **E-mail:** `multiserwis.kutno@gmail.com`
+   - **E-mail:** `szkolenia@multiserwis.tech`
    - **Szkolenia UDT / IMBiGS / SEP:** 📞 `+48 730 101 000` oraz `+48 570 403 806`
    - **Usługi Dźwigowe / Wynajem maszyn:** 📞 `+48 730 202 000` oraz `+48 733 929 100`
    - **Biuro:** ul. Siemieradzkiego 18, 99-300 Kutno (Pn–Pt 8:00–16:00)

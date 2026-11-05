@@ -37,7 +37,8 @@ class MultiserwisApiTest extends TestCase
         $this->assertCount(3, $machinesRes->json());
 
         $this->getJson('/api/settings')->assertOk()
-            ->assertJsonPath('companyNip', '7752676330');
+            ->assertJsonPath('companyNip', '7752676330')
+            ->assertJsonPath('emailNotifications', 'szkolenia@multiserwis.tech');
     }
 
     public function test_auth_login_and_registration_role_protection(): void
@@ -153,7 +154,8 @@ class MultiserwisApiTest extends TestCase
         ]);
 
         Mail::assertSent(InquiryReceivedMail::class, function (InquiryReceivedMail $mail) {
-            return $mail->hasReplyTo('marek.klient@example.com');
+            return $mail->hasReplyTo('marek.klient@example.com')
+                && $mail->hasTo('szkolenia@multiserwis.tech');
         });
     }
 
